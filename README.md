@@ -2,12 +2,13 @@
 
 # Problemática.
 
-# Integrantes.
-• Eduardo Yael Malpica Cristóbal 22393241
-• Ethan Barea Romero 22393257
-• Ana Karen Hoil Hoil 22393147
-• Jomar Alejandro Arias Estrella 22393208
-• Boris Joaquin Victorio Cruz 22393131
+# Integrantes
+
+* Eduardo Yael Malpica Cristóbal (22393241)
+* Ethan Barea Romero (22393257)
+* Ana Karen Hoil Hoil (22393147)
+* Jomar Alejandro Arias Estrella (22393208)
+* Boris Joaquin Victorio Cruz (22393131)
 
 # Librerías.
 
