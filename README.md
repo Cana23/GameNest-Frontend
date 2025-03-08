@@ -1,39 +1,45 @@
-# GameNest-frontend
+# GameNest: Plataforma digital para desarrolladores de videojuegos en latinoamérica
 
-This template should help get you started developing with Vue 3 in Vite.
+Los desarrolladores de videojuegos en Latinoamérica enfrentan falta de visibilidad, acceso limitado a recursos y redes profesionales, y dificultades para encontrar oportunidades laborales. Además, barreras como el financiamiento, el idioma y la falta de conexión con eventos internacionales dificultan su crecimiento. Un espacio especializado facilitaría la colaboración y potenciaría el desarrollo del sector en la región.
 
-## Recommended IDE Setup
+GameNest es una plataforma digital que funciona como un punto de encuentro para desarrolladores de videojuegos en Latinoamérica, donde puedan compartir conocimientos, establecer conexiones profesionales y encontrar oportunidades de colaboración.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Integrantes
 
-## Type Support for `.vue` Imports in TS
+- Eduardo Yael Malpica Cristóbal 22393241 
+- Ethan Barea Romero 22393257 
+- Ana Karen Hoil Hoil 22393147 
+- Jomar Alejandro Arias Estrella 22393208
+- Boris Joaquin Victorio Cruz 22393131 
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## Librerias
 
-## Customize configuration
+- @tailwindcss/vite: Plugin para integrar Tailwind CSS con Vite.
+- pinia: Librería de gestión de estado para Vue.js.
+- tailwindcss: Framework de CSS utilitario para diseñar interfaces rápidamente.
+- vue: Framework para construir interfaces de usuario.
+- vue-router: Librería oficial de enrutamiento para Vue.js.
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+## Ejecucion del proyecto
 
-## Project Setup
+### Prerrequisitos
 
-```sh
-npm install
-```
+- **Node.js y npm (o Yarn):** Vue 3 requiere Node.js para ejecutarse. Asegúrate de tener instalada una versión compatible (recomendado Node.js 16.x o superior).
+Verifica si tienes Node.js instalado:
 
-### Compile and Hot-Reload for Development
+  node -v
 
-```sh
-npm run dev
-```
+Si no lo tienes, descárgalo desde [nodejs.org](https://nodejs.org/es).
+NPM viene incluido con Node.js. Verifica su instalación:
 
-### Type-Check, Compile and Minify for Production
 
-```sh
-npm run build
-```
+  npm -v
 
-### Lint with [ESLint](https://eslint.org/)
 
-```sh
-npm run lint
-```
+- **Git:** Necesitas Git para clonar el repositorio. Verifica si ya lo tienes instalado:
+
+  git --version
+
+Si no lo tienes, descárgalo desde [la pagina oficial de Git](https://git-scm.com/downloads).
+
+- **Editor de codigo:** Te recomendamos [Visual Studio Code.](https://code.visualstudio.com/download)
