@@ -35,7 +35,7 @@ NPM viene incluido con Node.js. Verifica su instalación:
 
   npm -v
 
-
+ 
 - **Git:** Necesitas Git para clonar el repositorio. Verifica si ya lo tienes instalado:
 
   git --version
