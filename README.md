@@ -1,29 +1,45 @@
-# PROYECTO GAMENEST-(frontend)
+# GameNest: Plataforma digital para desarrolladores de videojuegos en latinoamérica
 
-## Problemática: 
+Los desarrolladores de videojuegos en Latinoamérica enfrentan falta de visibilidad, acceso limitado a recursos y redes profesionales, y dificultades para encontrar oportunidades laborales. Además, barreras como el financiamiento, el idioma y la falta de conexión con eventos internacionales dificultan su crecimiento. Un espacio especializado facilitaría la colaboración y potenciaría el desarrollo del sector en la región.
 
-Los desarrolladores de videojuegos en Latinoamérica enfrentan barreras significativas para acceder a contenido relevante, recursos y redes de contacto profesional en plataformas generalistas. La falta de visibilidad de proyectos independientes, la dispersión de comunidades y la dificultad para acceder a oportunidades laborales limitan el crecimiento del sector en la región. Además, los desarrolladores latinoamericanos suelen enfrentar desafíos adicionales, como la falta de apoyo financiero, barreras idiomáticas y menor acceso a eventos internacionales. Un espacio especializado permitiría conectar talentos locales, fomentar la colaboración y potenciar el desarrollo de videojuegos de manera más eficiente y accesible. 
+GameNest es una plataforma digital que funciona como un punto de encuentro para desarrolladores de videojuegos en Latinoamérica, donde puedan compartir conocimientos, establecer conexiones profesionales y encontrar oportunidades de colaboración.
 
-## Project Setup
+## Integrantes
 
-```sh
-npm install
-```
+- Eduardo Yael Malpica Cristóbal 22393241 
+- Ethan Barea Romero 22393257 
+- Ana Karen Hoil Hoil 22393147 
+- Jomar Alejandro Arias Estrella 22393208
+- Boris Joaquin Victorio Cruz 22393131 
 
-### Compile and Hot-Reload for Development
+## Librerias
 
-```sh
-npm run dev
-```
+- @tailwindcss/vite: Plugin para integrar Tailwind CSS con Vite.
+- pinia: Librería de gestión de estado para Vue.js.
+- tailwindcss: Framework de CSS utilitario para diseñar interfaces rápidamente.
+- vue: Framework para construir interfaces de usuario.
+- vue-router: Librería oficial de enrutamiento para Vue.js.
 
-### Type-Check, Compile and Minify for Production
+## Ejecucion del proyecto
 
-```sh
-npm run build
-```
+### Prerrequisitos
 
-### Lint with [ESLint](https://eslint.org/)
+- **Node.js y npm (o Yarn):** Vue 3 requiere Node.js para ejecutarse. Asegúrate de tener instalada una versión compatible (recomendado Node.js 16.x o superior).
+Verifica si tienes Node.js instalado:
 
-```sh
-npm run lint
-```
+  node -v
+
+Si no lo tienes, descárgalo desde [nodejs.org](https://nodejs.org/es).
+NPM viene incluido con Node.js. Verifica su instalación:
+
+
+  npm -v
+
+
+- **Git:** Necesitas Git para clonar el repositorio. Verifica si ya lo tienes instalado:
+
+  git --version
+
+Si no lo tienes, descárgalo desde [la pagina oficial de Git](https://git-scm.com/downloads).
+
+- **Editor de codigo:** Te recomendamos [Visual Studio Code.](https://code.visualstudio.com/download)
