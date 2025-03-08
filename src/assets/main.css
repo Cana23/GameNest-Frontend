@@ -1,1 +1,80 @@
 @import "tailwindcss"; 
+@import "./present/fonts.css";
+@import "./present/containers.css";
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    display: block;
+    margin: 0px;
+}
+  html,
+  body {
+    height: 100%;
+    background: #ffffff;
+    height: 100%;
+    font-family: "Montserrat";
+    color: #000000;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+
+  h1,
+  p,
+  button,
+  span,
+  input{
+    font-family: 'Montserrat';
+    color: black;
+  }
+
+  label{
+    font-family: 'Montserrat-Medium';
+  }
+
+  .m-section {
+    padding: 50px 0px;
+    overflow: hidden;
+  }
+
+  .p-tablist-tab-list {
+    position: relative;
+    display: flex;
+    background: #ffffff;
+    gap: 20px;
+    border-style: solid;
+    border-color: gray;
+    border-width: var(--p-tabs-tablist-border-width);
+}
+button, input, select, optgroup, textarea, ::file-selector-button {
+  font: inherit;
+  font-feature-settings: inherit;
+  font-variation-settings: inherit;
+  letter-spacing: inherit;
+  color: black;
+  opacity: 1;
+  font-family: "Montserrat";
+}
+
+.p-tabpanels {
+  background: #ffffff;
+  color: #000000;
+  padding: var(--p-tabs-tabpanel-padding);
+  outline: 0 none;
+}
+.p-tablist-active-bar {
+  z-index: 1;
+  display: block;
+  position: absolute;
+  inset-block-end: var(--p-tabs-active-bar-bottom);
+  height: 2px;
+  background: #b001ff;
+  transition: 250mscubic-bezier(0.35,0,0.25,1);
+}
+
