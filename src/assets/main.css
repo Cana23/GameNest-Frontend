@@ -1,4 +1,4 @@
-@import "tailwindcss"; 
+@import "tailwindcss";
 @import "./present/fonts.css";
 @import "./present/containers.css";
 
@@ -16,9 +16,7 @@ html {
   body {
     height: 100%;
     background: #ffffff;
-    height: 100%;
     font-family: "Montserrat";
-    color: #000000;
   }
   
   html {
@@ -31,7 +29,12 @@ html {
   span,
   input{
     font-family: 'Montserrat';
-    color: black;
+    font-size: 16px;
+  }
+
+  h1{
+    color: #8600AF;
+    font-size: 40px;
   }
 
   label{
@@ -39,7 +42,7 @@ html {
   }
 
   .m-section {
-    padding: 50px 0px;
+    padding: 170px 0px;
     overflow: hidden;
   }
 
@@ -57,7 +60,6 @@ button, input, select, optgroup, textarea, ::file-selector-button {
   font-feature-settings: inherit;
   font-variation-settings: inherit;
   letter-spacing: inherit;
-  color: black;
   opacity: 1;
   font-family: "Montserrat";
 }
@@ -78,3 +80,36 @@ button, input, select, optgroup, textarea, ::file-selector-button {
   transition: 250mscubic-bezier(0.35,0,0.25,1);
 }
 
+input {
+  font: inherit;
+  font-feature-settings: inherit;
+  font-variation-settings: inherit;
+  letter-spacing: inherit;
+  color: black;
+  opacity: 1;
+  font-family: "Montserrat";
+  width: 100%;
+  padding: 13px 20px;
+  border-radius: 100px;
+}
+
+.p-password-toggle-mask-icon {
+  inset-inline-end: var(--p-form-field-padding-x);
+  color: var(--p-password-icon-color);
+  position: absolute;
+  top: 33%;
+  margin-top: 0;
+  width: var(--p-icon-size);
+  height: var(--p-icon-size);
+  cursor: pointer;
+}
+
+.p-floatlabel:has(.p-inputwrapper-focus) label {
+  color: #8600AF;
+}
+.p-floatlabel:has(input:focus) label {
+  color: #8600AF;
+}
+.p-button-label {
+  font-weight: 600;
+}
