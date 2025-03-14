@@ -9,19 +9,11 @@
       </div>
       <div class="form-login flex flex-col justify-center items-center">
         <div class="mb-8">
-          <h1 class="font-semibold mb-4 text-center">Registrate</h1>
+          <h1 class="font-semibold mb-4 text-center">Iniciar sesión</h1>
         <p class="text-center text-gray-600">Bienvenido, no te pierdas esta aventura y sumérgete en la experiencia.</p>
         </div>
         <form @submit.prevent="submitForm" novalidate class="w-full">
           <div class="flex flex-col gap-8">
-            <div class="relative">
-              <FloatLabel variant="on" class="bg-white">
-            <InputText id="on_label" v-bind="userAttrs" required
-            :class="{ 'w-full py-3 px-10 border-1 border-gray-300 rounded-full': true, 'border-red-500': errors.user }"/>
-            <label for="on_label" class="bg-white">Nombre</label>
-        </FloatLabel>
-              <span v-if="errors.user" class="text-red-500 absolute" style="font-size: 12px; padding-left: 20px;">* {{ errors.user }}</span>
-            </div>
             <div class="relative">
               <FloatLabel variant="on" class="bg-white">
             <InputText id="on_label" v-bind="emailAttrs" required
@@ -38,16 +30,8 @@
         </FloatLabel>
         <span v-if="errors.password" class="text-red-500 absolute" style="font-size: 12px; padding-left: 20px;">* {{ errors.password }}</span>
             </div>
-            <div class="relative">
-              <FloatLabel variant="on" class="bg-white">
-            <Password :feedback="false" id="on_label" toggleMask v-bind="confirmPasswordAttrs" required
-            :class="{ 'w-full border-1 border-gray-300 rounded-full': true, 'border-red-500': errors.confirmPassword }"/>
-            <label for="on_label" class="bg-white">Confirmar contraseña</label>
-        </FloatLabel>
-        <span v-if="errors.confirmPassword" class="text-red-500 absolute" style="font-size: 12px; padding-left: 20px;">* {{ errors.confirmPassword }}</span>
-            </div>
 
-        <Button label="Registrarse" severity="help" class="bg-purple-500 py-3 px-8 rounded-3xl text-white font-bold hover:bg-purple-800"/>
+        <Button label="Iniciar sesión" severity="help" class="bg-purple-500 py-3 px-8 rounded-3xl text-white font-bold hover:bg-purple-800"/>
           </div>
         </form>
       </div>
@@ -60,21 +44,15 @@ import { useForm, useField } from 'vee-validate';
 import * as yup from 'yup';
 
 const schema = yup.object({
-  user: yup.string().required('El Nombre es requerido'),
   email: yup.string().email('Correo incorrecto').required('El correo es requerido'),
   password: yup.string().min(6, 'La contraseña debe tener al menos 6 caracteres').required('La contraseña es requerida'),
-  confirmPassword: yup.string()
-    .oneOf([yup.ref('password')], 'Las contraseñas no coinciden')
-    .required('Debes confirmar tu contraseña')
 });
 const { errors, defineField, validate } = useForm({
   validationSchema: schema
 });
 
-const [user, userAttrs] = defineField('user');
 const [email, emailAttrs] = defineField('email');
 const [password, passwordAttrs] = defineField('password');
-const [confirmPassword, confirmPasswordAttrs] = defineField('confirmPassword');
 
 const submitForm = async () => {
   const result = await validate();
