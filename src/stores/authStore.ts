@@ -1,6 +1,8 @@
 import { defineStore } from "pinia";
 import { login, register } from "@/services/authService";
-import type { AuthToken, RegisterUser, UserLogin } from "@/interfaces";
+import type { AuthToken } from "@/interfaces/AuthToken";
+import type { RegisterUser } from "@/interfaces/RegisterUser";
+import type { UserLogin } from "@/interfaces/UserLogin";
 
 interface AuthState {
   token: string | null;
