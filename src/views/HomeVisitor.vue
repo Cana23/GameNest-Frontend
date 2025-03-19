@@ -1,20 +1,15 @@
 <script setup lang="ts">
+import FooterComponent from '@/components/FooterComponent.vue';
 import IconTextBubble from '@/components/icons/IconTextBubble.vue';
 import IconThumbsUp from '@/components/icons/IconThumbsUp.vue';
 import IconTrophy from '@/components/icons/IconTrophy.vue';
+import HeaderVisitante from '@/components/HeaderVisitante.vue';
 </script>
 
 <template>
-    <div class="flex flex-col h-screen overflow-hidden">
+    <div class="flex flex-col">
         <!-- Header fijo -->
-        <header
-            class="fixed bg-gray-50 top-0 w-full shadow-md z-50 p-4 flex justify-between items-center border-b-black">
-            <h1 class="text-xl font-bold">GameNest</h1>
-            <div>
-                <button class="border border-purple-500 text-purple-500 px-4 py-2 rounded-lg">Inicia sesión</button>
-                <button class="bg-purple-600 text-white px-4 py-2 rounded-lg ml-2">Regístrate</button>
-            </div>
-        </header>
+        <HeaderVisitante />
 
         <!-- Contenido desplazable -->
         <main class="flex-1 overflow-y-auto mt-16">
@@ -69,8 +64,7 @@ import IconTrophy from '@/components/icons/IconTrophy.vue';
 
         </main>
         <!-- Footer -->
-        <footer class="bg-gray-300 text-center text-black py-4">
-            <p>&copy; 2025 GameNest</p>
-        </footer>
     </div>
+    <FooterComponent />
+
 </template>

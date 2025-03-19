@@ -37,7 +37,7 @@ class LikesService {
       console.error('Error eliminando like:', error);
       throw error;
     }
-  }¿
+  }
 }
 
 export default new LikesService();
