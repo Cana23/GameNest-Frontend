@@ -50,6 +50,7 @@
         <Button label="Registrarse" severity="help" class="bg-purple-500 py-3 px-8 rounded-3xl text-white font-bold hover:bg-purple-800"/>
           </div>
         </form>
+        <p class="text-center text-gray-600 mt-5">Ya tienes cuenta <RouterLink to="/login" class="text-purple-500 font-semibold">Inicia sesión</RouterLink></p>
       </div>
     </div>
     </div>

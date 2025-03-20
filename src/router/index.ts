@@ -12,7 +12,7 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: HomeVisitor,
-      // meta: { requiresAuth: true },
+      meta: { requiresAuth: true },
     },
     {
       path: "/about",
@@ -35,6 +35,7 @@ const router = createRouter({
       path: "/user-profile",
       name: "user-profile",
       component: UserProfile,
+      meta: { requiresAuth: false },
     },
     {
       path: "/home",
@@ -42,6 +43,22 @@ const router = createRouter({
       component: ViewHomeUsuario,
     }
   ],
+});
+
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token');
+
+  if (to.meta.requiresAuth && !token) {
+    next('/login');
+  }
+
+
+  else if ((to.path === '/login' || to.path === '/register') && token) {
+    next('/');
+  }
+  else {
+    next();
+  }
 });
 
 export default router
