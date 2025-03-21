@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import RegisterView from '../views/RegisterView.vue'
 import LoginView from '../views/LoginView.vue'
 import UserProfile from '@/views/UserProfile.vue'
-import HomeVisitor from '@/views/HomeVisitor.vue'
+import HomeVisitor from '../views/HomeVisitor.vue'
 import ViewHomeUsuario from '@/views/ViewHomeUsuario.vue'
 
 const router = createRouter({
@@ -10,9 +10,8 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      name: "home",
-      component: HomeVisitor,
-      meta: { requiresAuth: true },
+      name: "Home Visitor",
+      component: HomeVisitor
     },
     {
       path: "/about",
@@ -39,7 +38,7 @@ const router = createRouter({
     },
     {
       path: "/home",
-      name: "home",
+      name: "Home User",
       component: ViewHomeUsuario,
     }
   ],
