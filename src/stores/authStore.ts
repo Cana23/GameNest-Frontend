@@ -52,7 +52,7 @@ export const useAuthStore = defineStore("auth", {
       localStorage.removeItem("token");
 
       const router = useRouter();
-      router.push({ name: "Login" }).then(() => {
+      router.push({ name: "login" }).then(() => {
         // Forzar una actualización
         window.location.reload();
       });

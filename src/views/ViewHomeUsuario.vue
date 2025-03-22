@@ -12,7 +12,7 @@ const isAuthenticated = computed(() => !!authStore.token);
 // Redirigir al login si el usuario no está autenticado
 watch(isAuthenticated, (newValue) => {
   if (!newValue) {
-    router.push({ name: 'Login' });
+    router.push({ name: 'login' });
   }
 });
 </script>

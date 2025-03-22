@@ -39,7 +39,7 @@ const toggleMenu = () => {
 
 const handleLogout = () => {
   authStore.logout(); // Llama al método logout del store
-  router.push({ name: 'Login' });
+  router.push({ name: 'login' });
 };
 </script>
 
