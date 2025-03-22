@@ -11,7 +11,8 @@ const router = createRouter({
     {
       path: "/",
       name: "Home Visitor",
-      component: HomeVisitor
+      component: HomeVisitor,
+      meta: { requiresAuth: false, forVisitors: true },
     },
     {
       path: "/about",
@@ -22,37 +23,44 @@ const router = createRouter({
       path: "/register",
       name: "register",
       component: RegisterView,
-      meta: { requiresAuth: false },
+      meta: { requiresAuth: false, forVisitors: true },
     },
     {
       path: "/login",
       name: "login",
       component: LoginView,
-      meta: { requiresAuth: false },
+      meta: { requiresAuth: false, forVisitors: true },
     },
     {
       path: "/user-profile",
       name: "user-profile",
       component: UserProfile,
-      meta: { requiresAuth: false },
+      meta: { requiresAuth: true },
     },
     {
       path: "/home",
       name: "Home User",
       component: ViewHomeUsuario,
+      meta: { requiresAuth: true },
     }
   ],
 });
 
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token');
+  const isAuthenticated = !!token;
 
-  if (to.meta.requiresAuth && !token) {
+  //regidirigir a la pagina de inicio si el usuario esta autenticado
+  if (to.meta.forVisitors && isAuthenticated) {
+    next('/home'); //pagina de usuarios autenticados
+  }
+
+  else if (to.meta.requiresAuth && !isAuthenticated) {
     next('/login');
   }
 
 
-  else if ((to.path === '/login' || to.path === '/register') && token) {
+  else if ((to.path === '/login' || to.path === '/register') && isAuthenticated) {
     next('/');
   }
   else {
