@@ -9,7 +9,7 @@ import FooterComponent from '@/components/FooterComponent.vue';
         <HeaderVisitante />
 
         <!-- Contenido desplazable -->
-        <main class="flex-1 overflow-y-auto mt-16">
+        <main class="flex-1 overflow-y-auto">
             <slot />
         </main>
     </div>

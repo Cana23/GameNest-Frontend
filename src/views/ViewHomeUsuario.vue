@@ -27,8 +27,7 @@ import { RouterLink } from 'vue-router';
         </aside>
 
         <!-- Main content -->
-        <main class="ml-64 flex-1 overflow-y-auto p-6">
-            <!-- Encabezado -->
+        <!-- <main class="ml-64 flex-1 overflow-y-auto p-6">
             <div class="bg-white p-4 rounded-lg shadow-md">
                 <li>
                     <p class="font-bold text-lg">Bienvenido Usuario</p>
@@ -39,12 +38,9 @@ import { RouterLink } from 'vue-router';
                 </li>
             </div>
 
-            <!-- Lista de publicaciones -->
             <div class="mt-6 space-y-4">
-                <!-- Aquí irán las publicaciones -->
-                <PostCard v-for="post in posts" :key="post.id" :post="post" />
             </div>
-        </main>
+        </main> -->
     </div>
 </template>
 

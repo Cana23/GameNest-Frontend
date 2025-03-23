@@ -12,7 +12,6 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: HomeVisitor,
-      meta: { requiresAuth: true },
     },
     {
       path: "/about",

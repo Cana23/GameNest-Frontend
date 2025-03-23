@@ -10,25 +10,25 @@ import LayoutVisitante from '../layouts/LayoutVisitante.vue';
         <!-- Sección principal -->
         <section
             class="h-[80%] justify-center items-center bg-gradient-to-r from-gray-900 to-black text-white text-center px-16">
-            <div class="grid grid-flow-col grid-rows-2 gap-8 pt-6">
-                <div class="px-8 row-span-3 flex justify-center items-center">
+            <div class="container">
+            <div class="grid grid-flow-col grid-rows-2 gap-8">
+                <div class=" row-span-3 flex justify-center items-center">
                     <img src="../assets/images/login/image1.png" alt="Mascota" class="" />
                 </div>
-                <div class="flex justify-center items-center pl-8">
-                    <h2 class="tracking-wide text-8xl text-left font-semibold m-4 mt-8">Donde las
+                <div class="flex justify-center items-center">
+                    <h2 class="tracking-wide text-5xl text-center font-semibold m-4 mt-8">Donde las
                         ideas toman vida</h2>
                 </div>
-                <div class="text-4xl text-left pl-8">
+                <div class="text-2xl text-left">
                     <h2 class="tracking-wide m-4 mt-8">El hogar de los desarrolladores
                         de videojuegos en
                         Latinoamérica</h2>
-                    <div class="grid place-items-center">
-                        <button
-                            class="flex justify-center mt-8 bg-purple-600 px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors">Regístrate
-                            hoy</button>
-                    </div>
+
                 </div>
+                <button class="bg-purple-500 py-3 px-8 rounded-3xl text-white font-bold hover:bg-purple-800 w-50">Regístrate
+                            hoy</button>
             </div>
+          </div>
         </section>
 
         <!-- Más contenido -->
