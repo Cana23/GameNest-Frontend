@@ -10,6 +10,6 @@ import NewPublications from '@/components/NewPublications.vue';
 
 <style scoped>
 section{
-  padding-left: 168px;
+  padding-left: 335px;
 }
 </style>
