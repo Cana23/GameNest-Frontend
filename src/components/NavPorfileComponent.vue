@@ -2,6 +2,7 @@
   <section class=''>
     <div class='container'>
       <div class="porfile mr-8 mt-8">
+        <p class="text-gray-600 font-semibold">Usuario1</p>
         <button @click="toggle">
           <img src="../assets/images/gojo cat.jpg" alt="">
         </button>
@@ -9,9 +10,14 @@
             <div class="flex flex-col gap-4">
                 <div>
                     <ul class="list-none p-0 m-0 flex flex-col">
-                        <li v-for="member in config" :key="member.name" class="flex items-center gap-2 px-4 py-3 hover:bg-gray-200 cursor-pointer rounded-border" @click="selectConfig(config)">
+                      <li class="flex items-center gap-2 px-4 py-3 hover:bg-gray-200 cursor-pointer rounded-border" >
                             <div>
-                                <span class="font-medium">{{ member.name }}</span>
+                                <span class="font-medium">Mi perfil</span>
+                            </div>
+                        </li>
+                        <li class="flex items-center gap-2 px-4 py-3 hover:bg-gray-200 cursor-pointer rounded-border" @click="visible = true">
+                            <div>
+                                <span class="font-medium">Cerrar sesión</span>
                             </div>
                         </li>
                     </ul>
@@ -21,30 +27,31 @@
         </div>
     </div>
   </section>
+  <Dialog :draggable="false" v-model:visible="visible" modal header="Cerrar sesión" :style="{ width: '25rem', backgroundColor:'white', color: 'gray', padding: '10px 20px' }">
+            <p class="text-gray-600">¿Estás seguro de que deseas cerrar la sesión?</p>
+            <div class="flex justify-end gap-4">
+                <button type="button" @click="visible = false" class="py-2 px-4 bg-red-500 text-white rounded-xl hover:bg-red-700 cursor-pointer">Si</button>
+                <button type="button" @click="visible = false" class="py-2 px-4 text-purple-600 rounded-xl hover:bg-purple-200 cursor-pointer">No</button>
+            </div>
+        </Dialog>
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
 
-const op = ref();
-const selectedConfig = ref(null);
-const config = ref([
-    { name: 'Mi perfil' },
-    { name: 'Cerra sesión' }
-]);
+const visible = ref(false);
 
+const op = ref();
 const toggle = (event: any) => {
     op.value.toggle(event);
 }
 
-const selectConfig = (config: any) => {
-  selectedConfig.value = config;
-    op.value.hide();
-}
 </script>
 
 <style scoped>
 .porfile{
-
+display: flex;
+align-items: center;
+gap: 20px;
 img{
   width: 50px;
 height: 50px;
