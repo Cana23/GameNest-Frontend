@@ -64,8 +64,8 @@ const redirectToRegister = () => {
 }
 
 .login-button {
-  border: 1px solid #9b59b6;
-  color: #d6a6e9;
+  border: 1px solid white;
+  color: white;
   padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;

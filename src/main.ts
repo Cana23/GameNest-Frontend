@@ -23,6 +23,8 @@ import Tab from 'primevue/tab';
 import TabPanels from 'primevue/tabpanels';
 import TabPanel from 'primevue/tabpanel';
 import Tooltip from 'primevue/tooltip';
+import Popover from 'primevue/popover';
+
 
 
 import { createApp } from 'vue'
@@ -44,7 +46,7 @@ app.component('Chip', Chip)
 app.component('Card', Card)
 app.component('Tag', Tag)
 app.component('Password', Password)
-
+app.component('Popover', Popover)
 app.component('Tabs', Tabs)
 app.component('TabList', TabList)
 app.component('Tab', Tab)

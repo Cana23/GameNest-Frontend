@@ -113,3 +113,8 @@ input {
 .p-button-label {
   font-weight: 600;
 }
+
+.p-popover {
+  background: white;
+  color: #8D8D8D;
+}
