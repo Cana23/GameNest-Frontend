@@ -15,6 +15,11 @@
                                 <span class="font-medium">Mi perfil</span>
                             </div>
                         </li>
+                        <li class="flex items-center gap-2 px-4 py-3 hover:bg-gray-200 cursor-pointer rounded-border">
+                            <div>
+                                <span class="font-medium">Editar perfil</span>
+                            </div>
+                        </li>
                         <li class="flex items-center gap-2 px-4 py-3 hover:bg-gray-200 cursor-pointer rounded-border" @click="visible = true">
                             <div>
                                 <span class="font-medium">Cerrar sesión</span>

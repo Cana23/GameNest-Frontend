@@ -41,7 +41,7 @@ const router = createRouter({
       path: "/home",
       name: "Home User",
       component: ViewHomeUsuario,
-      meta: { requiresAuth: false },
+      meta: { requiresAuth: true },
     }
   ],
 });

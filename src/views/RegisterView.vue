@@ -99,7 +99,7 @@ const submitForm = async () => {
 
   console.log("Formulario válido. Enviando datos...");
 
-  const registerData = {
+  const registerData:any = {
     UserName: user.value,
     Email: email.value,
     Password: password.value,
