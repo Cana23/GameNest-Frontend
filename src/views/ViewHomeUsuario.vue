@@ -1,5 +1,19 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
+import { onMounted, ref } from 'vue';
+import PublicationComponent from '@/components/PublicationComponent.vue';
+import PublicationsService, { type Publication } from '@/services/PublicationService';
+
+const posts = ref<Publication[]>([]);
+
+onMounted(async () => {
+    try {
+        const data = await PublicationsService.getAllPublications();
+        posts.value = data;
+    } catch (error) {
+        console.error('Error al cargar publicaciones:', error);
+    }
+});
 </script>
 
 <template>
@@ -42,7 +56,7 @@ import { RouterLink } from 'vue-router';
             <!-- Lista de publicaciones -->
             <div class="mt-6 space-y-4">
                 <!-- Aquí irán las publicaciones -->
-                <PostCard v-for="post in posts" :key="post.id" :post="post" />
+                <PublicationComponent v-for="post in posts" :key="post.id" :post="post" />
             </div>
         </main>
     </div>

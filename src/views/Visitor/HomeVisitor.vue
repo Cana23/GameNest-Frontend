@@ -2,7 +2,7 @@
 import IconTextBubble from '@/components/icons/IconTextBubble.vue';
 import IconThumbsUp from '@/components/icons/IconThumbsUp.vue';
 import IconTrophy from '@/components/icons/IconTrophy.vue';
-import LayoutVisitante from '../layouts/LayoutVisitante.vue';
+import LayoutVisitante from '@/layouts/LayoutVisitante.vue';
 </script>
 
 <template>
@@ -12,7 +12,7 @@ import LayoutVisitante from '../layouts/LayoutVisitante.vue';
             class="h-[80%] justify-center items-center bg-gradient-to-r from-gray-900 to-black text-white text-center px-16">
             <div class="grid grid-flow-col grid-rows-2 gap-8 pt-6">
                 <div class="px-8 row-span-3 flex justify-center items-center">
-                    <img src="../assets/images/login/image1.png" alt="Mascota" class="" />
+                    <img src="@/assets/images/login/image1.png" alt="Mascota" class="" />
                 </div>
                 <div class="flex justify-center items-center pl-8">
                     <h2 class="tracking-wide text-8xl text-left font-semibold m-4 mt-8">Donde las
