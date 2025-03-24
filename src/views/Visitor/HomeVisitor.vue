@@ -9,26 +9,24 @@ import LayoutVisitante from '@/layouts/LayoutVisitante.vue';
     <LayoutVisitante>
         <!-- Sección principal -->
         <section
-            class="h-[80%] justify-center items-center bg-gradient-to-r from-gray-900 to-black text-white text-center px-16">
-            <div class="grid grid-flow-col grid-rows-2 gap-8 pt-6">
-                <div class="px-8 row-span-3 flex justify-center items-center">
-                    <img src="@/assets/images/login/image1.png" alt="Mascota" class="" />
+            class="banner">
+            <div class="container">
+            <div class="content">
+                <div class=" row-span-3 flex justify-center items-center">
+                    <img src="../assets/images/login/image1.png" alt="Mascota" class="" />
                 </div>
-                <div class="flex justify-center items-center pl-8">
-                    <h2 class="tracking-wide text-8xl text-left font-semibold m-4 mt-8">Donde las
+                <div class="flex flex-col gap-12 justify-center py-8 lg:py-17 items-center">
+                    <h2 class="tracking-wide text-4xl sm:text-6xl font-semibold text-center">Donde las
                         ideas toman vida</h2>
-                </div>
-                <div class="text-4xl text-left pl-8">
-                    <h2 class="tracking-wide m-4 mt-8">El hogar de los desarrolladores
+                    <p class="tracking-wide text-2xl text-center">El hogar de los desarrolladores
                         de videojuegos en
-                        Latinoamérica</h2>
-                    <div class="grid place-items-center">
-                        <button
-                            class="flex justify-center mt-8 bg-purple-600 px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors">Regístrate
+                        Latinoamérica</p>
+                <button class="bg-purple-500 py-3 px-8 rounded-3xl text-white font-bold hover:bg-purple-800 w-50 cursor-pointer">Regístrate
                             hoy</button>
-                    </div>
                 </div>
+
             </div>
+          </div>
         </section>
 
         <!-- Más contenido -->
@@ -55,3 +53,27 @@ import LayoutVisitante from '@/layouts/LayoutVisitante.vue';
         </section>
     </LayoutVisitante>
 </template>
+
+<style scoped>
+.banner{
+  padding-top: 78px;
+  padding-bottom: 110px;
+    background-color: black;
+    overflow: hidden;
+    border-radius: 0% 0% 50% 50% / 85% 88% 23% 15%;
+
+    @media(max-width: 991px){
+      padding-bottom: 60px;
+      border-radius: 0% 0% 50% 50% / 85% 139% 23% 15%;
+    }
+}
+.content{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  @media(max-width: 991px){
+    display: flex;
+    flex-direction: column-reverse;
+  }
+}
+</style>

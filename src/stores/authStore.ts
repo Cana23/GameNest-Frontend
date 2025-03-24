@@ -3,6 +3,7 @@ import { login, register } from "@/services/authService";
 import type { AuthToken } from "@/interfaces/AuthToken";
 import type { RegisterUser } from "@/interfaces/RegisterUser";
 import type { UserLogin } from "@/interfaces/UserLogin";
+import { useRouter } from "vue-router";
 
 interface AuthState {
   token: string | null;
@@ -12,6 +13,10 @@ export const useAuthStore = defineStore("auth", {
   state: (): AuthState => ({
     token: localStorage.getItem("token") || null,
   }),
+
+  getters: {
+    isAuthenticated: (state) => !!state.token, // Getter para verificar si el usuario está autenticado
+  },
 
   actions: {
     async loginUser(user: UserLogin): Promise<boolean> {
@@ -28,8 +33,14 @@ export const useAuthStore = defineStore("auth", {
 
     async registerUser(user: RegisterUser): Promise<boolean> {
       try {
-        await register(user);
-        return true;
+        const response = await register(user);
+        if (response.token) {
+          this.token = response.token;
+          localStorage.setItem("token", response.token);
+          console.log("Token almacenado:", response.token);
+          return true;
+        }
+        return false;
       } catch (error) {
         console.error("Error en registro:", error);
         return false;
@@ -39,6 +50,12 @@ export const useAuthStore = defineStore("auth", {
     logout(): void {
       this.token = null;
       localStorage.removeItem("token");
+
+      const router = useRouter();
+      router.push({ name: "login" }).then(() => {
+        // Forzar una actualización
+        window.location.reload();
+      });
     },
   },
 });

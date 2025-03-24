@@ -2,63 +2,71 @@
   <section class="">
     <div class="bg-info"></div>
     <div class='container'>
-    <div class='content'>
-      <div class="image flex flex-col justify-center items-center">
-        <img class="robot" src="../assets/images/login/image1.png" alt="">
-        <p class="text-white text-center max-w-100">Explora y comparte tus experiencias en el mundo del desarrollo de videojuegos con <span class="font-semibold">GameNest</span>.</p>
-      </div>
-      <div class="form-login flex flex-col justify-center items-center">
-        <div class="mb-8">
-          <h1 class="font-semibold mb-4 text-center">Registrate</h1>
-        <p class="text-center text-gray-600">Bienvenido, no te pierdas esta aventura y sumérgete en la experiencia.</p>
+      <div class='content'>
+        <div class="image flex flex-col justify-center items-center">
+          <img class="robot" src="../assets/images/login/image1.png" alt="">
+          <p class="text-white text-center max-w-100">Explora y comparte tus experiencias en el mundo del desarrollo de videojuegos con <span class="font-semibold">GameNest</span>.</p>
         </div>
-        <form @submit.prevent="submitForm" novalidate class="w-full">
-          <div class="flex flex-col gap-8">
-            <div class="relative">
-              <FloatLabel variant="on" class="bg-white">
-            <InputText id="on_label" v-bind="userAttrs" required
-            :class="{ 'w-full py-3 px-10 border-1 border-gray-300 rounded-full': true, 'border-red-500': errors.user }"/>
-            <label for="on_label" class="bg-white">Nombre</label>
-        </FloatLabel>
-              <span v-if="errors.user" class="text-red-500 absolute" style="font-size: 12px; padding-left: 20px;">* {{ errors.user }}</span>
-            </div>
-            <div class="relative">
-              <FloatLabel variant="on" class="bg-white">
-            <InputText id="on_label" v-bind="emailAttrs" required
-            :class="{ 'w-full py-3 px-10 border-1 border-gray-300 rounded-full': true, 'border-red-500': errors.email }"/>
-            <label for="on_label" class="bg-white">Correo</label>
-        </FloatLabel>
-        <span v-if="errors.email" class="text-red-500 absolute" style="font-size: 12px; padding-left: 20px;">* {{ errors.email }}</span>
-            </div>
-            <div class="relative">
-              <FloatLabel variant="on" class="bg-white">
-            <Password :feedback="false" id="on_label" toggleMask v-bind="passwordAttrs" required
-            :class="{ 'w-full border-1 border-gray-300 rounded-full': true, 'border-red-500': errors.password }"/>
-            <label for="on_label" class="bg-white">Contraseña</label>
-        </FloatLabel>
-        <span v-if="errors.password" class="text-red-500 absolute" style="font-size: 12px; padding-left: 20px;">* {{ errors.password }}</span>
-            </div>
-            <div class="relative">
-              <FloatLabel variant="on" class="bg-white">
-            <Password :feedback="false" id="on_label" toggleMask v-bind="confirmPasswordAttrs" required
-            :class="{ 'w-full border-1 border-gray-300 rounded-full': true, 'border-red-500': errors.confirmPassword }"/>
-            <label for="on_label" class="bg-white">Confirmar contraseña</label>
-        </FloatLabel>
-        <span v-if="errors.confirmPassword" class="text-red-500 absolute" style="font-size: 12px; padding-left: 20px;">* {{ errors.confirmPassword }}</span>
-            </div>
-
-        <Button label="Registrarse" severity="help" class="bg-purple-500 py-3 px-8 rounded-3xl text-white font-bold hover:bg-purple-800"/>
+        <div class="form-login flex flex-col justify-center items-center">
+          <div class="mb-8">
+            <h1 class="font-semibold mb-4 text-center">Registrate</h1>
+            <p class="text-center text-gray-600">Bienvenido, no te pierdas esta aventura y sumérgete en la experiencia.</p>
           </div>
-        </form>
-        <p class="text-center text-gray-600 mt-5">Ya tienes cuenta <RouterLink to="/login" class="text-purple-500 font-semibold">Inicia sesión</RouterLink></p>
+          <form @submit.prevent="submitForm" novalidate class="w-full">
+            <div class="flex flex-col gap-8">
+              <div class="relative">
+                <FloatLabel variant="on" class="bg-white">
+                  <InputText id="username" v-model="user" required
+                    :class="{ 'w-full py-3 px-10 border-1 border-gray-300 rounded-full': true, 'border-red-500': errors.user }" />
+                  <label for="username" class="bg-white">Nombre</label>
+                </FloatLabel>
+                <span v-if="errors.user" class="text-red-500 absolute" style="font-size: 12px; padding-left: 20px;">* {{ errors.user }}</span>
+              </div>
+              <div class="relative">
+                <FloatLabel variant="on" class="bg-white">
+                  <InputText id="email" v-model="email" required
+                    :class="{ 'w-full py-3 px-10 border-1 border-gray-300 rounded-full': true, 'border-red-500': errors.email }" />
+                  <label for="email" class="bg-white">Correo</label>
+                </FloatLabel>
+                <span v-if="errors.email" class="text-red-500 absolute" style="font-size: 12px; padding-left: 20px;">* {{ errors.email }}</span>
+              </div>
+              <div class="relative">
+                <FloatLabel variant="on" class="bg-white">
+                  <Password :feedback="false" id="password" toggleMask v-model="password" required
+                    :class="{ 'w-full border-1 border-gray-300 rounded-full': true, 'border-red-500': errors.password }" />
+                  <label for="password" class="bg-white">Contraseña</label>
+                </FloatLabel>
+                <span v-if="errors.password" class="text-red-500 absolute" style="font-size: 12px; padding-left: 20px;">* {{ errors.password }}</span>
+              </div>
+              <div class="relative">
+                <FloatLabel variant="on" class="bg-white">
+                  <Password :feedback="false" id="confirmPassword" toggleMask v-model="confirmPassword" required
+                    :class="{ 'w-full border-1 border-gray-300 rounded-full': true, 'border-red-500': errors.confirmPassword }" />
+                  <label for="confirmPassword" class="bg-white">Confirmar contraseña</label>
+                </FloatLabel>
+                <span v-if="errors.confirmPassword" class="text-red-500 absolute" style="font-size: 12px; padding-left: 20px;">* {{ errors.confirmPassword }}</span>
+              </div>
+
+              <Button
+                label="Registrarse"
+                severity="help"
+                type="submit"
+                class="bg-purple-500 py-3 px-8 rounded-3xl text-white font-bold hover:bg-purple-800"
+              />
+            </div>
+          </form>
+          <p class="text-center text-gray-600 mt-5">Ya tienes cuenta <RouterLink to="/login" class="text-purple-500 font-semibold">Inicia sesión</RouterLink></p>
+        </div>
       </div>
-    </div>
     </div>
   </section>
 </template>
+
 <script lang="ts" setup>
 import { useForm, useField } from 'vee-validate';
 import * as yup from 'yup';
+import { useAuthStore } from '@/stores/authStore';
+import { useRouter } from 'vue-router';
 
 const schema = yup.object({
   user: yup.string().required('El Nombre es requerido'),
@@ -68,6 +76,7 @@ const schema = yup.object({
     .oneOf([yup.ref('password')], 'Las contraseñas no coinciden')
     .required('Debes confirmar tu contraseña')
 });
+
 const { errors, defineField, validate } = useForm({
   validationSchema: schema
 });
@@ -77,12 +86,36 @@ const [email, emailAttrs] = defineField('email');
 const [password, passwordAttrs] = defineField('password');
 const [confirmPassword, confirmPasswordAttrs] = defineField('confirmPassword');
 
+const authStore = useAuthStore();
+const router = useRouter();
+
 const submitForm = async () => {
   const result = await validate();
 
   if (!result.valid) {
     console.log("Errores en el formulario:", errors);
     return;
+  }
+
+  console.log("Formulario válido. Enviando datos...");
+
+  const registerData = {
+    UserName: user.value,
+    Email: email.value,
+    Password: password.value,
+  };
+
+  try {
+    console.log("Datos enviados:", registerData);
+    const success = await authStore.registerUser(registerData);
+    if (success) {
+      console.log("Registro exitoso. Redirigiendo a /home...");
+      router.push({ name: 'Home User' });
+    } else {
+      console.log("Registro fallido.");
+    }
+  } catch (error) {
+    console.error("Error en el registro:", error);
   }
 };
 </script>

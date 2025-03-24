@@ -23,6 +23,10 @@ import Tab from 'primevue/tab';
 import TabPanels from 'primevue/tabpanels';
 import TabPanel from 'primevue/tabpanel';
 import Tooltip from 'primevue/tooltip';
+import Popover from 'primevue/popover';
+import FileUpload from 'primevue/fileupload';
+
+
 
 
 import { createApp } from 'vue'
@@ -44,13 +48,15 @@ app.component('Chip', Chip)
 app.component('Card', Card)
 app.component('Tag', Tag)
 app.component('Password', Password)
-
+app.component('Popover', Popover)
 app.component('Tabs', Tabs)
 app.component('TabList', TabList)
 app.component('Tab', Tab)
 app.component('TabPanels', TabPanels)
 app.component('TabPanel', TabPanel)
 app.directive('tooltip', Tooltip);
+app.component('FileUpload', FileUpload);
+
 
 app.use(PrimeVue, {
   // Default theme configuration
