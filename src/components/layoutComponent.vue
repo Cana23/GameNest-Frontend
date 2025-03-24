@@ -4,8 +4,8 @@ import NavPorfileComponent from './NavPorfileComponent.vue';
 </script>
 
 <template>
-  <div class="flex justify-between fixed w-full">
-  <aside class="w-84 bg-black text-white p-6 h-screen">
+  <div class="flex justify-between">
+  <aside class="w-84 bg-black text-white p-6 h-screen fixed">
             <div class="flex items-center space-x-2">
                 <img src="../assets/images/login/image1.png" alt="Logo" class="w-10 h-10" />
                 <span class="text-xl font-bold">GameNext</span>
