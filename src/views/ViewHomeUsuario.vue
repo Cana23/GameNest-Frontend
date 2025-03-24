@@ -1,16 +1,33 @@
-<script setup lang="ts">
-import { RouterLink } from 'vue-router';
+<script lang="ts" setup>
+import { computed, watch } from 'vue';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/authStore';
+import HeaderComponent from '@/components/HeaderComponent.vue';
+import FooterComponent from '@/components/FooterComponent.vue';
+
+const router = useRouter();
+const authStore = useAuthStore();
+const isAuthenticated = computed(() => !!authStore.token);
+
+// Redirigir al login si el usuario no está autenticado
+watch(isAuthenticated, (newValue) => {
+  if (!newValue) {
+    router.push({ name: 'login' });
+  }
+});
 </script>
 
 <template>
+    <HeaderComponent/>
     <div class="flex h-screen bg-gray-100">
+
         <!-- Sidebar -->
-        <aside class="w-64 bg-black text-white p-6 fixed h-full">
+        <aside class="w-84 bg-black text-white p-6 h-screen">
             <div class="flex items-center space-x-2">
                 <img src="../assets/images/login/image1.png" alt="Logo" class="w-10 h-10" />
-                <span class="text-xl font-bold">GameNext</span>
+                <span class="text-xl font-bold">Navega por las Publicaciones</span>
             </div>
-            <input type="text" placeholder="Buscar" class="mt-4 w-full p-2 bg-gray-800 rounded-lg placeholder:text-gray-100 text-white" />
+            <input type="text" placeholder="Buscar" class="mt-4 w-full p-2 bg-gray-600 rounded-lg placeholder:text-gray-100 text-white" />
             <div class="mt-6">
                 <p class="text-sm">✨ ¡Bienvenido!</p>
             </div>
@@ -26,11 +43,9 @@ import { RouterLink } from 'vue-router';
             </nav>
         </aside>
 
-        <!-- Main content -->
-        <!-- <main class="ml-64 flex-1 overflow-y-auto p-6">
             <div class="bg-white p-4 rounded-lg shadow-md">
                 <li>
-                    <p class="font-bold text-lg">Bienvenido Usuario</p>
+                    <p class="font-bold text-lg text-black">Bienvenido Usuario</p>
                 </li>
                 <li>
                     <p class="text-sm text-gray-600">Comparte tu experiencia y conocimientos para que más personas te
@@ -40,8 +55,9 @@ import { RouterLink } from 'vue-router';
 
             <div class="mt-6 space-y-4">
             </div>
-        </main> -->
+
     </div>
+    <FooterComponent/>
 </template>
 
 <script lang="ts">

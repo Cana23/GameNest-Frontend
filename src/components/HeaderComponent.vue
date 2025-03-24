@@ -3,16 +3,18 @@
     <div class="container">
       <div class="logo-container">
         <img src="../assets/images/login/image1.png" alt="GameNest Logo" class="logo">
-        <span class="title">GameNest</span>
+        <router-link to="/home" class="title-link">
+          <span class="title">GameNest</span>
+        </router-link>
       </div>
-      <div class="user-menu">
+      <div class="user-menu" v-if="isAuthenticated">
         <span class="welcome-text">¡Bienvenido usuario!</span>
         <button @click="toggleMenu" class="user-icon">
           <Avatar icon="pi pi-user" shape="circle" class="user-avatar" />
         </button>
         <div v-if="isMenuOpen" class="dropdown-menu">
           <router-link to="/user-profile" class="dropdown-item">Perfil</router-link>
-          <button @click="logout" class="dropdown-item">Cerrar sesión</button>
+          <button @click="handleLogout" class="dropdown-item">Cerrar sesión</button>
         </div>
       </div>
     </div>
@@ -20,19 +22,24 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import Avatar from 'primevue/avatar';
+import { useAuthStore } from '@/stores/authStore';
 
 const router = useRouter();
+const authStore = useAuthStore();
 const isMenuOpen = ref(false);
+
+const isAuthenticated = computed(() => !!authStore.token);
 
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
 };
 
-const logout = () => {
-  router.push('/login');
+const handleLogout = () => {
+  authStore.logout(); // Llama al método logout del store
+  router.push({ name: 'login' });
 };
 </script>
 
