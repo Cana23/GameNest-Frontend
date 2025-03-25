@@ -4,6 +4,7 @@ import LoginView from '../views/LoginView.vue'
 import UserProfile from '@/views/UserProfile.vue'
 import HomeVisitor from '../views/Visitor/HomeVisitor.vue'
 import ViewHomeUsuario from '@/views/ViewHomeUsuario.vue'
+import NotFoundView from '@/views/NotFoundView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -42,6 +43,12 @@ const router = createRouter({
       name: "Home User",
       component: ViewHomeUsuario,
       meta: { requiresAuth: true },
+    },
+    {
+      path: "/:pathMatch(.*)*",
+      name: "NotFound",
+      component: NotFoundView,
+      meta: { requiresAuth: false },
     }
   ],
 });

@@ -1,7 +1,6 @@
 <template>
-  <NavPorfileComponent/>
+  <NavPorfileComponent />
   <section class="user-profile">
-    <!-- <div class="bg-info"></div> -->
     <div class="container">
       <div class="content">
         <div class="image flex flex-col justify-center items-center">
@@ -13,33 +12,37 @@
             <p class="text-center text-gray-600">Aquí puedes ver y editar la información de tu perfil.</p>
           </div>
           <div class="w-full max-w-md">
-            <div class="flex flex-col gap-8">
-              <div class="relative">
-                <FloatLabel variant="on" class="bg-white">
-                  <InputText id="user_name" v-bind="userAttrs" required
-                    :class="{ 'w-full py-3 px-10 border-1 border-gray-300 rounded-full': true, 'border-red-500': errors.user }"/>
-                  <label for="user_name" class="bg-white">Nombre</label>
-                </FloatLabel>
-                <span v-if="errors.user" class="text-red-500 absolute" style="font-size: 12px; padding-left: 20px;">* {{ errors.user }}</span>
+            <form @submit.prevent="submitForm">
+              <div class="flex flex-col gap-8">
+                <div class="relative">
+                  <FloatLabel variant="on" class="bg-white">
+                    <InputText id="userName" v-model="userName" required
+                      :class="{ 'w-full py-3 px-10 border-1 border-gray-300 rounded-full': true, 'border-red-500': errors.userName }" />
+                    <label for="userName" class="bg-white">Nombre de usuario</label>
+                  </FloatLabel>
+                  <span v-if="errors.userName" class="text-red-500 absolute"
+                    style="font-size: 12px; padding-left: 20px;">* {{ errors.userName }}</span>
+                </div>
+                <div class="relative">
+                  <FloatLabel variant="on" class="bg-white">
+                    <InputText id="email" v-model="email" required
+                      :class="{ 'w-full py-3 px-10 border-1 border-gray-300 rounded-full': true, 'border-red-500': errors.email }" />
+                    <label for="email" class="bg-white">Correo electrónico</label>
+                  </FloatLabel>
+                  <span v-if="errors.email" class="text-red-500 absolute" style="font-size: 12px; padding-left: 20px;">*
+                    {{ errors.email }}</span>
+                </div>
+                <Button type="submit" label="Guardar Cambios" severity="help"
+                  class="bg-purple-500 py-3 px-8 rounded-3xl text-white font-bold hover:bg-purple-800"
+                  :disabled="isSubmitting" />
+                <div v-if="showSuccess" class="text-green-500 text-center py-2">
+                  ¡Perfil actualizado correctamente!
+                </div>
+                <div v-if="showError" class="text-red-500 text-center py-2">
+                  Error al actualizar el perfil
+                </div>
               </div>
-              <div class="relative">
-                <FloatLabel variant="on" class="bg-white">
-                  <InputText id="user_email" v-bind="emailAttrs" required
-                    :class="{ 'w-full py-3 px-10 border-1 border-gray-300 rounded-full': true, 'border-red-500': errors.email }"/>
-                  <label for="user_email" class="bg-white">Correo</label>
-                </FloatLabel>
-                <span v-if="errors.email" class="text-red-500 absolute" style="font-size: 12px; padding-left: 20px;">* {{ errors.email }}</span>
-              </div>
-              <div class="relative">
-                <FloatLabel variant="on" class="bg-white">
-                  <Password :feedback="false" id="user_password" toggleMask v-bind="passwordAttrs" required
-                    :class="{ 'w-full border-1 border-gray-300 rounded-full': true, 'border-red-500': errors.password }"/>
-                  <label for="user_password" class="bg-white">Contraseña</label>
-                </FloatLabel>
-                <span v-if="errors.password" class="text-red-500 absolute" style="font-size: 12px; padding-left: 20px;">* {{ errors.password }}</span>
-              </div>
-              <Button label="Guardar Cambios" severity="help" class="bg-purple-500 py-3 px-8 rounded-3xl text-white font-bold hover:bg-purple-800"/>
-            </div>
+            </form>
           </div>
         </div>
       </div>
@@ -48,53 +51,88 @@
 </template>
 
 <script lang="ts" setup>
-
 import NavPorfileComponent from '@/components/NavPorfileComponent.vue';
-import { useForm, useField } from 'vee-validate';
-import * as yup from 'yup';
-import { computed, watch } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/authStore';
+import UserService from '@/services/UserEditService';
+import { useField, useForm } from 'vee-validate';
+import * as yup from 'yup';
 
 const router = useRouter();
 const authStore = useAuthStore();
-const isAuthenticated = computed(() => !!authStore.token);
+const isSubmitting = ref(false);
+const showSuccess = ref(false);
+const showError = ref(false);
+const currentUserId = ref('');
 
-// Redirigir al login si el usuario no está autenticado
-watch(isAuthenticated, (newValue) => {
-  if (!newValue) {
-    router.push({ name: 'login' });
-  }
+// Esquema de validación
+const validationSchema = yup.object({
+  userName: yup.string().required('El nombre de usuario es requerido'),
+  email: yup.string().required('El correo es requerido').email('Ingresa un correo válido')
 });
 
-const schema = yup.object({
-  user: yup.string().required('El Nombre es requerido'),
-  email: yup.string().email('Correo incorrecto').required('El correo es requerido'),
-  password: yup.string().min(6, 'La contraseña debe tener al menos 6 caracteres').required('La contraseña es requerida'),
+// Configuración de vee-validate
+const { handleSubmit, errors } = useForm({
+  validationSchema
 });
 
-const { errors, defineField, validate } = useForm({
-  validationSchema: schema
-});
+const { value: userName } = useField('userName');
+const { value: email } = useField('email');
 
-const [user, userAttrs] = defineField('user');
-const [email, emailAttrs] = defineField('email');
-const [password, passwordAttrs] = defineField('password');
-
-const submitForm = async () => {
-  const result = await validate();
-
-  if (!result.valid) {
-    console.log("Errores en el formulario:", errors);
-    return;
+// Cargar datos del usuario
+const loadUserData = async () => {
+  try {
+    const userData = await UserService.getCurrentUser();
+    currentUserId.value = userData.id;
+    userName.value = userData.userName;
+    email.value = userData.email;
+  } catch (error) {
+    console.error('Error al cargar datos del usuario:', error);
+    showError.value = true;
+    setTimeout(() => showError.value = false, 3000);
   }
 };
+
+// Manejar envío del formulario
+const submitForm = handleSubmit(async (values) => {
+  isSubmitting.value = true;
+  showSuccess.value = false;
+  showError.value = false;
+
+  try {
+    if (currentUserId.value) {
+      await UserService.updateUser(currentUserId.value, {
+        userName: values.userName,
+        email: values.email
+      });
+      showSuccess.value = true;
+      setTimeout(() => showSuccess.value = false, 3000);
+    }
+  } catch (error) {
+    console.error('Error al actualizar usuario:', error);
+    showError.value = true;
+    setTimeout(() => showError.value = false, 3000);
+  } finally {
+    isSubmitting.value = false;
+  }
+});
+
+// Redirección si no está autenticado
+onMounted(() => {
+  if (!authStore.isAuthenticated) {
+    router.push({ name: 'login' });
+  } else {
+    loadUserData();
+  }
+});
 </script>
 
 <style scoped>
 .user-profile {
   height: 100vh;
-  @media(max-width: 991px){
+
+  @media(max-width: 991px) {
     height: 100%;
   }
 }
@@ -115,7 +153,8 @@ span {
   display: flex;
   flex-direction: column;
   gap: 40px;
-  @media(max-width: 991px){
+
+  @media(max-width: 991px) {
     gap: 100px;
     padding: 40px 0;
   }
@@ -128,32 +167,10 @@ span {
 .robot {
   width: 170px;
 
-  @media(max-width: 576px){
+  @media(max-width: 576px) {
     width: 240px;
   }
 }
-
-/* .bg-info {
-  background-color: black;
-  border-radius: 0% 59% 57% 52% / 95% 138% 57% 0%;
-  overflow: hidden;
-  width: 47%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  @media(max-width: 991px){
-    background-color: black;
-    border-radius: 0% 0% 50% 50% / 85% 88% 12% 15%;
-    overflow: hidden;
-    width: 100%;
-    height: 440px;
-    position: absolute;
-    top: 0;
-  }
-  @media(max-width: 576px){
-    height: 400px;
-  }
-} */
 
 .profile-details {
   width: 100%;
