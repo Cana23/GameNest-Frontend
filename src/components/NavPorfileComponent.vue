@@ -1,7 +1,7 @@
 <template>
   <section class=''>
     <div class='container'>
-      <div class="porfile mr-8 mt-8 fixed right-0">
+      <div class="porfile mr-8 mt-6 fixed right-0 bg-white pl-12 py-2 rounded-2xl">
         <p class="text-gray-600 font-semibold">Usuario1</p>
         <button @click="toggle">
           <img src="../assets/images/gojo cat.jpg" alt="">

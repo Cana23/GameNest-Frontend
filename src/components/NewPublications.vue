@@ -21,7 +21,7 @@
 
     <Textarea rows="5" cols="30" class="w-full text-gray-600" placeholder="Comparte tu experiencia y conocimientos para que más personas te conozcan."/>
     <div class="action-add">
-      <div class="flex flex-col gap-2">
+      <!-- <div class="flex flex-col gap-2">
   <div class="flex gap-2">
     <FloatLabel variant="on" class="bg-white">
                   <InputText id="category" class="w-full py-2 px-4 border-1 border-gray-300 rounded-full"/>
@@ -35,7 +35,7 @@
       <Button icon="pi pi-times" class=" ml-1" />
     </span>
   </div>
-</div>
+</div> -->
     <FileUpload mode="basic" name="demo[]" url="/api/upload" accept="image/*" :maxFileSize="1000000" :auto="true" chooseLabel="Subir imagen" class="border-1 border-purple-500 text-purple-500 rounded-xl py-2 px-4 hover:bg-purple-100"/>
 </div>
     <div class="flex justify-end gap-4">
@@ -52,6 +52,9 @@ const visible = ref(false);
 </script>
 
 <style scoped>
+section{
+  padding-left: 335px;
+}
 .content{
   width: 100%;
   border: solid 1px rgb(207, 207, 207);

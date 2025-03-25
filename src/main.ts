@@ -25,7 +25,7 @@ import TabPanel from 'primevue/tabpanel';
 import Tooltip from 'primevue/tooltip';
 import Popover from 'primevue/popover';
 import FileUpload from 'primevue/fileupload';
-
+import Rating from 'primevue/rating';
 
 
 
@@ -56,6 +56,7 @@ app.component('TabPanels', TabPanels)
 app.component('TabPanel', TabPanel)
 app.directive('tooltip', Tooltip);
 app.component('FileUpload', FileUpload);
+app.component('Rating', Rating);
 
 
 app.use(PrimeVue, {

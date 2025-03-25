@@ -11,7 +11,4 @@ import NewPublications from '@/components/NewPublications.vue';
 </script>
 
 <style scoped>
-section{
-  padding-left: 335px;
-}
 </style>
