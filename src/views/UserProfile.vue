@@ -58,6 +58,7 @@ import { useAuthStore } from '@/stores/authStore';
 import UserService from '@/services/UserEditService';
 import { useField, useForm } from 'vee-validate';
 import * as yup from 'yup';
+import { computed, watch } from 'vue';
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -65,6 +66,14 @@ const isSubmitting = ref(false);
 const showSuccess = ref(false);
 const showError = ref(false);
 const currentUserId = ref('');
+
+// Redirigir al login si el usuario no está autenticado
+const isAuthenticated = computed(() => !!authStore.token);
+watch(isAuthenticated, (newValue) => {
+  if (!newValue) {
+    router.push({ name: 'login' });
+  }
+});
 
 // Esquema de validación
 const validationSchema = yup.object({
@@ -83,10 +92,21 @@ const { value: email } = useField('email');
 // Cargar datos del usuario
 const loadUserData = async () => {
   try {
+    // Verificar autenticación primero
+    if (!authStore.isAuthenticated || !authStore.user) {
+      router.push({ name: 'login' });
+      return;
+    }
+
+    // Obtener datos del usuario
     const userData = await UserService.getCurrentUser();
-    currentUserId.value = userData.id;
     userName.value = userData.userName;
     email.value = userData.email;
+
+    // Guardar el ID para futuras actualizaciones
+    if (authStore.user) {
+      currentUserId.value = authStore.user.id.toString();
+    }
   } catch (error) {
     console.error('Error al cargar datos del usuario:', error);
     showError.value = true;
@@ -106,6 +126,14 @@ const submitForm = handleSubmit(async (values) => {
         userName: values.userName,
         email: values.email
       });
+
+      // Actualizar los datos en el store
+      if (authStore.user) {
+        authStore.user.userName = values.userName;
+        authStore.user.email = values.email;
+        localStorage.setItem('user', JSON.stringify(authStore.user));
+      }
+
       showSuccess.value = true;
       setTimeout(() => showSuccess.value = false, 3000);
     }
@@ -118,7 +146,7 @@ const submitForm = handleSubmit(async (values) => {
   }
 });
 
-// Redirección si no está autenticado
+// Cargar datos cuando el componente se monta
 onMounted(() => {
   if (!authStore.isAuthenticated) {
     router.push({ name: 'login' });
@@ -127,6 +155,7 @@ onMounted(() => {
   }
 });
 </script>
+
 
 <style scoped>
 .user-profile {

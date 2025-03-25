@@ -1,13 +1,18 @@
 import { defineStore } from "pinia";
 import { login, register } from "@/services/authService";
-import type { AuthToken } from "@/interfaces/AuthToken";
 import type { RegisterUser } from "@/interfaces/RegisterUser";
 import type { UserLogin } from "@/interfaces/UserLogin";
 import { useRouter } from "vue-router";
 
+interface User {
+  id: number;
+  username: string;
+  email: string;
+}
+
 interface AuthState {
   token: string | null;
-  user: { id: number; username: string; email: string } | null;
+  user: User | null;
 }
 
 export const useAuthStore = defineStore("auth", {
@@ -25,10 +30,14 @@ export const useAuthStore = defineStore("auth", {
       try {
         const data = await login(user);
         this.token = data.token;
-        this.user = data.user;
+        this.user = {
+          id: data.user.id,
+          username: data.user.username,
+          email: data.user.email
+        };
 
         localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("user", JSON.stringify(this.user));
 
         return true;
       } catch (error) {

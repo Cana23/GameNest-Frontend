@@ -4,14 +4,21 @@ import type { User, UserUpdateRequest } from "@/interfaces/UserEditInterface";
 const API_URL = "https://localhost:7027/api";
 
 class UserService {
-  async getCurrentUser(id: string): Promise<User> {
+  async getCurrentUser(): Promise<User> {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
         throw new Error("No authentication token found");
       }
 
-      const response = await axios.get<User>(`${API_URL}/users/${id}`, {
+      // Obtener el ID del usuario desde el store o localStorage
+      const userData = localStorage.getItem("user");
+      if (!userData) {
+        throw new Error("No user data found");
+      }
+
+      const user = JSON.parse(userData);
+      const response = await axios.get<User>(`${API_URL}/Users/${user.id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
