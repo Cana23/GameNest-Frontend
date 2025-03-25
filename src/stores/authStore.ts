@@ -7,23 +7,29 @@ import { useRouter } from "vue-router";
 
 interface AuthState {
   token: string | null;
+  user: { id: number; username: string; email: string } | null;
 }
 
 export const useAuthStore = defineStore("auth", {
   state: (): AuthState => ({
     token: localStorage.getItem("token") || null,
+    user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")!) : null,
   }),
 
   getters: {
-    isAuthenticated: (state) => !!state.token, // Getter para verificar si el usuario está autenticado
+    isAuthenticated: (state) => !!state.token,
   },
 
   actions: {
     async loginUser(user: UserLogin): Promise<boolean> {
       try {
-        const data: AuthToken = await login(user);
+        const data = await login(user);
         this.token = data.token;
+        this.user = data.user;
+
         localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+
         return true;
       } catch (error) {
         console.error("Error en login:", error);
@@ -31,29 +37,14 @@ export const useAuthStore = defineStore("auth", {
       }
     },
 
-    async registerUser(user: RegisterUser): Promise<boolean> {
-      try {
-        const response = await register(user);
-        if (response.token) {
-          this.token = response.token;
-          localStorage.setItem("token", response.token);
-          console.log("Token almacenado:", response.token);
-          return true;
-        }
-        return false;
-      } catch (error) {
-        console.error("Error en registro:", error);
-        return false;
-      }
-    },
-
     logout(): void {
       this.token = null;
+      this.user = null;
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
 
       const router = useRouter();
       router.push({ name: "login" }).then(() => {
-        // Forzar una actualización
         window.location.reload();
       });
     },

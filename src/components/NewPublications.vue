@@ -5,7 +5,7 @@
     <div class='content'>
       <div class="flex gap-4 items-center">
         <Avatar icon="pi pi-user" class="mr-2" size="large" style="background-color: #ece9fc; color: #2a1261" shape="circle" />
-        <p class="text-gray-600">Bienvenido Usuario</p>
+        <p class="text-gray-600">Bienvenido {{ username }}</p>
       </div>
       <div class="w-full bg-gray-200 rounded-full py-4 px-6 cursor-pointer" @click="visible = true">
         <p class="text-gray-600 cursor-pointer">Comparte tu experiencia y conocimientos para que más personas te conozcan.</p>
@@ -17,7 +17,7 @@
     <div class="flex flex-col gap-5">
     <div class="flex gap-4 items-center">
       <Avatar icon="pi pi-user" class="mr-2" size="large" style="background-color: #ece9fc; color: #2a1261" shape="circle" />
-      <p class="text-gray-600">Usuario1</p>
+      <p class="text-gray-600">{{ username }}</p>
     </div>
     <form @submit.prevent="submitForm" novalidate class="w-full flex flex-col gap-5">
       <div class="relative">
@@ -74,13 +74,15 @@
         </Dialog>
 </template>
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useForm, useField } from 'vee-validate';
 import * as yup from 'yup';
 import { usePublicationsStore } from "@/stores/publicationtsStore";
 import { useToast } from "primevue/usetoast";
-const toast = useToast();
+import { useAuthStore } from "@/stores/authStore";
 
+const toast = useToast();
+const authStore = useAuthStore();
 const schema = yup.object({
   title: yup.string().required('El titulo es requerido'),
   content: yup.string().required('El contenido es requerido'),
@@ -91,6 +93,8 @@ const { errors, defineField, validate } = useForm({
   validationSchema: schema
 });
 
+const isAuthenticated = computed(() => !!authStore.token);
+const username = computed(() => authStore.user?.userName || "Usuario");
 const [title, titleAttrs] = defineField('title');
 const [content, contentAttrs] = defineField('content');
 const [imageUrl, imageUrlAttrs] = defineField('imageUrl');

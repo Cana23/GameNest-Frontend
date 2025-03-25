@@ -51,7 +51,8 @@ const visible = ref(false);
 const op = ref();
 
 const isAuthenticated = computed(() => !!authStore.token);
-const username = computed(() => authStore.user?.username || "Usuario");
+const username = computed(() => authStore.user?.userName || "Usuario");
+console.log(username)
 
 const toggle = (event: any) => {
   op.value.toggle(event);
