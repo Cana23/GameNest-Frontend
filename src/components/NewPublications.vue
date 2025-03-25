@@ -18,8 +18,26 @@
       <img src="../assets/images/gojo cat.jpg" alt="">
       <p class="text-gray-600">Usuario1</p>
     </div>
+    <form @submit.prevent="submitForm" novalidate class="w-full flex flex-col gap-5">
+      <div class="relative">
+        <FloatLabel variant="on" class="bg-white">
+                  <InputText id="title" v-model="title" required
+                  :class="{ 'w-full py-3 px-10 border-1 border-gray-300 rounded-full': true, 'border-red-500': errors.title }" />
+                  <label for="title" class="bg-white">Titulo de publicación</label>
+    </FloatLabel>
+    <span v-if="errors.title" class="text-red-500 absolute" style="font-size: 12px; padding-left: 20px;">* {{ errors.title }}</span>
+      </div>
+<div class="relative">
+  <FloatLabel variant="on" class="bg-white">
+      <Textarea id="content" v-model="content" required
+      :class="{ 'w-full text-gray-600 border-1 border-gray-300 rounded-2xl py-3 px-6': true, 'border-red-500': errors.title }"
+       rows="5" cols="30"/>
+      <label for="content" class="bg-white">Comparte tu experiencia y conocimientos para que más personas te conozcan</label>
+    </FloatLabel>
+    <span v-if="errors.content" class="text-red-500 absolute" style="font-size: 12px; padding-left: 20px;">* {{ errors.content }}</span>
+</div>
 
-    <Textarea rows="5" cols="30" class="w-full text-gray-600" placeholder="Comparte tu experiencia y conocimientos para que más personas te conozcan."/>
+
     <div class="action-add">
       <!-- <div class="flex flex-col gap-2">
   <div class="flex gap-2">
@@ -40,13 +58,43 @@
 </div>
     <div class="flex justify-end gap-4">
                 <button type="button" @click="visible = false" class="py-2 px-4 bg-red-500 text-white rounded-xl hover:bg-red-700 cursor-pointer">Cancelar</button>
-                <button type="button" @click="visible = false" class="py-2 px-4 text-white rounded-xl bg-purple-500 hover:bg-purple-600 cursor-pointer">Publicar</button>
+                <button type="submit" class="py-2 px-4 text-white rounded-xl bg-purple-500 hover:bg-purple-600 cursor-pointer">Publicar</button>
             </div>
+
+          </form>
           </div>
         </Dialog>
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
+import { useForm, useField } from 'vee-validate';
+import * as yup from 'yup';
+
+const schema = yup.object({
+  title: yup.string().required('El titulo es requerido'),
+  content: yup.string().required('El contenido es requerido'),
+});
+const { errors, defineField, validate } = useForm({
+  validationSchema: schema
+});
+
+const [title, titleAttrs] = defineField('title');
+const [content, contentAttrs] = defineField('content');
+
+const submitForm = async () => {
+  const result = await validate();
+
+  if (!result.valid) {
+    console.log("Errores en el formulario:", errors);
+    return;
+  }
+
+  const publicData = {
+    title: title.value,
+    content: content.value,
+  };
+
+};
 
 const visible = ref(false);
 </script>
