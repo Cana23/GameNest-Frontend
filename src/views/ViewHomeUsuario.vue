@@ -2,7 +2,7 @@
 import { computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/authStore';
-import LayoutComponent from '@/components/layoutComponent.vue';
+import layoutComponent from '@/components/layoutComponent.vue';
 import Publications from './Publications.vue';
 
 const router = useRouter();
@@ -18,7 +18,7 @@ watch(isAuthenticated, (newValue) => {
 </script>
 
 <template>
-         <LayoutComponent/>
+         <layoutComponent/>
          <Publications/>
 
 </template>

@@ -8,7 +8,7 @@ import NavPorfileComponent from './NavPorfileComponent.vue';
   <aside class="w-84 bg-black text-white p-6 h-screen fixed">
             <div class="flex items-center space-x-2">
                 <img src="../assets/images/login/image1.png" alt="Logo" class="w-10 h-10" />
-                <span class="text-xl font-bold">GameNext</span>
+                <span class="text-xl font-bold">GameNest</span>
             </div>
             <input type="text" placeholder="Buscar" class="mt-4 w-full p-2 bg-gray-600 rounded-lg placeholder:text-gray-100 text-white" />
             <div class="mt-6">
