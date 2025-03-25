@@ -4,7 +4,7 @@
     <div class='content'>
       <div class="flex gap-4 items-center">
         <img src="../assets/images/gojo cat.jpg" alt="">
-        <p class="text-gray-600">Bienvenido Usuario1</p>
+        <p class="text-gray-600">Bienvenido Usuario</p>
       </div>
       <div class="w-full bg-gray-200 rounded-full py-4 px-6 cursor-pointer" @click="visible = true">
         <p class="text-gray-600 cursor-pointer">Comparte tu experiencia y conocimientos para que más personas te conozcan.</p>

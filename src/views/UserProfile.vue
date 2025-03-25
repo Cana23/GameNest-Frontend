@@ -1,5 +1,5 @@
 <template>
-  <HeaderComponent/>
+  <NavPorfileComponent/>
   <section class="user-profile">
     <!-- <div class="bg-info"></div> -->
     <div class="container">
@@ -44,15 +44,28 @@
         </div>
       </div>
     </div>
-    <FooterComponent/>
   </section>
 </template>
 
 <script lang="ts" setup>
-import FooterComponent from '@/components/FooterComponent.vue';
-import HeaderComponent from '@/components/HeaderComponent.vue';
+
+import NavPorfileComponent from '@/components/NavPorfileComponent.vue';
 import { useForm, useField } from 'vee-validate';
 import * as yup from 'yup';
+import { computed, watch } from 'vue';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/authStore';
+
+const router = useRouter();
+const authStore = useAuthStore();
+const isAuthenticated = computed(() => !!authStore.token);
+
+// Redirigir al login si el usuario no está autenticado
+watch(isAuthenticated, (newValue) => {
+  if (!newValue) {
+    router.push({ name: 'login' });
+  }
+});
 
 const schema = yup.object({
   user: yup.string().required('El Nombre es requerido'),

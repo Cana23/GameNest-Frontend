@@ -13,7 +13,7 @@ import LayoutVisitante from '@/layouts/LayoutVisitante.vue';
             <div class="container">
             <div class="content">
                 <div class=" row-span-3 flex justify-center items-center">
-                    <img src="../../assets/images/login/image1.png" alt="Mascota" class="" />
+                    <img src="@/assets/images/login/image1.png" alt="Mascota" class="" />
                 </div>
                 <div class="flex flex-col gap-12 justify-center py-8 lg:py-17 items-center">
                     <h2 class="tracking-wide text-4xl sm:text-6xl font-semibold text-center">Donde las
