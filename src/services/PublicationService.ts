@@ -28,6 +28,19 @@ class PublicationsService {
       throw error;
     }
   }
+  // Dentro de actions de tu store Pinia
+async savePublication(publication: Publication) {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.put(`${API_URL}/Publications/${publication.id}`, publication, {
+      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+    });
+    console.log('Publicación actualizada');
+  } catch (error) {
+    console.error("Error al guardar publicación:", error);
+  }
+}
+
 }
 
 export default new PublicationsService();
