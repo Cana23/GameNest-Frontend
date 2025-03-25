@@ -16,6 +16,18 @@ class PublicationsService {
       throw error;
     }
   }
+  async createPublication(publication: Publication): Promise<Publication> {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(`${API_URL}/Publications`, publication, {
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error al crear la publicación:", error);
+      throw error;
+    }
+  }
 }
 
 export default new PublicationsService();

@@ -3,10 +3,10 @@ export interface Publication {
   title: string;
   content: string;
   imageUrl: string;
-  publicationDate: string;
-  userId: string;
-  userName: string;
-  user: any;
-  likes: any[];
-  comments: any[];
+  publicationDate?: string;
+  userId?: string;
+  userName?: string;
+  user?: any;
+  likes?: any[];
+  comments?: any[];
 }

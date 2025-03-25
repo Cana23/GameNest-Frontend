@@ -26,7 +26,8 @@ import Tooltip from 'primevue/tooltip';
 import Popover from 'primevue/popover';
 import FileUpload from 'primevue/fileupload';
 import Rating from 'primevue/rating';
-
+import Toast from 'primevue/toast';
+import ToastService from 'primevue/toastservice';
 
 
 import { createApp } from 'vue'
@@ -57,6 +58,7 @@ app.component('TabPanel', TabPanel)
 app.directive('tooltip', Tooltip);
 app.component('FileUpload', FileUpload);
 app.component('Rating', Rating);
+app.component('Toast', Toast);
 
 
 app.use(PrimeVue, {
@@ -70,7 +72,7 @@ app.use(PrimeVue, {
       }
   }
 });
-
+app.use(ToastService);
 app.use(createPinia())
 app.use(router)
 

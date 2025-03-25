@@ -1,5 +1,6 @@
 <template>
   <section>
+    <Toast />
     <div class='container'>
     <div class='content'>
       <div class="flex gap-4 items-center">
@@ -36,7 +37,14 @@
     </FloatLabel>
     <span v-if="errors.content" class="text-red-500 absolute" style="font-size: 12px; padding-left: 20px;">* {{ errors.content }}</span>
 </div>
-
+<div class="relative">
+  <FloatLabel variant="on" class="bg-white">
+                  <InputText id="imageUrl" v-model="imageUrl" required
+                  :class="{ 'w-full py-3 px-10 border-1 border-gray-300 rounded-full': true, 'border-red-500': errors.imageUrl }" />
+                  <label for="imageUrl" class="bg-white">Url de la imagen</label>
+    </FloatLabel>
+    <span v-if="errors.imageUrl" class="text-red-500 absolute" style="font-size: 12px; padding-left: 20px;">* {{ errors.imageUrl }}</span>
+</div>
 
     <div class="action-add">
       <!-- <div class="flex flex-col gap-2">
@@ -54,7 +62,7 @@
     </span>
   </div>
 </div> -->
-    <FileUpload mode="basic" name="demo[]" url="/api/upload" accept="image/*" :maxFileSize="1000000" :auto="true" chooseLabel="Subir imagen" class="border-1 border-purple-500 text-purple-500 rounded-xl py-2 px-4 hover:bg-purple-100"/>
+    <!-- <FileUpload mode="basic" name="demo[]" url="/api/upload" accept="image/*" :maxFileSize="1000000" :auto="true" chooseLabel="Subir imagen" class="border-1 border-purple-500 text-purple-500 rounded-xl py-2 px-4 hover:bg-purple-100"/> -->
 </div>
     <div class="flex justify-end gap-4">
                 <button type="button" @click="visible = false" class="py-2 px-4 bg-red-500 text-white rounded-xl hover:bg-red-700 cursor-pointer">Cancelar</button>
@@ -69,21 +77,33 @@
 import { ref } from "vue";
 import { useForm, useField } from 'vee-validate';
 import * as yup from 'yup';
+import { usePublicationsStore } from "@/stores/publicationtsStore";
+import { useToast } from "primevue/usetoast";
+const toast = useToast();
 
 const schema = yup.object({
   title: yup.string().required('El titulo es requerido'),
   content: yup.string().required('El contenido es requerido'),
+  imageUrl: yup.string().required('El titulo es requerido'),
 });
+
 const { errors, defineField, validate } = useForm({
   validationSchema: schema
 });
 
 const [title, titleAttrs] = defineField('title');
 const [content, contentAttrs] = defineField('content');
+const [imageUrl, imageUrlAttrs] = defineField('imageUrl');
+
+const store = usePublicationsStore();
+const visible = ref(false);
+
+const showSuccess = () => {
+    toast.add({ severity: 'success', summary: 'Publicación creada', detail: 'La publicación se creo correctamente'});
+};
 
 const submitForm = async () => {
   const result = await validate();
-
   if (!result.valid) {
     console.log("Errores en el formulario:", errors);
     return;
@@ -92,11 +112,18 @@ const submitForm = async () => {
   const publicData = {
     title: title.value,
     content: content.value,
+    imageUrl: imageUrl.value, // Agregar funcionalidad para subir imagen
   };
 
+  try {
+    await store.createPublication(publicData);
+    await showSuccess();
+    visible.value = false;
+  } catch (error) {
+    console.error("Error al crear la publicación:", error);
+  }
 };
 
-const visible = ref(false);
 </script>
 
 <style scoped>
