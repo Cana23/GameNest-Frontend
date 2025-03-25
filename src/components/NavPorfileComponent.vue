@@ -2,12 +2,12 @@
   <section>
     <div class='container'>
       <div class="porfile mr-8 mt-8 fixed right-0 top-0 z-10" v-if="isAuthenticated">
-        <div class="logo-container">
+        <!-- <div class="logo-container">
           <img src="../assets/images/login/image1.png" alt="GameNest Logo" class="logo">
           <router-link to="/home" class="title-link">
             <span class="title text-gray-600">GameNest</span>
           </router-link>
-        </div>
+        </div> -->
         <p class="text-gray-600 font-semibold">{{ username }}</p>
         <button @click="toggle">
           <img src="../assets/images/gojo cat.jpg" alt="">
