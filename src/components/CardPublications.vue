@@ -5,10 +5,10 @@
       <div v-else-if="error">{{ error }}</div>
       <div v-else class='content' v-for="publication in publicationsStore.publications" :key="publication.id">
         <div class="flex gap-4 items-center">
-          <img src="../assets/images/default-profile.jpg" alt="" class="img-profile">
+          <img src="../assets/images/gojo cat.jpg" alt="" class="img-profile">
           <div class="flex flex-col">
-            <p class="text-gray-600">usuario</p>
-            <p class="text-gray-600 text-sm">12 de diciembre de 2025</p>
+            <p class="text-gray-600">{{ publication.userName }}</p>
+            <p class="text-gray-600 text-sm">{{ formatDate(publication.publicationDate) }}</p>
           </div>
         </div>
         <div class="w-full px-6 flex flex-col gap-4">
@@ -36,6 +36,7 @@
 import { onMounted } from 'vue';
 import { usePublicationsStore } from '@/stores/publicationtsStore';
 
+
 const publicationsStore = usePublicationsStore();
 const { loading, error } = publicationsStore;
 
@@ -45,7 +46,11 @@ onMounted(() => {
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
-  return date.toLocaleString();
+  return new Intl.DateTimeFormat('es-ES', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  }).format(date);
 };
 </script>
 
