@@ -5,6 +5,7 @@ import UserProfile from '@/views/UserProfile.vue'
 import HomeVisitor from '../views/Visitor/HomeVisitor.vue'
 import ViewHomeUsuario from '@/views/ViewHomeUsuario.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
+import ProfileView from '@/views/ProfileView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -43,6 +44,13 @@ const router = createRouter({
       name: "Home User",
       component: ViewHomeUsuario,
       meta: { requiresAuth: true },
+    },
+    {
+      path: "/profile/:id",
+      name: "Perfil",
+      component: ProfileView,
+      meta: { requiresAuth: true },
+      props: true
     },
     {
       path: "/:pathMatch(.*)*",
