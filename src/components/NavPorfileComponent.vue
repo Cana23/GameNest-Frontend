@@ -10,7 +10,7 @@
         </div> -->
         <p class="text-gray-600 font-semibold">{{ username }}</p>
         <button @click="toggle">
-          <img src="../assets/images/gojo cat.jpg" alt="">
+          <Avatar icon="pi pi-user" class="mr-2" size="large" style="background-color: #ece9fc; color: #2a1261" shape="circle" />
         </button>
         <Popover ref="op">
           <div class="flex flex-col gap-4">

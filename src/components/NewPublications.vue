@@ -4,7 +4,7 @@
     <div class='container'>
     <div class='content'>
       <div class="flex gap-4 items-center">
-        <img src="../assets/images/gojo cat.jpg" alt="">
+        <Avatar icon="pi pi-user" class="mr-2" size="large" style="background-color: #ece9fc; color: #2a1261" shape="circle" />
         <p class="text-gray-600">Bienvenido Usuario</p>
       </div>
       <div class="w-full bg-gray-200 rounded-full py-4 px-6 cursor-pointer" @click="visible = true">
@@ -16,7 +16,7 @@
   <Dialog :draggable="false" v-model:visible="visible" modal header="Crear una publicación" :style="{ width: '50rem', backgroundColor:'white', color: '#8600AF', padding: '10px 20px' }">
     <div class="flex flex-col gap-5">
     <div class="flex gap-4 items-center">
-      <img src="../assets/images/gojo cat.jpg" alt="">
+      <Avatar icon="pi pi-user" class="mr-2" size="large" style="background-color: #ece9fc; color: #2a1261" shape="circle" />
       <p class="text-gray-600">Usuario1</p>
     </div>
     <form @submit.prevent="submitForm" novalidate class="w-full flex flex-col gap-5">

@@ -28,7 +28,7 @@ import FileUpload from 'primevue/fileupload';
 import Rating from 'primevue/rating';
 import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
-
+import Avatar from 'primevue/avatar';
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -59,6 +59,7 @@ app.directive('tooltip', Tooltip);
 app.component('FileUpload', FileUpload);
 app.component('Rating', Rating);
 app.component('Toast', Toast);
+app.component('Avatar', Avatar);
 
 
 app.use(PrimeVue, {

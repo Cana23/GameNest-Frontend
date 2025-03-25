@@ -5,7 +5,8 @@
       <div v-else-if="error">{{ error }}</div>
       <div v-else class='content' v-for="publication in publicationsStore.publications" :key="publication.id">
         <div class="flex gap-4 items-center">
-          <img src="../assets/images/gojo cat.jpg" alt="" class="img-profile">
+          <!-- <img src="../assets/images/gojo cat.jpg" alt="" class="img-profile"> -->
+          <Avatar icon="pi pi-user" class="mr-2" size="large" style="background-color: #ece9fc; color: #2a1261" shape="circle" />
           <div class="flex flex-col">
             <p class="text-gray-600">{{ publication.userName }}</p>
             <p class="text-gray-600 text-sm">{{ formatDate(publication.publicationDate) }}</p>
