@@ -2,14 +2,14 @@
   <header class="header">
     <div class="container">
       <div class="logo-container">
-        <img src="../assets/images/login/image1.png" alt="GameNest Logo" class="logo">
+        <img src="../assets/images/login/image1.png" alt="GameNest Logo" class="logo cursor-pointer">
         <router-link to="/home" class="title-link">
           <span class="title">GameNest</span>
         </router-link>
       </div>
       <div class="user-menu" v-if="isAuthenticated">
         <span class="welcome-text">¡Bienvenido usuario!</span>
-        <button @click="toggleMenu" class="user-icon">
+        <button @click="toggleMenu" class="user-icon cursor-pointer">
           <Avatar icon="pi pi-user" shape="circle" class="user-avatar" />
         </button>
         <div v-if="isMenuOpen" class="dropdown-menu">
