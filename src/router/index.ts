@@ -6,6 +6,7 @@ import HomeVisitor from '../views/Visitor/HomeVisitor.vue'
 import ViewHomeUsuario from '@/views/ViewHomeUsuario.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import ProfileView from '@/views/ProfileView.vue'
+import SearchPublicationView from '@/views/SearchPublicationView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -51,6 +52,12 @@ const router = createRouter({
       component: ProfileView,
       meta: { requiresAuth: true },
       props: true
+    },
+    {
+      path: "/search-publication",
+      name: "Search publication",
+      component: SearchPublicationView,
+      meta: { requiresAuth: true }
     },
     {
       path: "/:pathMatch(.*)*",

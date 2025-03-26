@@ -14,7 +14,7 @@ axios.interceptors.request.use((config) => {
   return config;
 });
 
-export function login(user: UserLogin): Promise<{ token: string; user: { id: number; username: string; email: string } }> {
+export function login(user: UserLogin): Promise<{ token: string; user: { id: number; userName: string; email: string } }> {
   return axios.post(`${API_URL}/login`, user).then((response) => response.data);
 }
 

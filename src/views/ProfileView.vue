@@ -25,9 +25,14 @@
 
             <!-- Publicaciones del usuario -->
             <div>
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">
-                    Publicaciones de {{ user.userName }}
-                </h2>
+                <div class="flex justify-between">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                        Publicaciones de {{ user.userName }}
+                    </h2>
+                    <RouterLink to="/home" class="cursor-pointer">
+                        <p class="text-lg font-bold text-purple-500 hover:text-purple-700">← Volver a Inicio</p>
+                    </RouterLink>
+                </div>
 
                 <div v-if="loading" class="flex justify-center py-8">
                     <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>

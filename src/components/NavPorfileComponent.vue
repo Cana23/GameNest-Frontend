@@ -1,7 +1,7 @@
 <template>
   <section>
     <div class='container'>
-      <div class="porfile mr-8 mt-8 fixed right-0 top-0 z-10" v-if="isAuthenticated">
+      <div class="porfile mr-8 mt-8 fixed right-0 top-0 z-10 border-2 border-black rounded-4xl" v-if="isAuthenticated">
         <!-- <div class="logo-container">
           <img src="../assets/images/login/image1.png" alt="GameNest Logo" class="logo">
           <router-link to="/home" class="title-link">
@@ -104,6 +104,6 @@ const handleLogout = () => {
 }
 
 .container {
-  padding-top: 80px;
+  padding-top: 80px; /* Ajusta este valor según el tamaño de tu nav */
 }
 </style>
