@@ -24,9 +24,10 @@
               <!-- Cambiar icono y cantidad de likes al hacer clic -->
               <i
                 :class="['pi', publication.hasLiked ? 'pi-heart-fill' : 'pi-heart', 'text-violet-500', 'cursor-pointer']"
-                @click="toggleLike(publication)">
+                @click="publicationsStore.toggleLike(publication)">
               </i>
-              <p class="text-gray-600 text-sm">{{ publication.likes?.length }} me gusta</p>
+              <p class="text-gray-600 text-sm" v-if="publication.likes">{{ publication.likes || 0 }} me gusta</p>
+              <p class="text-gray-600 text-sm" v-if="!publication.likes">0 me gusta</p>
             </div>
             <div class="flex gap-2">
               <i class="pi pi-comments text-violet-500 cursor-pointer"></i>
@@ -93,6 +94,7 @@ section {
   display: flex;
   flex-direction: column;
   gap: 25px;
+  margin-bottom: 25px;
 }
 .img-profile {
   width: 50px;

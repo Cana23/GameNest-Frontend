@@ -9,4 +9,5 @@ export interface Publication {
   user?: any;
   likes?: any[];
   comments?: any[];
+  hasLiked?:any[];
 }
