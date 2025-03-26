@@ -6,7 +6,7 @@ import { useRouter } from "vue-router";
 
 interface User {
   id: number;
-  username: string;
+  userName: string;
   email: string;
 }
 
@@ -32,7 +32,7 @@ export const useAuthStore = defineStore("auth", {
         this.token = data.token;
         this.user = {
           id: data.user.id,
-          username: data.user.username,
+          userName: data.user.userName,
           email: data.user.email
         };
 
@@ -45,6 +45,23 @@ export const useAuthStore = defineStore("auth", {
         return false;
       }
     },
+
+    async registerUser(user: RegisterUser): Promise<boolean> {
+      try {
+        const data = await register(user);
+        this.token = data.token;
+        this.user = { id: 0, userName: user.userName, email: user.email }; // Ajusta si el backend devuelve más datos
+
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(this.user));
+
+        return true;
+      } catch (error) {
+        console.error("Error en el registro:", error);
+        return false;
+      }
+    },
+
 
     logout(): void {
       this.token = null;

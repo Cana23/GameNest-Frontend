@@ -104,6 +104,6 @@ const handleLogout = () => {
 }
 
 .container {
-  padding-top: 80px;
+  padding-top: 80px; /* Ajusta este valor según el tamaño de tu nav */
 }
 </style>
