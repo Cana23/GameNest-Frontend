@@ -35,6 +35,9 @@
                 <Button type="submit" label="Guardar Cambios" severity="help"
                   class="bg-purple-500 py-3 px-8 rounded-3xl text-white font-bold hover:bg-purple-800"
                   :disabled="isSubmitting" />
+                <RouterLink to="/home" class="cursor-pointer">
+                  <p class="text-lg text-center font-bold text-purple-500 hover:text-purple-700">← Volver a Inicio</p>
+                </RouterLink>
                 <div v-if="showSuccess" class="text-green-500 text-center py-2">
                   ¡Perfil actualizado correctamente!
                 </div>
