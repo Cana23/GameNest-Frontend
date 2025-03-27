@@ -31,7 +31,7 @@
                 :class="['pi', publication.hasLiked ? 'pi-heart-fill' : 'pi-heart', 'text-violet-500', 'cursor-pointer']"
                 @click="toggleLike(publication)">
               </i>
-              <p class="text-gray-600 text-sm">{{ publication.likes || 0 }} me gusta</p>
+              <p class="text-gray-600 text-sm">{{ publication.totalLikes || 0 }} me gusta</p>
             </div>
 
             <!-- Comentarios -->

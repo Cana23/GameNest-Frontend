@@ -19,10 +19,6 @@ export const usePublicationsStore = defineStore("publications", {
         // Obtener publicaciones desde el servicio
         this.publications = await PublicationsService.getAllPublications();
 
-        // Inicializar propiedades adicionales para cada publicación
-        this.publications.forEach((publication) => {
-          publication.hasLiked = false; // Inicializar el estado de "Me gusta"
-        });
       } catch (error: any) {
         this.error = "Error al cargar publicaciones";
       } finally {
