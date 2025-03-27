@@ -1,43 +1,35 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_URL = 'https://localhost:7027/api/Likes/';
+const API_URL = "https://localhost:7027/api";
 
-class LikesService {
-  async getPostLikes(PostId: number) {
+class LikeService {
+  // Agregar un like a una publicación
+  async addLike(postId: number): Promise<void> {
     try {
-      const response = await axios.get(`${API_URL}/${PostId}`);
-      return response.data;
+      await axios.post(`${API_URL}/Likes/${postId}`, null, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // Token de autorización
+        },
+      });
     } catch (error) {
-      console.error('Error obteniendo likes:', error);
+      console.error("Error al agregar like:", error);
       throw error;
     }
   }
 
-  async addLike(PostId: number) {
+  // Eliminar un like de una publicación
+  async removeLike(postId: number): Promise<void> {
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.post(`${API_URL}/${PostId}`, {}, {
-        headers: { Authorization: `Bearer ${token}` },
+      await axios.delete(`${API_URL}/Likes/${postId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // Token de autorización
+        },
       });
-      return response.data;
     } catch (error) {
-      console.error('Error agregando like:', error);
-      throw error;
-    }
-  }
-
-  async removeLike(PostId: number) {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.delete(`${API_URL}/${PostId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      return response.data;
-    } catch (error) {
-      console.error('Error eliminando like:', error);
+      console.error("Error al eliminar like:", error);
       throw error;
     }
   }
 }
 
-export default new LikesService();
+export default new LikeService();
