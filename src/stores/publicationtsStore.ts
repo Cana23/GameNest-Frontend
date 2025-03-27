@@ -30,6 +30,19 @@ export const usePublicationsStore = defineStore("publications", {
       }
     },
 
+    async createPublication(publication: Publication) {
+      this.loading = true;
+      this.error = null;
+      try {
+        const newPublication = await PublicationsService.createPublication(publication);
+        this.publications.unshift(newPublication);
+      } catch (error: any) {
+        this.error = "Error al crear publicación";
+      } finally {
+        this.loading = false;
+      }
+    },
+
     // Alternar el estado de "Me gusta" de una publicación
     async toggleLike(publication: Publication) {
       try {
