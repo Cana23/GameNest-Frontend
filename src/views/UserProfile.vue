@@ -1,5 +1,5 @@
 <template>
-  <NavPorfileComponent />
+  <layoutComponent/>
   <section class="user-profile">
     <div class="container">
       <div class="content">
@@ -35,9 +35,9 @@
                 <Button type="submit" label="Guardar Cambios" severity="help"
                   class="bg-purple-500 py-3 px-8 rounded-3xl text-white font-bold hover:bg-purple-800"
                   :disabled="isSubmitting" />
-                <RouterLink to="/home" class="cursor-pointer">
+                <!-- <RouterLink to="/home" class="cursor-pointer">
                   <p class="text-lg text-center font-bold text-purple-500 hover:text-purple-700">← Volver a Inicio</p>
-                </RouterLink>
+                </RouterLink> -->
                 <div v-if="showSuccess" class="text-green-500 text-center py-2">
                   ¡Perfil actualizado correctamente!
                 </div>
@@ -62,6 +62,7 @@ import UserService from '@/services/UserEditService';
 import { useField, useForm } from 'vee-validate';
 import * as yup from 'yup';
 import { computed, watch } from 'vue';
+import layoutComponent from '@/components/layoutComponent.vue';
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -161,8 +162,11 @@ onMounted(() => {
 
 
 <style scoped>
+section{
+  padding-left: 335px;
+}
 .user-profile {
-  height: 100vh;
+  /* height: 100vh; */
 
   @media(max-width: 991px) {
     height: 100%;

@@ -17,7 +17,7 @@
             <div>
               <ul class="list-none p-0 m-0 flex flex-col">
                 <router-link to="/user-profile" class="flex items-center gap-2 px-4 py-3 hover:bg-gray-200 cursor-pointer rounded-border">
-                  <span class="font-medium">Mi perfil</span>
+                  <span class="font-medium">Editar perfil</span>
                 </router-link>
                 <li class="flex items-center gap-2 px-4 py-3 hover:bg-gray-200 cursor-pointer rounded-border" @click="visible = true">
                   <div>
