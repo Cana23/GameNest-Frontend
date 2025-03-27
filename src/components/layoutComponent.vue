@@ -10,8 +10,8 @@ import NavPorfileComponent from './NavPorfileComponent.vue';
                 <img src="../assets/images/login/image1.png" alt="Logo" class="w-10 h-10" />
                 <span class="text-xl font-bold">GameNest</span>
             </div>
-            <input type="text" placeholder="Buscar"
-                class="mt-4 w-full p-2 bg-gray-600 rounded-lg placeholder:text-gray-100 text-white" />
+            <!-- <input type="text" placeholder="Buscar"
+                class="mt-4 w-full p-2 bg-gray-600 rounded-lg placeholder:text-gray-100 text-white" /> -->
             <div class="mt-6">
                 <p class="text-sm">✨ ¡Bienvenido!</p>
             </div>
@@ -23,9 +23,9 @@ import NavPorfileComponent from './NavPorfileComponent.vue';
                     <RouterLink to="/user-profile" class="cursor-pointer">
                         <li>🚀 Editar Perfil</li>
                     </RouterLink>
-                    <RouterLink to="/search-publication" class="cursor-pointer">
+                    <!-- <RouterLink to="/search-publication" class="cursor-pointer">
                         <li>🔎 Buscar publicaciones</li>
-                    </RouterLink>
+                    </RouterLink> -->
                 </ul>
             </nav>
         </aside>

@@ -3,7 +3,7 @@
     <div class='container'>
       <div v-if="loading">Cargando publicaciones...</div>
       <div v-else-if="error">{{ error }}</div>
-      <div v-else class='content' v-for="publication in publicationsStore.publications" :key="publication.id">
+      <div v-else class='content' v-for="publication in publicationsStore.publications " :key="publication.id">
         <div class="flex gap-4 items-center">
           <router-link :to="{ name: 'Perfil', params: { id: publication.userId } }">
             <Avatar icon="pi pi-user" class="mr-2" size="large" style="background-color: #ece9fc; color: #2a1261" shape="circle" />
@@ -29,10 +29,10 @@
               <p class="text-gray-600 text-sm" v-if="publication.likes">{{ publication.likes || 0 }} me gusta</p>
               <p class="text-gray-600 text-sm" v-if="!publication.likes">0 me gusta</p>
             </div>
-            <div class="flex gap-2">
+            <!-- <div class="flex gap-2">
               <i class="pi pi-comments text-violet-500 cursor-pointer"></i>
               <p class="text-gray-600 text-sm">{{ publication.comments?.length }} comentarios</p>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -42,40 +42,36 @@
 
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { usePublicationsStore } from '@/stores/publicationtsStore';
 
 const publicationsStore = usePublicationsStore();
 const { loading, error } = publicationsStore;
+const searchQuery = ref('');
 
 onMounted(() => {
   publicationsStore.fetchPublications();
 });
 
+const filteredPublications = computed(() => {
+  return publicationsStore.publications.filter(publication =>
+    publication.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+    publication.content.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+});
+
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
-  return new Intl.DateTimeFormat('es-ES', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
-  }).format(date);
+  return new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }).format(date);
 };
 
-// Método para alternar "me gusta" y actualizar la publicación
 const toggleLike = (publication: any) => {
-  if (publication.hasLiked) {
-    // Si ya le dio "me gusta", lo elimina
-    publication.likes?.pop(); // Elimina el último "like" (esto depende de cómo guardes los "likes")
-  } else {
-    // Si no le dio "me gusta", lo agrega
-    publication.likes?.push({}); // Agregar un "like", puedes agregar más detalles si lo deseas
-  }
-
-  // Alternar el estado de hasLiked
   publication.hasLiked = !publication.hasLiked;
-
-  // Aquí puedes guardar los cambios en el servidor si es necesario
-  // publicationsStore.savePublication(publication);
+  if (publication.hasLiked) {
+    publication.likes = (publication.likes || 0) + 1;
+  } else {
+    publication.likes = Math.max((publication.likes || 1) - 1, 0);
+  }
 };
 </script>
 

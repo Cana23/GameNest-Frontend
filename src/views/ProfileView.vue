@@ -1,12 +1,18 @@
 <template>
-    <div class="min-h-screen bg-gray-100 py-8">
-        <div class="max-w-4xl mx-auto px-4">
+  <layoutComponent/>
+  <section>
+
+    <div class="container">
+
+    <div class=" ">
+        <div class="">
             <!-- Encabezado del perfil -->
             <div class="bg-white rounded-lg shadow-md p-6 mb-6">
                 <div class="flex flex-col md:flex-row items-center gap-6">
                     <!-- Avatar -->
-                    <img :src="`https://ui-avatars.com/api/?name=${user.userName}&background=random`" alt="Avatar"
-                        class="w-24 h-24 rounded-full" />
+                    <!-- <img :src="`https://ui-avatars.com/api/?name=${user.userName}&background=random`" alt="Avatar"
+                        class="w-24 h-24 rounded-full" /> -->
+                        <Avatar icon="pi pi-user" class="mr-2" size="xlarge" style="background-color: #ece9fc; color: #2a1261" shape="circle" />
 
                     <!-- Información del usuario -->
                     <div class="flex-1">
@@ -24,7 +30,7 @@
             </div>
 
             <!-- Publicaciones del usuario -->
-            <div>
+            <!-- <div>
                 <div class="flex justify-between">
                     <h2 class="text-xl font-semibold text-gray-800 mb-4">
                         Publicaciones de {{ user.userName }}
@@ -46,9 +52,12 @@
                     <PublicationComponent v-for="publication in publications" :key="publication.id"
                         :post="publication" />
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
+  </div>
+  </section>
+  <CardPublications/>
 </template>
 
 <script setup lang="ts">
@@ -58,6 +67,8 @@ import ProfileService from "@/services/ProfileService";
 import PublicationComponent from "@/components/PublicationComponent.vue";
 import type { User } from "@/interfaces/UserEditInterface";
 import type { Publication } from "@/interfaces/PublicationInterface";
+import layoutComponent from '@/components/layoutComponent.vue';
+import CardPublications from '@/components/CardPublications.vue';
 
 const route = useRoute();
 const userId = ref<string>(route.params.id as string);
@@ -100,3 +111,8 @@ onMounted(async () => {
     }
 });
 </script>
+<style scoped>
+section{
+  padding-left: 335px;
+}
+</style>

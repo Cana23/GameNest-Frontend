@@ -21,8 +21,11 @@ import LayoutVisitante from '@/layouts/LayoutVisitante.vue';
                     <p class="tracking-wide text-2xl text-center">El hogar de los desarrolladores
                         de videojuegos en
                         Latinoamérica</p>
-                <button class="bg-purple-500 py-3 px-8 rounded-3xl text-white font-bold hover:bg-purple-800 w-50 cursor-pointer">Regístrate
+                        <RouterLink to="/register">
+                          <button class="bg-purple-500 py-3 px-8 rounded-3xl text-white font-bold hover:bg-purple-800 w-50 cursor-pointer">Regístrate
                             hoy</button>
+                        </RouterLink>
+
                 </div>
 
             </div>
