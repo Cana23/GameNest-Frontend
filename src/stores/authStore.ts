@@ -48,16 +48,16 @@ export const useAuthStore = defineStore("auth", {
 
     async registerUser(user: RegisterUser): Promise<boolean> {
       try {
-        const data = await register(user);
-        this.token = data.token;
-        this.user = { id: 0, userName: user.userName, email: user.email }; // Ajusta si el backend devuelve más datos
-
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(this.user));
-
-        return true;
+        const response = await register(user);
+        if (response.token) {
+          this.token = response.token;
+          localStorage.setItem("token", response.token);
+          console.log("Token almacenado:", response.token);
+          return true;
+        }
+        return false;
       } catch (error) {
-        console.error("Error en el registro:", error);
+        console.error("Error en registro:", error);
         return false;
       }
     },
