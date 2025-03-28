@@ -125,6 +125,7 @@ const addComment = async (publication: any) => {
       publicacionId: publication.id,
       contenido: publication.newComment,
     });
+   //obtener usuario de localstorage
 
     // Agregar el comentario al estado local
     publication.comments.push(newComment);
@@ -145,8 +146,8 @@ watch(
     newPublications.forEach(publication => {
       publication.comments.forEach(comment => {
         if (!comment.nombreUsuario) {
-          // Llenar el nombre del usuario si no está presente
-          comment.nombreUsuario = 'Usuario desconocido';
+          const user = JSON.parse(localStorage.getItem('user') as string);
+          comment.nombreUsuario = user.userName;
         }
       });
     });
