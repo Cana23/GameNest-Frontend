@@ -161,9 +161,8 @@ watch(
     newPublications.forEach(publication => {
       publication.comments.forEach(comment => {
         if (!comment.nombreUsuario) {
-          // Llenar el nombre del usuario si no está presente
-          comment.nombreUsuario = 'Usuario desconocido';
-        }
+          const user = JSON.parse(localStorage.getItem('user') as string);
+          comment.nombreUsuario = user.userName;        }
       });
     });
   },
