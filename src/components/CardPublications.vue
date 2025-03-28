@@ -1,15 +1,22 @@
 <template>
   <section>
     <div class='container'>
+      <input
+        v-model="searchQuery"
+        type="text"
+        placeholder="Buscar por título..."
+        class="w-full p-2 border border-gray-300 rounded mb-4"
+      />
+
       <div v-if="loading">Cargando publicaciones...</div>
       <div v-else-if="error">{{ error }}</div>
-      <div v-else class='content' v-for="publication in publicationsStore.publications " :key="publication.id">
+      <div v-else class='content' v-for="publication in filteredPublications" :key="publication.id">
         <div class="flex gap-4 items-center">
           <router-link :to="{ name: 'Perfil', params: { id: publication.userId } }">
             <Avatar icon="pi pi-user" class="mr-2" size="large" style="background-color: #ece9fc; color: #2a1261" shape="circle" />
           </router-link>
-            <div class="flex flex-col">
-              <router-link :to="{ name: 'Perfil', params: { id: publication.userId } }" class="text-gray-600 hover:text-purple-600">
+          <div class="flex flex-col">
+            <router-link :to="{ name: 'Perfil', params: { id: publication.userId } }" class="text-gray-600 hover:text-purple-600">
               {{ publication.userName }}
             </router-link>
             <p class="text-gray-600 text-sm">{{ formatDate(publication.publicationDate) }}</p>
@@ -21,25 +28,18 @@
           <img v-if="publication.imageUrl" :src="publication.imageUrl" alt="" class="img-publication">
           <div class="flex gap-5 justify-end">
             <div class="flex gap-2">
-              <!-- Cambiar icono y cantidad de likes al hacer clic -->
               <i
                 :class="['pi', publication.hasLiked ? 'pi-heart-fill' : 'pi-heart', 'text-violet-500', 'cursor-pointer']"
-                @click="publicationsStore.toggleLike(publication)">
+                @click="toggleLike(publication)">
               </i>
-              <p class="text-gray-600 text-sm" v-if="publication.likes">{{ publication.likes || 0 }} me gusta</p>
-              <p class="text-gray-600 text-sm" v-if="!publication.likes">0 me gusta</p>
+              <p class="text-gray-600 text-sm">{{ publication.likes || 0 }} me gusta</p>
             </div>
-            <!-- <div class="flex gap-2">
-              <i class="pi pi-comments text-violet-500 cursor-pointer"></i>
-              <p class="text-gray-600 text-sm">{{ publication.comments?.length }} comentarios</p>
-            </div> -->
           </div>
         </div>
       </div>
     </div>
   </section>
 </template>
-
 
 <script lang="ts" setup>
 import { ref, computed, onMounted } from 'vue';
@@ -55,8 +55,7 @@ onMounted(() => {
 
 const filteredPublications = computed(() => {
   return publicationsStore.publications.filter(publication =>
-    publication.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-    publication.content.toLowerCase().includes(searchQuery.value.toLowerCase())
+    publication.title.toLowerCase().includes(searchQuery.value.toLowerCase())
   );
 });
 
@@ -75,7 +74,6 @@ const toggleLike = (publication: any) => {
 };
 </script>
 
-
 <style scoped>
 section {
   padding-top: 30px;
@@ -91,12 +89,6 @@ section {
   flex-direction: column;
   gap: 25px;
   margin-bottom: 25px;
-}
-.img-profile {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  cursor: pointer;
 }
 .img-publication {
   object-fit: cover;
