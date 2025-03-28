@@ -48,10 +48,15 @@ const isSidebarCollapsed = ref(false);
                         <i class="pi pi-home" :class="{ 'mx-auto': isSidebarCollapsed, 'mr-3': !isSidebarCollapsed }"></i>
                         <span v-if="!isSidebarCollapsed">Inicio</span>
                     </RouterLink>
+                    <RouterLink to="/profile/:id" class="nav-item flex items-center">
+                        <i class="pi pi-user" :class="{ 'mx-auto': isSidebarCollapsed, 'mr-3': !isSidebarCollapsed }"></i>
+                        <span v-if="!isSidebarCollapsed">Ver perfil</span>
+                    </RouterLink>
                     <RouterLink to="/user-profile" class="nav-item flex items-center">
                         <i class="pi pi-user-edit" :class="{ 'mx-auto': isSidebarCollapsed, 'mr-3': !isSidebarCollapsed }"></i>
                         <span v-if="!isSidebarCollapsed">Editar Información</span>
                     </RouterLink>
+
                 </ul>
             </nav>
         </aside>

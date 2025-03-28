@@ -1,9 +1,17 @@
 <template>
   <section>
     <div class="container">
+      <!-- Barra de búsqueda añadida -->
+      <input
+        v-model="searchQuery"
+        type="text"
+        placeholder="Buscar por título..."
+        class="w-full p-2 border border-gray-300 rounded mb-4"
+      />
+
       <div v-if="loading">Cargando publicaciones...</div>
       <div v-else-if="error">{{ error }}</div>
-      <div v-else class="content" v-for="publication in publicationsStore.publications" :key="publication.id">
+      <div v-else class="content" v-for="publication in filteredPublications" :key="publication.id">
         <!-- Usuario -->
         <div class="flex gap-4 items-center">
           <router-link :to="{ name: 'Perfil', params: { id: publication.userId } }">
@@ -31,7 +39,7 @@
                 :class="['pi', publication.hasLiked ? 'pi-heart-fill' : 'pi-heart', 'text-violet-500', 'cursor-pointer']"
                 @click="toggleLike(publication)">
               </i>
-              <p class="text-gray-600 text-sm">{{ publication.totalLikes || 0 }} me gusta</p>
+              <p class="text-gray-600 text-sm">{{ publication.likes || 0 }} me gusta</p>
             </div>
 
             <!-- Comentarios -->
@@ -71,13 +79,21 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import { usePublicationsStore } from '@/stores/publicationtsStore';
 import CommentsService from '@/services/CommentService';
 import LikeService from '@/services/LikeService';
 
 const publicationsStore = usePublicationsStore();
 const { loading, error } = publicationsStore;
+const searchQuery = ref(''); // Añadido para el buscador
+
+// Computed para filtrar publicaciones
+const filteredPublications = computed(() => {
+  return publicationsStore.publications.filter(publication =>
+    publication.title.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+});
 
 // Cargar publicaciones al montar el componente
 onMounted(() => {
@@ -125,7 +141,6 @@ const addComment = async (publication: any) => {
       publicacionId: publication.id,
       contenido: publication.newComment,
     });
-   //obtener usuario de localstorage
 
     // Agregar el comentario al estado local
     publication.comments.push(newComment);
@@ -146,8 +161,8 @@ watch(
     newPublications.forEach(publication => {
       publication.comments.forEach(comment => {
         if (!comment.nombreUsuario) {
-          const user = JSON.parse(localStorage.getItem('user') as string);
-          comment.nombreUsuario = user.userName;
+          // Llenar el nombre del usuario si no está presente
+          comment.nombreUsuario = 'Usuario desconocido';
         }
       });
     });
