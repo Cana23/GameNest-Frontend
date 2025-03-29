@@ -9,7 +9,7 @@ interface User {
   id: number;
   userName: string;
   email: string;
-  role?: string; // El rol es opcional aquí
+  role?: string;
 }
 
 interface AuthState {
