@@ -1,10 +1,9 @@
 <template>
-  <section>
-    <div class="container mt-8">
+    <Toast />
+    <div class="container">
       <div v-if="loading">Cargando publicaciones...</div>
       <div v-else-if="error">{{ error }}</div>
-      <div v-else class="content" v-for="publication in publicationsStore.publications" :key="publication.id">
-        <!-- Usuario -->
+      <div v-else class="content" v-for="publication in Publications" :key="publication.id">
         <div class="flex gap-4 items-center">
           <router-link :to="{ name: 'Perfil', params: { id: publication.userId } }">
             <Avatar icon="pi pi-user" class="mr-2" size="large" style="background-color: #ece9fc; color: #2a1261" shape="circle" />
@@ -32,7 +31,7 @@
                   :class="['pi', publication.hasLiked ? 'pi-heart-fill' : 'pi-heart', 'text-violet-500', 'cursor-pointer']"
                   @click="toggleLike(publication)">
                 </i>
-                <p class="text-gray-600 text-sm">{{ publication.totalLikes || 0 }} me gusta</p>
+                <p class="text-gray-600 text-sm">{{ publication.totalLikes  || 0 }} me gusta</p>
               </div>
 
               <div class="flex gap-2">
@@ -78,7 +77,6 @@
         </div>
       </div>
     </div>
-  </section>
 
   <Dialog :draggable="false" v-model:visible="isEditModalVisible" modal header="Editar publicación"
     :style="{ width: '50rem', backgroundColor: 'white', color: '#8600AF', padding: '10px 20px' }">
@@ -131,15 +129,21 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, watch, computed } from 'vue';
+import { ref, watch } from 'vue';
 import { usePublicationsStore } from '@/stores/publicationtsStore';
 import CommentsService from '@/services/CommentService';
 import LikeService from '@/services/LikeService';
 import { useAuthStore } from '@/stores/authStore';
 import { useToast } from "primevue/usetoast";
-import { useForm, useField } from 'vee-validate';
+import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 import PublicationsService from '@/services/PublicationService';
+import { defineProps } from 'vue';
+import type { Publication } from '@/interfaces/PublicationInterface';
+
+const Props = defineProps<{
+  Publications: Publication[];
+}>();
 
 const publicationsStore = usePublicationsStore();
 const authStore = useAuthStore();
@@ -157,7 +161,6 @@ const editImageUrl = ref('');
 const editSchema = yup.object({
   title: yup.string().required('El titulo es requerido'),
   content: yup.string().required('El contenido es requerido'),
-  imageUrl: yup.string().required('La URL de la imagen es requerida'),
 });
 
 const { errors: editErrors, defineField: defineEditField, validate: validateEditForm } = useForm({
@@ -167,11 +170,6 @@ const { errors: editErrors, defineField: defineEditField, validate: validateEdit
 const [editTitleField, editTitleAttrs] = defineEditField('title', { initialValue: editTitle });
 const [editContentField, editContentAttrs] = defineEditField('content', { initialValue: editContent });
 const [editImageUrlField, editImageUrlAttrs] = defineEditField('imageUrl', { initialValue: editImageUrl });
-
-// Cargar publicaciones al montar el componente
-onMounted(() => {
-  publicationsStore.fetchPublications();
-});
 
 // Formatear fecha
 const formatDate = (dateString: string) => {
@@ -253,7 +251,11 @@ const addComment = async (publication: any) => {
       publicacionId: publication.id,
       contenido: publication.newComment,
     });
-    publication.comments.push(newComment);
+
+    const userJson = JSON.parse(localStorage.getItem("user"));
+    newComment.nombreUsuario = userJson.userName;
+
+    publication.comments.push(newComment); 
     publication.totalComments += 1;
     publication.newComment = '';
   } catch (error) {

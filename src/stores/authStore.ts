@@ -110,10 +110,7 @@ export const useAuthStore = defineStore("auth", {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
 
-      const router = useRouter();
-      router.push({ name: "login" }).then(() => {
-        window.location.reload();
-      });
+      window.location.reload();
     },
   },
 });
