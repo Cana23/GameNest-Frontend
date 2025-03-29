@@ -7,6 +7,10 @@ import ViewHomeUsuario from '@/views/ViewHomeUsuario.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import ProfileView from '@/views/ProfileView.vue'
 import SearchPublicationView from '@/views/SearchPublicationView.vue'
+import Tab from 'primevue/tab'
+import TableUserView from '@/views/admin/TableUserView.vue'
+import TableAdminView from '@/views/admin/TableAdminView.vue'
+import adminService from "@/services/adminService";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -60,34 +64,48 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
+      path: "/user-table",
+      name: "Table User",
+      component: TableUserView,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: "/admin-table",
+      name: "Table Admin",
+      component: TableAdminView,
+      meta: { requiresAuth: true, requiresAdmin: true  }
+    },
+    {
       path: "/:pathMatch(.*)*",
       name: "NotFound",
       component: NotFoundView,
-      meta: { requiresAuth: false },
+      meta: { requiresAuth: false, requiresAdmin: true  },
     }
   ],
 });
 
-router.beforeEach((to, from, next) => {
-  const token = localStorage.getItem('token');
+router.beforeEach(async (to, from, next) => {
+  const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
   const isAuthenticated = !!token;
 
-  //regidirigir a la pagina de inicio si el usuario esta autenticado
-  if (to.meta.forVisitors && isAuthenticated) {
-    next('/home'); //pagina de usuarios autenticados
-  }
+  // Verifica si el usuario está autenticado
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    next("/login");
+  } else if (to.meta.requiresAdmin) {
+    // Verifica si el usuario tiene el rol de admin
+    const admins = await adminService.getAllUseAdmin();
+    const isAdmin = admins.some(admin => admin.email === user?.email);
 
-  else if (to.meta.requiresAuth && !isAuthenticated) {
-    next('/login');
-  }
-
-
-  else if ((to.path === '/login' || to.path === '/register') && isAuthenticated) {
-    next('/');
-  }
-  else {
-    next();
+    if (isAdmin) {
+      next(); // Si es admin, permitir el acceso
+    } else {
+      next("/home"); // Si no es admin, redirigir a la página principal
+    }
+  } else {
+    next(); // Si no requiere autenticación o admin, permite el acceso
   }
 });
+
 
 export default router

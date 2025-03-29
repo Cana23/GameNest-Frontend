@@ -122,3 +122,35 @@ input {
   background: white;
   color: #8D8D8D;
 }
+
+/* Fondo blanco para toda la tabla */
+.custom-table {
+  background-color: white !important;
+  color: black !important;
+}
+
+/* Estilos para el encabezado */
+:deep(.p-datatable-thead) th {
+  background-color: white !important;
+  color: black !important;
+}
+
+/* Estilos para las filas */
+:deep(.p-datatable-tbody) tr {
+  background-color: white !important;
+  color: black !important;
+}
+
+/* Asegurar que las celdas tengan fondo blanco */
+:deep(.p-datatable-tbody) td {
+  background-color: white !important;
+  color: black !important;
+}
+
+.p-datatable-tbody > tr {
+  /* outline-color: transparent; */
+  background: white;
+  color: black;
+  padding: 20px 10px;
+  border: solid 1px rgba(181, 181, 181, 0.46);
+}

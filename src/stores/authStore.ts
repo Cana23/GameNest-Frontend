@@ -1,13 +1,14 @@
 import { defineStore } from "pinia";
-import { login, register } from "@/services/authService";
-import type { RegisterUser } from "@/interfaces/RegisterUser";
+import { login } from "@/services/authService";
 import type { UserLogin } from "@/interfaces/UserLogin";
 import { useRouter } from "vue-router";
+import adminService from "@/services/adminService";
 
 interface User {
   id: number;
   userName: string;
   email: string;
+  role?: string; // El rol es opcional aquí
 }
 
 interface AuthState {
@@ -30,14 +31,26 @@ export const useAuthStore = defineStore("auth", {
       try {
         const data = await login(user);
         this.token = data.token;
+
+        // Guardar solo la información básica del usuario
         this.user = {
           id: data.user.id,
           userName: data.user.userName,
-          email: data.user.email
+          email: data.user.email,
         };
 
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(this.user));
+
+        // Verificar si el usuario es un admin solo para la sesión actual
+        const admins = await adminService.getAllUseAdmin();
+        const isAdmin = admins.some(admin => admin.email === this.user?.email);
+
+        if (isAdmin) {
+          // Si es admin, puede acceder a las rutas de admin, pero no guardamos el rol
+          // Aquí no modificamos el estado del rol ni lo almacenamos en localStorage
+          console.log('Usuario es admin');
+        }
 
         return true;
       } catch (error) {
@@ -45,23 +58,6 @@ export const useAuthStore = defineStore("auth", {
         return false;
       }
     },
-
-    async registerUser(user: RegisterUser): Promise<boolean> {
-      try {
-        const response = await register(user);
-        if (response.token) {
-          this.token = response.token;
-          localStorage.setItem("token", response.token);
-          console.log("Token almacenado:", response.token);
-          return true;
-        }
-        return false;
-      } catch (error) {
-        console.error("Error en registro:", error);
-        return false;
-      }
-    },
-
 
     logout(): void {
       this.token = null;
