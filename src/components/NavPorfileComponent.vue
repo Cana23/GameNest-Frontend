@@ -38,12 +38,15 @@
     <Dialog
       v-model:visible="visible"
       modal header="Cerrar sesión"
-      class="dialog-container"
+      :style="{ width: '400px' }"
+      :breakpoints="{ '960px': '75vw', '641px': '90vw' }"
     >
-      <p class="text-gray-600">¿Estás seguro de que deseas cerrar la sesión?</p>
-      <div class="flex justify-end gap-4 mt-4">
-        <button @click="handleLogout" class="btn-danger">Sí</button>
-        <button @click="visible = false" class="btn-cancel">No</button>
+      <div class="p-4">
+        <p class="text-gray-300 mb-4">¿Estás seguro de que deseas cerrar la sesión?</p>
+        <div class="flex justify-end gap-4">
+          <button @click="handleLogout" class="btn-danger">Sí</button>
+          <button @click="visible = false" class="btn-cancel">No</button>
+        </div>
       </div>
     </Dialog>
   </div>
@@ -122,11 +125,6 @@ nav {
 
 .menu-item:hover {
   background-color: #f3f4f6;
-}
-
-.dialog-container {
-  width: 300px;
-  padding: 20px;
 }
 
 .btn-danger {
