@@ -1,5 +1,4 @@
 import axios from "axios";
-import type { AuthToken } from "@/interfaces/AuthToken";
 import type { RegisterUser } from "@/interfaces/RegisterUser";
 import type { UserLogin } from "@/interfaces/UserLogin";
 
@@ -22,6 +21,15 @@ export function login(user: UserLogin): Promise<{ token: string; user: { id: num
 export function register(user: RegisterUser): Promise<{ token: string }> {
   return axios.post(`${API_URL}/register`, user).then((response) => response.data);
 }
+
+export function logout(): Promise<void> {
+  return axios.post(`${API_URL}/logout`).then(() => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+  });
+
+}
+
 
 
 
