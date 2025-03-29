@@ -45,6 +45,35 @@ class ProfileService {
       throw error;
     }
   }
+
+
+  async changePassword(currentPassword: string, newPassword: string): Promise<string> {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("No authentication token found");
+      }
+
+      const response = await axios.post(
+        `${API_URL}/Users/change-password`,
+        {
+          currentPassword,
+          newPassword,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      return response.data; // Devuelve el mensaje de éxito del backend
+    } catch (error: any) {
+      console.error("Error al cambiar la contraseña:", error.response?.data || error.message);
+      throw error.response?.data || error.message; // Lanza el mensaje de error del backend
+    }
+  }
 }
 
 export default new ProfileService();

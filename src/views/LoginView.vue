@@ -11,6 +11,11 @@
           <div class="mb-8">
             <h1 class="font-semibold mb-4 text-center">Iniciar sesión</h1>
             <p class="text-center text-gray-600">Bienvenido, no te pierdas esta aventura y sumérgete en la experiencia.</p>
+
+            <div v-if="loginError" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+              {{ loginError }}
+            </div>
+
           </div>
           <form @submit.prevent="submitForm" novalidate class="w-full">
             <div class="flex flex-col gap-8">
@@ -31,10 +36,12 @@
                 <span v-if="errors.password" class="text-red-500 absolute" style="font-size: 12px; padding-left: 20px;">* {{ errors.password }}</span>
               </div>
 
-              <Button label="Iniciar sesión" severity="help" type="submit" class="bg-purple-500 py-3 px-8 rounded-3xl text-white font-bold hover:bg-purple-800" />
+              <Button label="Iniciar sesión" severity="help" type="submit"
+                class="bg-purple-500 py-3 px-8 rounded-3xl text-white font-bold hover:bg-purple-800" />
             </div>
           </form>
-          <p class="text-center text-gray-600 mt-5">No tienes cuenta <RouterLink to="/register" class="text-purple-500 font-semibold">Registrate</RouterLink></p>
+          <p class="text-center text-gray-600 mt-5">No tienes cuenta <RouterLink to="/register"
+              class="text-purple-500 font-semibold">Registrate</RouterLink></p>
         </div>
       </div>
     </div>
@@ -45,7 +52,8 @@
 import { useForm, useField } from 'vee-validate';
 import * as yup from 'yup';
 import { useAuthStore } from '@/stores/authStore';
-import { useRouter } from 'vue-router';
+import { useRouter, RouterLink } from 'vue-router';
+import { ref } from 'vue';
 
 const schema = yup.object({
   email: yup.string().email('Correo incorrecto').required('El correo es requerido'),
@@ -62,26 +70,35 @@ const [password, passwordAttrs] = defineField('password');
 const authStore = useAuthStore();
 const router = useRouter();
 
+
+const loginError = ref<string | null>(null);
+
 const submitForm = async () => {
   const result = await validate();
 
   if (!result.valid) {
     console.log("Errores en el formulario:", errors);
+    loginError.value = null;
     return;
   }
 
   const loginData = {
-    email: email.value, // Usa email en lugar de userName
+    email: email.value,
     password: password.value,
   };
 
   try {
-    const success = await authStore.loginUser(loginData);
-    if (success) {
-      router.push({ name: 'Home User' }); // Redirige a la página principal después del login
+    const loginResult = await authStore.loginUser(loginData);
+    if (loginResult === true) {
+      router.push({ name: 'Home User' });
+    } else if (typeof loginResult === 'string') {
+      loginError.value = loginResult;
+    } else {
+      loginError.value = "Error al iniciar sesión. Por favor, inténtalo de nuevo.";
     }
   } catch (error) {
-    console.error("Error en el login:", error);
+    console.error("Error inesperado en el login:", error);
+    loginError.value = "Ocurrió un error inesperado. Por favor, inténtalo de nuevo más tarde.";
   }
 };
 </script>

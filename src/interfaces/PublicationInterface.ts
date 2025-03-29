@@ -1,3 +1,5 @@
+import type { Like } from "./Like";
+
 export interface Comment {
   id: number;
   nombreUsuario: string;
@@ -15,5 +17,9 @@ export interface Publication {
   userName: string;
   totalLikes: number;
   totalComments: number;
+  likes: Like [];
   comments: Comment[];
+  isHidden: boolean;
+  isDeleted: boolean;
+  lastEditedDate?: string;
 }
