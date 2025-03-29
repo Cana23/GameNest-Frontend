@@ -1,9 +1,10 @@
 import { defineStore } from "pinia";
-import { login } from "@/services/authService";
+import { login, register } from "@/services/authService";
 import type { UserLogin } from "@/interfaces/UserLogin";
 import { useRouter } from "vue-router";
 import adminService from "@/services/adminService";
-import axios from 'axios';
+import axios from "axios";
+import type { RegisterUser } from "@/interfaces/RegisterUser";
 
 interface User {
   id: number;
@@ -66,6 +67,8 @@ export const useAuthStore = defineStore("auth", {
       }
     },
 
+<<<<<<<<< Temporary merge branch 1
+=========
 
     async registerUser(user: RegisterUser): Promise<boolean | string[]> {
       try {
@@ -111,10 +114,7 @@ export const useAuthStore = defineStore("auth", {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
 
-      const router = useRouter();
-      router.push({ name: "login" }).then(() => {
-        window.location.reload();
-      });
+      window.location.reload();
     },
   },
 });

@@ -18,7 +18,36 @@ class CommentsService {
       throw error;
     }
   }
+
+  async updateComment(CommentId: number, Contenido: string) {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.put(`${API_URL}/Comments/${CommentId}`, {
+        Contenido,
+      }, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response.data;
+    } catch (error) {
+      console.error(`Error actualizando comentario ${CommentId}:`, error);
+      throw error;
+    }
+  }
+
+  async deleteComment(CommentId: number) {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.delete(`${API_URL}/Comments/${CommentId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response.data;
+    } catch (error) {
+      console.error(`Error eliminando comentario ${CommentId}:`, error);
+      throw error;
+    }
+  }
 }
+
 
 
 export default new CommentsService();

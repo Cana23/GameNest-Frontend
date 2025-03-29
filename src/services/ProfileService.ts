@@ -5,14 +5,14 @@ import type { Publication } from "@/interfaces/PublicationInterface";
 const API_URL = "https://localhost:7027/api";
 
 class ProfileService {
-  async getUserProfile(userId: string): Promise<User> {
+  async getUserProfile(): Promise<User> {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
         throw new Error("No authentication token found");
       }
 
-      const response = await axios.get<User>(`${API_URL}/Users/${userId}`, {
+      const response = await axios.get<User>(`${API_URL}/Users/profile`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -25,7 +25,7 @@ class ProfileService {
     }
   }
 
-  async getUserPublications(userId: string): Promise<Publication[]> {
+  async getUserPublications(): Promise<Publication[]> {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -33,7 +33,6 @@ class ProfileService {
       }
 
       const response = await axios.get<Publication[]>(`${API_URL}/Users/publications`, {
-        params: { userId },
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",

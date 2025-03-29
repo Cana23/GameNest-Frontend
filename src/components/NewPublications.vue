@@ -95,8 +95,7 @@ const toast = useToast();
 const authStore = useAuthStore();
 const schema = yup.object({
   title: yup.string().required('El titulo es requerido'),
-  content: yup.string().required('El contenido es requerido'),
-  imageUrl: yup.string().required('El titulo es requerido'),
+  content: yup.string().required('El contenido es requerido')
 });
 
 const { errors, defineField, validate } = useForm({
@@ -126,7 +125,7 @@ const submitForm = async () => {
   const publicData = {
     title: title.value,
     content: content.value,
-    imageUrl: imageUrl.value, // Agregar funcionalidad para subir imagen
+    imageUrl: imageUrl.value || "", // Agregar funcionalidad para subir imagen
   };
 
   try {
