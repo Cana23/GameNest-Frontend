@@ -289,7 +289,8 @@ watch(
     newPublications.forEach(publication => {
       publication.comments.forEach(comment => {
         if (!comment.nombreUsuario) {
-          comment.nombreUsuario = 'Usuario desconocido';
+          const user = JSON.parse(localStorage.getItem('user') as string);
+          comment.nombreUsuario = user.userName;
         }
       });
     });
