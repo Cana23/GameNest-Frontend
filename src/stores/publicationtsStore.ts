@@ -39,6 +39,19 @@ export const usePublicationsStore = defineStore("publications", {
       }
     },
 
+    async fetchUserPublications(userId: string) {
+      this.loading = true;
+      this.error = null;
+      try {
+        // Obtener publicaciones del usuario desde el servicio
+        this.publications = await PublicationsService.getUserPublications(userId);
+      } catch (error: any) {
+        this.error = "Error al cargar las publicaciones del usuario";
+      } finally {
+        this.loading = false;
+      }
+    },
+
     // Alternar el estado de "Me gusta" de una publicación
     async toggleLike(publication: Publication) {
       try {

@@ -47,7 +47,7 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
-      path: "/profile/:id",
+      path: "/profile/",
       name: "Perfil",
       component: ProfileView,
       meta: { requiresAuth: true },

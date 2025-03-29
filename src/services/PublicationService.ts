@@ -33,6 +33,22 @@ class PublicationsService {
     }
   }
 
+  async getUserPublications(userId: string): Promise<Publication[]> {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(`${API_URL}/Users/publications`, {
+        params: { userId },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error al obtener publicaciones del usuario:", error);
+      throw error;
+    }
+  }
+
   // Guardar (actualizar) una publicación existente
   async savePublication(publication: Publication): Promise<void> {
     try {
