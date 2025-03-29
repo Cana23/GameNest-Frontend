@@ -50,6 +50,33 @@ class UserService {
       throw error;
     }
   }
+
+  async getAllUser(): Promise<User[]> {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${API_URL}/Users/role/user`, {
+        headers: { Authorization: `Bearer + ${token}` },
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error al obtener publicaciones:', error);
+      throw error;
+    }
+  }
+  async getAllAdmin(): Promise<User[]> {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${API_URL}/Users/role/admin`, {
+        headers: { Authorization: `Bearer + ${token}` },
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error al obtener publicaciones:', error);
+      throw error;
+    }
+  }
 }
 
 export default new UserService();

@@ -1,17 +1,9 @@
 <template>
   <section>
     <div class="container">
-      <!-- Barra de búsqueda añadida -->
-      <input
-        v-model="searchQuery"
-        type="text"
-        placeholder="Buscar por título..."
-        class="w-full p-2 border border-gray-300 rounded mb-4"
-      />
-
       <div v-if="loading">Cargando publicaciones...</div>
       <div v-else-if="error">{{ error }}</div>
-      <div v-else class="content" v-for="publication in filteredPublications" :key="publication.id">
+      <div v-else class="content" v-for="publication in publicationsStore.publications" :key="publication.id">
         <!-- Usuario -->
         <div class="flex gap-4 items-center">
           <router-link :to="{ name: 'Perfil', params: { id: publication.userId } }">
@@ -39,7 +31,7 @@
                 :class="['pi', publication.hasLiked ? 'pi-heart-fill' : 'pi-heart', 'text-violet-500', 'cursor-pointer']"
                 @click="toggleLike(publication)">
               </i>
-              <p class="text-gray-600 text-sm">{{ publication.likes || 0 }} me gusta</p>
+              <p class="text-gray-600 text-sm">{{ publication.totalLikes || 0 }} me gusta</p>
             </div>
 
             <!-- Comentarios -->
@@ -87,13 +79,6 @@ import LikeService from '@/services/LikeService';
 const publicationsStore = usePublicationsStore();
 const { loading, error } = publicationsStore;
 const searchQuery = ref(''); // Añadido para el buscador
-
-// Computed para filtrar publicaciones
-const filteredPublications = computed(() => {
-  return publicationsStore.publications.filter(publication =>
-    publication.title.toLowerCase().includes(searchQuery.value.toLowerCase())
-  );
-});
 
 // Cargar publicaciones al montar el componente
 onMounted(() => {

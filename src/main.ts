@@ -1,4 +1,6 @@
+
 import './assets/main.css'
+import 'jwt-decode';
 
 //PRIMEVUE
 import PrimeVue from 'primevue/config'
@@ -29,6 +31,10 @@ import Rating from 'primevue/rating';
 import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
 import Avatar from 'primevue/avatar';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import ColumnGroup from 'primevue/columngroup';   // optional
+import Row from 'primevue/row';
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -60,6 +66,11 @@ app.component('FileUpload', FileUpload);
 app.component('Rating', Rating);
 app.component('Toast', Toast);
 app.component('Avatar', Avatar);
+
+app.component('DataTable', DataTable);
+app.component('Column', Column);
+app.component('ColumnGroup', ColumnGroup);
+app.component('Row', Row);
 
 
 app.use(PrimeVue, {
