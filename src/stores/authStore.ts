@@ -67,9 +67,7 @@ export const useAuthStore = defineStore("auth", {
       }
     },
 
-<<<<<<<<< Temporary merge branch 1
-=========
-
+    
     async registerUser(user: RegisterUser): Promise<boolean | string[]> {
       try {
         const response = await register(user);
