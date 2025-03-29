@@ -28,15 +28,23 @@ watch(isAuthenticated, (newValue) => {
 </template>
 
 <style scoped>
+/* Aplica la imagen de fondo a toda la pantalla */
 .main-content {
   padding: 1rem;
   transition: margin-left 0.3s;
+  min-height: 100vh; /* Que ocupe toda la altura */
+  background: url('@/assets/images/Fondo.jpeg') no-repeat center center fixed,
+  linear-gradient(to bottom, #a237b3, #6d0a26);  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* Mantiene el fondo fijo */
 }
 
 /* Cuando el sidebar está colapsado */
 .aside-collapsed + .main-content {
   margin-left: 5rem;
 }
+
 .banner-wrapper {
   margin-left: 16rem;
   width: calc(100% - 16rem);
@@ -50,5 +58,7 @@ watch(isAuthenticated, (newValue) => {
 
 .content-center {
   width: calc(100% - 2rem);
+  padding: 1rem;
+  border-radius: 10px;
 }
 </style>

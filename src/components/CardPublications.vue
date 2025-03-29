@@ -24,27 +24,28 @@
 
           <!-- Menú de tres puntos (solo para el propietario) -->
           <div v-if="isOwner(publication.userId)" class="relative">
-            <button @click.stop="toggleOptions(publication.id)" class="p-1 rounded-full hover:bg-gray-100 transition-colors">
+            <button @click.stop="toggleOptions(publication.id)" class="p-1 rounded-full hover:bg-[#4c1d95]/60  transition-colors">
               <i class="pi pi-ellipsis-v text-gray-500"></i>
             </button>
 
-            <!-- Menú desplegable -->
-            <div v-if="activeOptions === publication.id" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
-              <button @click="openEditModal(publication); closeOptions();"
-                      class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                <i class="pi pi-pencil mr-2"></i> Editar publicación
-              </button>
-              <button v-if="!publication.isHidden"
-                      @click="hidePublication(publication.id); closeOptions();"
-                      class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                <i class="pi pi-eye-slash mr-2"></i> Ocultar publicación
-              </button>
-              <button v-else
-                      @click="unhidePublication(publication.id); closeOptions();"
-                      class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                <i class="pi pi-eye mr-2"></i> Desocultar
-              </button>
-            </div>
+           <!-- Menú desplegable -->
+<div v-if="activeOptions === publication.id"
+     class="absolute right-0 mt-2 w-48 bg-[#2d1065] rounded-md shadow-lg py-1 z-50 border border-neon-400">
+  <button @click="openEditModal(publication); closeOptions();"
+          class="flex items-center w-full text-left px-4 py-2 text-sm text-white hover:bg-[#4c1d95]">
+    <i class="pi pi-pencil mr-2 text-neon-300"></i> Editar publicación
+  </button>
+  <button v-if="!publication.isHidden"
+          @click="hidePublication(publication.id); closeOptions();"
+          class="flex items-center w-full text-left px-4 py-2 text-sm text-white hover:bg-[#4c1d95]">
+    <i class="pi pi-eye-slash mr-2 text-neon-300"></i> Ocultar publicación
+  </button>
+  <button v-else
+          @click="unhidePublication(publication.id); closeOptions();"
+          class="flex items-center w-full text-left px-4 py-2 text-sm text-white hover:bg-[#4c1d95]">
+    <i class="pi pi-eye mr-2 text-neon-300"></i> Desocultar
+  </button>
+</div>
           </div>
         </div>
 
@@ -74,14 +75,15 @@
             </div>
           </div>
 
-          <!-- Comentarios -->
+         <!-- Comentarios -->
           <div v-if="publication.showComments" class="mt-4">
             <ul class="space-y-2">
-              <li v-for="comment in publication.comments" :key="comment.id" class="bg-gray-100 p-2 rounded">
-                <p class="text-sm text-gray-700">
-                  <strong>{{ comment.nombreUsuario }}:</strong> {{ comment.contenido }}
+              <li v-for="comment in publication.comments" :key="comment.id"
+                  class="bg-[#130431] p-3 rounded-lg border border-[#6b46c1]">
+                <p class="text-sm text-white">
+                  <strong class="text-[#a78bfa]">{{ comment.nombreUsuario }}:</strong> {{ comment.contenido }}
                 </p>
-                <p class="text-xs text-gray-500">Publicado el: {{ formatDate(comment.fechaComentario) }}</p>
+                <p class="text-xs text-[#cbd5e0] mt-1">Publicado el: {{ formatDate(comment.fechaComentario) }}</p>
               </li>
             </ul>
 
@@ -89,9 +91,9 @@
               <textarea
                 v-model="publication.newComment"
                 placeholder="Escribe un comentario..."
-                class="text-black w-full border rounded p-2 mb-2"
+                class="w-full bg-[#1a1a2e] border border-[#6b46c1] rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-[#a78bfa]"
               ></textarea>
-              <button type="submit" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-800">
+              <button type="submit" class="mt-2 bg-gradient-to-r from-[#7c3aed] to-[#a78bfa] text-white px-4 py-2 rounded-lg hover:opacity-90 transition-opacity">
                 Agregar comentario
               </button>
             </form>
@@ -356,8 +358,8 @@ section {
 
 .content {
   width: 100%;
-  border: solid 1px rgb(207, 207, 207);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #6b46c1; /* Borde morado */
+  box-shadow: 0 4px 15px rgba(107, 70, 193, 0.3); /* Sombra morada */
   border-radius: 10px;
   padding: 20px 30px;
   display: flex;
@@ -365,6 +367,43 @@ section {
   gap: 25px;
   margin-bottom: 25px;
   position: relative;
+  background: linear-gradient(145deg, #1a1a2e, #3b1685); /* Degradado oscuro a morado */
+  color: white; /* Texto blanco para todo el contenido */
+}
+
+/* También necesitarás actualizar los colores de texto dentro de la card */
+.content .text-gray-600,
+.content .text-gray-700,
+.content .text-gray-500 {
+  color: white !important;
+}
+
+/* Ajustar el menú desplegable para que combine */
+.options-dropdown {
+  background-color: #2d1065;
+  border: 1px solid #6b46c1;
+  box-shadow: 0 10px 15px -3px rgba(107, 70, 193, 0.3);
+
+}
+
+.option-item {
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.option-item:hover {
+  background-color: rgba(107, 70, 193, 0.3);
+}
+
+/* Ajustar el textarea para el modo oscuro */
+.content textarea {
+  background-color: #1a1a2e;
+  color: white;
+  border: 1px solid #6b46c1;
+}
+
+.content textarea::placeholder {
+  color: #cbd5e0;
 }
 
 .img-publication {
@@ -392,6 +431,7 @@ section {
 
 .options-button:hover {
   background-color: rgba(0, 0, 0, 0.05);
+
 }
 
 .options-dropdown {
@@ -418,7 +458,7 @@ section {
 }
 
 .option-item:hover {
-  background-color: #f3f4f6;
+  background-color: #12409d;
 }
 
 .option-item i {
