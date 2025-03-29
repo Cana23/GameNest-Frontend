@@ -3,8 +3,6 @@
   <section>
     <div class="container">
       <div class=" ">
-
-      <div class=" ">
         <div class="">
           <!-- Encabezado del perfil -->
           <div class="bg-white rounded-lg shadow-md p-6 mb-6">
