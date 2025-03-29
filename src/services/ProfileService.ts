@@ -25,18 +25,27 @@ class ProfileService {
     }
   }
 
-  async getUserPublications(value: string): Promise<Publication[]> {
+  async getUserPublications(userId: string): Promise<Publication[]> {
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get(`${API_URL}/Users/publications`, {
-        headers: { Authorization: `Bearer ${token}` },
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("No authentication token found");
+      }
+
+      const response = await axios.get<Publication[]>(`${API_URL}/Users/publications`, {
+        params: { userId },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       });
-      return response.data; // Asumiendo que la respuesta tiene la misma estructura que la interfaz Publication
+      return response.data;
     } catch (error) {
-      console.error('Error al obtener publicaciones:', error);
+      console.error("Error fetching user publications:", error);
       throw error;
     }
   }
+
 
   async changePassword(currentPassword: string, newPassword: string): Promise<string> {
     try {

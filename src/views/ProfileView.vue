@@ -113,6 +113,7 @@ onMounted(async () => {
 
     // Obtener publicaciones del usuario desde el servicio
     publications.value = await ProfileService.getUserPublications(userId.value);
+    console.log(publications.value);
   } catch (err) {
     console.error("Error loading profile:", err);
     error.value =
