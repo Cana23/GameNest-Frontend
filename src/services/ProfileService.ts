@@ -25,24 +25,44 @@ class ProfileService {
     }
   }
 
-  async getUserPublications(userId: string): Promise<Publication[]> {
+  async getUserPublications(value: string): Promise<Publication[]> {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${API_URL}/Users/publications`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response.data; // Asumiendo que la respuesta tiene la misma estructura que la interfaz Publication
+    } catch (error) {
+      console.error('Error al obtener publicaciones:', error);
+      throw error;
+    }
+  }
+
+  async changePassword(currentPassword: string, newPassword: string): Promise<string> {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
         throw new Error("No authentication token found");
       }
 
-      const response = await axios.get<Publication[]>(`${API_URL}/Users/publications`, {
-        params: { userId },
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+      const response = await axios.post(
+        `${API_URL}/Users/change-password`,
+        {
+          currentPassword,
+          newPassword,
         },
-      });
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching user publications:", error);
-      throw error;
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      return response.data; // Devuelve el mensaje de éxito del backend
+    } catch (error: any) {
+      console.error("Error al cambiar la contraseña:", error.response?.data || error.message);
+      throw error.response?.data || error.message; // Lanza el mensaje de error del backend
     }
   }
 }
