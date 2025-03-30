@@ -63,6 +63,7 @@ const visible = ref(false);
 const op = ref();
 const navbar = ref<HTMLElement | null>(null);
 const navbarHeight = ref(0);
+const isExpanded = ref(false);
 
 const isAuthenticated = computed(() => !!authStore.token);
 const username = computed(() => authStore.user?.userName || "Usuario");

@@ -2,20 +2,20 @@ import { defineStore } from "pinia";
 import type { User } from "@/interfaces/UserEditInterface";
 import adminService from "@/services/adminService";
 
-export const useAdminStore = defineStore("users", {
+export const useAdminStore = defineStore("admin", {
   state: () => ({
-    users: [] as User[],
+    admins: [] as User[],
     loading: false,
     error: null as string | null,
   }),
 
   actions: {
-    async fetchUsers() {
+    async fetchAdmins() {
       this.loading = true;
       this.error = null;
       try {
         // Obtener publicaciones desde el servicio
-        this.users = await adminService.getAllUseAdmin();
+        this.admins = await adminService.getAllUseAdmin();
 
       } catch (error: any) {
         this.error = "Error al cargar publicaciones";

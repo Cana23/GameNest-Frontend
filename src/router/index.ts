@@ -89,23 +89,20 @@ router.beforeEach(async (to, from, next) => {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const isAuthenticated = !!token;
 
-  // Verifica si el usuario está autenticado
   if (to.meta.requiresAuth && !isAuthenticated) {
-    next("/login");
-  } else if (to.meta.requiresAdmin) {
-    // Verifica si el usuario tiene el rol de admin
+    next("/login"); // Si no está autenticado, lo mandamos a login
+  } else if (to.meta.requiresAuth && isAuthenticated) {
     const admins = await adminService.getAllUseAdmin();
     const isAdmin = admins.some(admin => admin.email === user?.email);
 
-    if (isAdmin) {
-      next(); // Si es admin, permitir el acceso
+    if (to.meta.requiresAdmin && !isAdmin) {
+      next("/not-found"); // Si no es admin y la ruta requiere admin, mandamos a NotFound
     } else {
-      next("/home"); // Si no es admin, redirigir a la página principal
+      next(); // Si es admin o no requiere admin, seguimos con la navegación
     }
   } else {
-    next(); // Si no requiere autenticación o admin, permite el acceso
+    next(); // Si no requiere autenticación, dejamos que continúe
   }
 });
-
 
 export default router

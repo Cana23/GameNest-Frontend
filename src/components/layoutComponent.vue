@@ -44,19 +44,30 @@ const isSidebarCollapsed = ref(false);
 
             <nav class="mt-6">
                 <ul class="space-y-2">
+                  <!-- <RouterLink to="/user-profile" class="nav-item flex items-center">
+                        <i class="pi pi-user-edit" :class="{ 'mx-auto': isSidebarCollapsed, 'mr-3': !isSidebarCollapsed }"></i>
+                        <span v-if="!isSidebarCollapsed">Dashboard</span>
+                    </RouterLink> -->
                     <RouterLink to="/home" class="nav-item flex items-center">
                         <i class="pi pi-home" :class="{ 'mx-auto': isSidebarCollapsed, 'mr-3': !isSidebarCollapsed }"></i>
                         <span v-if="!isSidebarCollapsed">Inicio</span>
                     </RouterLink>
                     <RouterLink to="/profile" class="nav-item flex items-center">
                         <i class="pi pi-user" :class="{ 'mx-auto': isSidebarCollapsed, 'mr-3': !isSidebarCollapsed }"></i>
-                        <span v-if="!isSidebarCollapsed">Ver Publicaciones</span>
+                        <span v-if="!isSidebarCollapsed">Ver Mis Publicaciones</span>
                     </RouterLink>
                     <RouterLink to="/user-profile" class="nav-item flex items-center">
                         <i class="pi pi-user-edit" :class="{ 'mx-auto': isSidebarCollapsed, 'mr-3': !isSidebarCollapsed }"></i>
                         <span v-if="!isSidebarCollapsed">Editar Información</span>
                     </RouterLink>
-
+                    <RouterLink :to="{ name: 'Table User' }" class="nav-item flex items-center">
+                        <i class="pi pi-user-edit" :class="{ 'mx-auto': isSidebarCollapsed, 'mr-3': !isSidebarCollapsed }"></i>
+                        <span v-if="!isSidebarCollapsed">Usarios</span>
+                    </RouterLink>
+                    <RouterLink :to="{ name: 'Table Admin' }" class="nav-item flex items-center">
+                        <i class="pi pi-user-edit" :class="{ 'mx-auto': isSidebarCollapsed, 'mr-3': !isSidebarCollapsed }"></i>
+                        <span v-if="!isSidebarCollapsed">Administradores</span>
+                    </RouterLink>
                 </ul>
             </nav>
         </aside>
