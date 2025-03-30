@@ -14,7 +14,6 @@ export const useAdminStore = defineStore("admin", {
       this.loading = true;
       this.error = null;
       try {
-        // Obtener publicaciones desde el servicio
         this.admins = await adminService.getAllUseAdmin();
 
       } catch (error: any) {
@@ -23,5 +22,29 @@ export const useAdminStore = defineStore("admin", {
         this.loading = false;
       }
     },
+    async createAdmin(user: User) {
+          this.loading = true;
+          this.error = null;
+          try {
+            const newUser = await adminService.createAdmin(user);
+            this.admins.unshift(newUser);
+          } catch (error: any) {
+            this.error = "Error al crear el administrador";
+          } finally {
+            this.loading = false;
+          }
+        },
+        async deleteAdmin(id: string) {
+          this.loading = true;
+          this.error = null;
+          try {
+            await adminService.deleteUser(id);
+            this.admins = this.admins.filter(admin => admin.id !== id);
+          } catch (error: any) {
+            this.error = "Error al eliminar el administrador";
+          } finally {
+            this.loading = false;
+          }
+        }
   },
 });

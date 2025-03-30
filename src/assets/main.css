@@ -154,3 +154,22 @@ input {
   padding: 20px 10px;
   border: solid 1px rgba(181, 181, 181, 0.46);
 }
+
+.p-toast-message-content {
+  display: flex;
+  align-items: flex-start;
+  padding: 20px 10px;
+  gap: var(--p-toast-content-gap);
+}
+
+.p-toast-message-success {
+  background: #14d6144d;
+  border-color: var(--p-toast-success-border-color);
+  color: #053b18;
+  box-shadow: var(--p-toast-success-shadow);
+  padding: 10px;
+  font-weight: 500;
+}
+.p-toast-message-success .p-toast-detail {
+  color: #2e5937;
+}
