@@ -3,86 +3,80 @@
     <Toast />
     <div class='container'>
       <div class='content'>
-        <div class="flex gap-4 items-center">
+        <div class="flex gap-4 items-center mb-4">
           <Avatar icon="pi pi-user" class="mr-2" size="large" style="background-color: #ece9fc; color: #2a1261"
             shape="circle" />
-          <p class="text-gray-600">Bienvenido {{ username }}</p>
+          <p class="text-neon-light font-medium">¿Qué quieres compartir hoy, {{ username }}?</p>
         </div>
-        <div class="w-full bg-gray-200 rounded-full py-4 px-6 cursor-pointer" @click="visible = true">
-          <p class="text-gray-600 cursor-pointer">Comparte tu experiencia y conocimientos para que más personas te
-            conozcan.</p>
+
+        <div class="w-full bg-[#1e0845] rounded-lg p-4 border border-[#6b46c1] mb-3">
+          <p class="text-neon-gray mb-4">Comparte tu experiencia y conocimientos para que más personas te conozcan.</p>
+
+          <div class="flex justify-end">
+            <button @click="visible = true"
+                    class="bg-gradient-to-r from-neon-purple to-neon-blue text-white px-6 py-2 rounded-lg hover:opacity-90 transition-opacity">
+              Crear publicación
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </section>
+
   <Dialog :draggable="false" v-model:visible="visible" modal header="Crear una publicación"
-    :style="{ width: '50rem', backgroundColor: 'white', color: '#8600AF', padding: '10px 20px' }">
+    :style="{ width: '50rem', backgroundColor: '#1a1a2e', color: 'white', padding: '10px 20px', border: '1px solid #6b46c1' }">
     <div class="flex flex-col gap-5">
       <div class="flex gap-4 items-center">
         <Avatar icon="pi pi-user" class="mr-2" size="large" style="background-color: #ece9fc; color: #2a1261"
           shape="circle" />
-        <p class="text-gray-600">{{ username }}</p>
+        <p class="text-neon-light">{{ username }}</p>
       </div>
       <form @submit.prevent="submitForm" novalidate class="w-full flex flex-col gap-5">
         <div class="relative">
-          <FloatLabel variant="on" class="bg-white">
+          <FloatLabel variant="on" class="bg-neon-dark">
             <InputText id="title" v-model="title" required
-              :class="{ 'w-full py-3 px-10 border-1 border-gray-300 rounded-full': true, 'border-red-500': errors.title }" />
-            <label for="title" class="bg-white">Titulo de publicación</label>
+              :class="{ 'w-full py-3 px-10 border-1 border-[#6b46c1] rounded-lg bg-neon-dark text-neon-light': true, 'border-neon-red': errors.title }" />
+            <label for="title" class="text-neon-gray">Titulo de publicación</label>
           </FloatLabel>
-          <span v-if="errors.title" class="text-red-500 absolute" style="font-size: 12px; padding-left: 20px;">* {{
+          <span v-if="errors.title" class="text-neon-red absolute" style="font-size: 12px; padding-left: 20px;">* {{
             errors.title }}</span>
         </div>
         <div class="relative">
-          <FloatLabel variant="on" class="bg-white">
+          <FloatLabel variant="on" class="bg-neon-dark">
             <Textarea id="content" v-model="content" required
-              :class="{ 'w-full text-gray-600 border-1 border-gray-300 rounded-2xl py-3 px-6': true, 'border-red-500': errors.title }"
+              :class="{ 'w-full border-1 border-[#6b46c1] rounded-lg py-3 px-6 bg-neon-dark text-neon-light': true, 'border-neon-red': errors.title }"
               rows="5" cols="30" />
-            <label for="content" class="bg-white">Comparte tu experiencia y conocimientos para que más personas te
+            <label for="content" class="text-neon-gray">Comparte tu experiencia y conocimientos para que más personas te
               conozcan</label>
           </FloatLabel>
-          <span v-if="errors.content" class="text-red-500 absolute" style="font-size: 12px; padding-left: 20px;">* {{
+          <span v-if="errors.content" class="text-neon-red absolute" style="font-size: 12px; padding-left: 20px;">* {{
             errors.content }}</span>
         </div>
         <div class="relative">
-          <FloatLabel variant="on" class="bg-white">
+          <FloatLabel variant="on" class="bg-neon-dark">
             <InputText id="imageUrl" v-model="imageUrl" required
-              :class="{ 'w-full py-3 px-10 border-1 border-gray-300 rounded-full': true, 'border-red-500': errors.imageUrl }" />
-            <label for="imageUrl" class="bg-white">Url de la imagen</label>
+              :class="{ 'w-full py-3 px-10 border-1 border-[#6b46c1] rounded-lg bg-neon-dark text-neon-light': true, 'border-neon-red': errors.imageUrl }" />
+            <label for="imageUrl" class="text-neon-gray">Url de la imagen</label>
           </FloatLabel>
-          <span v-if="errors.imageUrl" class="text-red-500 absolute" style="font-size: 12px; padding-left: 20px;">* {{
+          <span v-if="errors.imageUrl" class="text-neon-red absolute" style="font-size: 12px; padding-left: 20px;">* {{
             errors.imageUrl }}</span>
         </div>
 
-        <div class="action-add">
-          <!-- <div class="flex flex-col gap-2">
-  <div class="flex gap-2">
-    <FloatLabel variant="on" class="bg-white">
-                  <InputText id="category" class="w-full py-2 px-4 border-1 border-gray-300 rounded-full"/>
-                  <label for="category" class="bg-white">Categoria</label>
-                </FloatLabel>
-    <Button icon="pi pi-plus" class="hover:bg-purple-100 rounded-full"/>
-  </div>
-  <div class="flex flex-wrap items-center gap-2">
-    <span class="bg-violet-400 text-white py-2 pl-3 text-sm rounded-full">
-      Informativo
-      <Button icon="pi pi-times" class=" ml-1" />
-    </span>
-  </div>
-</div> -->
-          <!-- <FileUpload mode="basic" name="demo[]" url="/api/upload" accept="image/*" :maxFileSize="1000000" :auto="true" chooseLabel="Subir imagen" class="border-1 border-purple-500 text-purple-500 rounded-xl py-2 px-4 hover:bg-purple-100"/> -->
-        </div>
         <div class="flex justify-end gap-4">
           <button type="button" @click="visible = false"
-            class="py-2 px-4 bg-red-500 text-white rounded-xl hover:bg-red-700 cursor-pointer">Cancelar</button>
+            class="py-2 px-4 bg-gradient-to-r from-neon-red to-neon-pink text-white rounded-lg hover:opacity-90 transition-opacity">
+            Cancelar
+          </button>
           <button type="submit"
-            class="py-2 px-4 text-white rounded-xl bg-purple-500 hover:bg-purple-600 cursor-pointer">Publicar</button>
+            class="py-2 px-4 bg-gradient-to-r from-neon-purple to-neon-blue text-white rounded-lg hover:opacity-90 transition-opacity">
+            Publicar
+          </button>
         </div>
-
       </form>
     </div>
   </Dialog>
 </template>
+
 <script lang="ts" setup>
 import { ref, computed } from "vue";
 import { useForm, useField } from 'vee-validate';
@@ -125,7 +119,7 @@ const submitForm = async () => {
   const publicData = {
     title: title.value,
     content: content.value,
-    imageUrl: imageUrl.value || "", // Agregar funcionalidad para subir imagen
+    imageUrl: imageUrl.value || "",
   };
 
   try {
@@ -136,7 +130,6 @@ const submitForm = async () => {
     console.error("Error al crear la publicación:", error);
   }
 };
-
 </script>
 
 <style scoped>
@@ -144,26 +137,44 @@ section {
   padding-left: 335px;
 }
 
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
 .content {
   width: 100%;
-  border: solid 1px rgb(207, 207, 207);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #6b46c1;
+  box-shadow: 0 4px 15px rgba(107, 70, 193, 0.3);
   border-radius: 10px;
-  padding: 20px 30px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  background: linear-gradient(145deg, #1a1a2e, #3b1685);
 }
 
-img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  cursor: pointer;
+.text-neon-light {
+  color: white;
 }
 
-.action-add {
-  display: flex;
-  justify-content: space-between;
+.text-neon-gray {
+  color: #94a3b8;
+}
+
+.from-neon-purple {
+  --tw-gradient-from: #7c3aed;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(124, 58, 237, 0));
+}
+
+.to-neon-blue {
+  --tw-gradient-to: #5229ce;
+}
+
+.hover\:opacity-90:hover {
+  opacity: 0.9;
+}
+
+.transition-opacity {
+  transition: opacity 0.2s ease;
 }
 </style>

@@ -20,17 +20,17 @@
       </div>
 
       <Popover ref="op">
-        <div class="flex flex-col gap-4 bg-white rounded-lg p-4 shadow-lg">
-          <router-link to="/user-profile" class="menu-item">
-            <i class="pi pi-user-edit"></i>
-            <span>Editar perfil</span>
-          </router-link>
-          <button @click="visible = true" class="menu-item">
-            <i class="pi pi-sign-out"></i>
-            <span>Cerrar sesión</span>
-          </button>
-        </div>
-      </Popover>
+  <div class="flex flex-col gap-2 bg-[#1e293b] rounded-lg p-2 shadow-lg border border-gray-600">
+    <router-link to="/user-profile" class="menu-item text-white hover:bg-gray-700">
+      <i class="pi pi-user-edit"></i>
+      <span>Editar perfil</span>
+    </router-link>
+    <button @click="visible = true" class="menu-item text-white hover:bg-gray-700 text-left">
+      <i class="pi pi-sign-out"></i>
+      <span>Cerrar sesión</span>
+    </button>
+  </div>
+</Popover>
     </nav>
 
     <div :style="{ marginTop: navbarHeight + 'px' }"></div>
@@ -117,14 +117,14 @@ nav {
 .menu-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 18px;
   padding: 10px;
   border-radius: 6px;
   transition: all 0.3s;
 }
 
 .menu-item:hover {
-  background-color: #f3f4f6;
+  background-color: #123c90;
 }
 
 .btn-danger {
