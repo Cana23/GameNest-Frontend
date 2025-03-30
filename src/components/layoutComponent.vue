@@ -1,9 +1,18 @@
 <script setup lang="ts">
 import NavPorfileComponent from './NavPorfileComponent.vue';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import 'primeicons/primeicons.css';
+import adminService from "@/services/adminService"; // Asegúrate de importar el servicio
+import { useAuthStore } from '@/stores/authStore'; // Para obtener los datos del usuario desde el store
 
 const isSidebarCollapsed = ref(false);
+const isAdmin = ref(false);
+
+onMounted(async () => {
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const admins = await adminService.getAllUseAdmin();
+  isAdmin.value = admins.some(admin => admin.email === user?.email);
+});
 </script>
 
 <template>
@@ -48,11 +57,11 @@ const isSidebarCollapsed = ref(false);
                         <i class="pi pi-user-edit" :class="{ 'mx-auto': isSidebarCollapsed, 'mr-3': !isSidebarCollapsed }"></i>
                         <span v-if="!isSidebarCollapsed">Dashboard</span>
                     </RouterLink> -->
-                    <RouterLink to="/home" class="nav-item flex items-center">
+                    <RouterLink v-if="!isAdmin" to="/home" class="nav-item flex items-center">
                         <i class="pi pi-home" :class="{ 'mx-auto': isSidebarCollapsed, 'mr-3': !isSidebarCollapsed }"></i>
                         <span v-if="!isSidebarCollapsed">Inicio</span>
                     </RouterLink>
-                    <RouterLink to="/profile" class="nav-item flex items-center">
+                    <RouterLink v-if="!isAdmin" to="/profile" class="nav-item flex items-center">
                         <i class="pi pi-user" :class="{ 'mx-auto': isSidebarCollapsed, 'mr-3': !isSidebarCollapsed }"></i>
                         <span v-if="!isSidebarCollapsed">Ver Mis Publicaciones</span>
                     </RouterLink>
@@ -60,11 +69,11 @@ const isSidebarCollapsed = ref(false);
                         <i class="pi pi-user-edit" :class="{ 'mx-auto': isSidebarCollapsed, 'mr-3': !isSidebarCollapsed }"></i>
                         <span v-if="!isSidebarCollapsed">Editar Información</span>
                     </RouterLink>
-                    <RouterLink :to="{ name: 'Table User' }" class="nav-item flex items-center">
+                    <RouterLink v-if="isAdmin" :to="{ name: 'Table User' }" class="nav-item flex items-center">
                         <i class="pi pi-user-edit" :class="{ 'mx-auto': isSidebarCollapsed, 'mr-3': !isSidebarCollapsed }"></i>
                         <span v-if="!isSidebarCollapsed">Usarios</span>
                     </RouterLink>
-                    <RouterLink :to="{ name: 'Table Admin' }" class="nav-item flex items-center">
+                    <RouterLink v-if="isAdmin" :to="{ name: 'Table Admin' }" class="nav-item flex items-center">
                         <i class="pi pi-user-edit" :class="{ 'mx-auto': isSidebarCollapsed, 'mr-3': !isSidebarCollapsed }"></i>
                         <span v-if="!isSidebarCollapsed">Administradores</span>
                     </RouterLink>
