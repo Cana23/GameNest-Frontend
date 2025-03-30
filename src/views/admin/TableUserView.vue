@@ -1,5 +1,10 @@
 <template>
    <layoutComponent/>
+   <section class="my-7">
+    <div class="container">
+        <h1>Usuarios</h1>
+    </div>
+    </section>
    <TablesComponent
    :users="userStore.users"
    :loading="loading"
@@ -18,11 +23,13 @@ const userStore = useUserStore();
 const { loading, error } = userStore;
 const userComponentKey = ref(0);
 
+
 const route = useRoute();
 
 onMounted(() => {
   userStore.fetchUsers();
 });
+
 
 watch(route, () => {
   userStore.fetchUsers();
