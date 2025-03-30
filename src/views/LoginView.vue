@@ -54,6 +54,7 @@ import * as yup from 'yup';
 import { useAuthStore } from '@/stores/authStore';
 import { useRouter, RouterLink } from 'vue-router';
 import { ref } from 'vue';
+import adminService from "@/services/adminService";
 
 const schema = yup.object({
   email: yup.string().email('Correo incorrecto').required('El correo es requerido'),
@@ -90,7 +91,16 @@ const submitForm = async () => {
   try {
     const loginResult = await authStore.loginUser(loginData);
     if (loginResult === true) {
-      router.push({ name: 'Home User' });
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+      // Verifica si el usuario tiene el rol de admin
+      const admins = await adminService.getAllUseAdmin();
+      const isAdmin = admins.some(admin => admin.email === user?.email);
+      if (isAdmin) {
+        router.push({ name: 'Table Admin' }); // Redirige a la tabla de administradores
+      } else {
+        router.push({ name: 'Home User' }); // Redirige al home del usuario
+      }
     } else if (typeof loginResult === 'string') {
       loginError.value = loginResult;
     } else {

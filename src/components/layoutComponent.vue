@@ -63,7 +63,7 @@ onMounted(async () => {
                     </RouterLink>
                     <RouterLink v-if="!isAdmin" to="/profile" class="nav-item flex items-center">
                         <i class="pi pi-user" :class="{ 'mx-auto': isSidebarCollapsed, 'mr-3': !isSidebarCollapsed }"></i>
-                        <span v-if="!isSidebarCollapsed">Ver Publicaciones</span>
+                        <span v-if="!isSidebarCollapsed">Ver Mis Publicaciones</span>
                     </RouterLink>
                     <RouterLink to="/user-profile" class="nav-item flex items-center">
                         <i class="pi pi-user-edit" :class="{ 'mx-auto': isSidebarCollapsed, 'mr-3': !isSidebarCollapsed }"></i>
