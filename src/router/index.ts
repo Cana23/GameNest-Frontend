@@ -67,7 +67,7 @@ const router = createRouter({
       path: "/user-table",
       name: "Table User",
       component: TableUserView,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, requiresAdmin: true  }
     },
     {
       path: "/admin-table",
@@ -79,7 +79,7 @@ const router = createRouter({
       path: "/:pathMatch(.*)*",
       name: "NotFound",
       component: NotFoundView,
-      meta: { requiresAuth: false, requiresAdmin: true  },
+      meta: { requiresAuth: false },
     }
   ],
 });
