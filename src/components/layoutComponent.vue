@@ -2,8 +2,8 @@
 import NavPorfileComponent from './NavPorfileComponent.vue';
 import { ref, onMounted } from 'vue';
 import 'primeicons/primeicons.css';
-import adminService from "@/services/adminService"; // Asegúrate de importar el servicio
-import { useAuthStore } from '@/stores/authStore'; // Para obtener los datos del usuario desde el store
+import adminService from "@/services/adminService";
+import { useAuthStore } from '@/stores/authStore';
 
 const isSidebarCollapsed = ref(false);
 const isAdmin = ref(false);
@@ -70,11 +70,11 @@ onMounted(async () => {
                         <span v-if="!isSidebarCollapsed">Editar Información</span>
                     </RouterLink>
                     <RouterLink v-if="isAdmin" :to="{ name: 'Table User' }" class="nav-item flex items-center">
-                        <i class="pi pi-user-edit" :class="{ 'mx-auto': isSidebarCollapsed, 'mr-3': !isSidebarCollapsed }"></i>
+                        <i class="pi pi pi-user" :class="{ 'mx-auto': isSidebarCollapsed, 'mr-3': !isSidebarCollapsed }"></i>
                         <span v-if="!isSidebarCollapsed">Usarios</span>
                     </RouterLink>
                     <RouterLink v-if="isAdmin" :to="{ name: 'Table Admin' }" class="nav-item flex items-center">
-                        <i class="pi pi-user-edit" :class="{ 'mx-auto': isSidebarCollapsed, 'mr-3': !isSidebarCollapsed }"></i>
+                        <i class="pi pi-prime" :class="{ 'mx-auto': isSidebarCollapsed, 'mr-3': !isSidebarCollapsed }"></i>
                         <span v-if="!isSidebarCollapsed">Administradores</span>
                     </RouterLink>
                 </ul>

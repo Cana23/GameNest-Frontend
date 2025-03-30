@@ -1,24 +1,28 @@
 <script lang="ts" setup>
-import { ref, onMounted } from "vue";
+import { ref, computed, onMounted  } from "vue";
 import { defineProps } from 'vue';
 import { useAdminStore } from "@/stores/adminStore";
 import { useToast } from "primevue/usetoast";
 import * as yup from 'yup';
 import { useForm, useField } from 'vee-validate';
+import { useRoute } from "vue-router";
 
 const visibleDelete = ref(false);
-
+const route = useRoute();
 const adminStore = useAdminStore();
 const visible = ref(false);
 const toast = useToast();
+const isAuthenticated = ref(false);
 const selectedUserId = ref<string | null>(null);
+  const authenticatedUser = ref<{ id: string } | null>(null);
   const backendErrors = ref<string[]>([]);
 const props = defineProps<{
   users: Array<{ id: string, userName: string; email: string }>;
   loading: boolean;
   error: string | null;
 }>();
-
+const isAdminTableRoute = computed(() => route.name === "Table Admin");
+console.log("Props:", props.users);
 const schema = yup.object({
   userName: yup.string().required('El Nombre es requerido'),
   email: yup.string().email('Correo incorrecto').required('El correo es requerido'),
@@ -38,6 +42,14 @@ const openEditDialog = (user: { id: string; userName: string; email: string }) =
   });
   visible.value = true;
 };
+
+
+onMounted(() => {
+  const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  isAuthenticated.value = !!token;
+  authenticatedUser.value = user?.id ? user : null;
+});
 
 const confirmDelete = (id: string) => {
   selectedUserId.value = id;
@@ -120,12 +132,14 @@ const submitForm = async () => {
              <p class="py-3 px-2">{{ slotProps.data.email }}</p>
            </template>
          </Column>
-         <Column header="Acciones" headerClass="bg-gray-200 text-gray-600 py-3 px-2">
+         <Column header="Acciones" headerClass="bg-gray-200 text-gray-600 py-3 px-2"  v-if="isAdminTableRoute" >
            <template #body="slotProps">
-             <button class="px-2 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-700 cursor-pointer"
-             @click="openEditDialog(slotProps.data)">Editar</button>
-             <button class="ml-2 px-2 py-1 bg-red-500 text-white rounded-md hover:bg-red-700 cursor-pointer"
-             @click="confirmDelete(slotProps.data.id)">Eliminar</button>
+             <Button :disabled="authenticatedUser?.id === slotProps.data.id"
+             :class="{'px-2 py-1 bg-gray-500 text-white rounded-md': authenticatedUser?.id === slotProps.data.id, 'px-2 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-700 cursor-pointer': authenticatedUser?.id !== slotProps.data.id}"
+             @click="openEditDialog(slotProps.data)">Editar</Button>
+             <Button :disabled="authenticatedUser?.id === slotProps.data.id"
+             :class="{'px-2 py-1 bg-gray-500 text-white rounded-md': authenticatedUser?.id === slotProps.data.id, 'ml-2 px-2 py-1 bg-red-500 text-white rounded-md hover:bg-red-700 cursor-pointer': authenticatedUser?.id !== slotProps.data.id}"
+             @click="confirmDelete(slotProps.data.id)">Eliminar</Button>
            </template>
          </Column>
 
