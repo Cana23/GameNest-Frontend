@@ -9,7 +9,9 @@
                     <div class="text-sm mb-4">Bienvenido, <span class="font-semibold">{{ user?.userName }}</span></div>
 
                     <nav class="flex flex-col gap-2">
+                        <RouterLink to="/home" class="hover:bg-gray-700 p-2 rounded">Inicio</RouterLink>
                         <RouterLink to="/admin/users" class="hover:bg-gray-700 p-2 rounded">Usuarios</RouterLink>
+                        <RouterLink to="/admin/comments" class="hover:bg-gray-700 p-2 rounded">Comentarios</RouterLink>
                     </nav>
                 </div>
             </div>

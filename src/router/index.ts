@@ -9,6 +9,7 @@ import ProfileView from '@/views/ProfileView.vue'
 import SearchPublicationView from '@/views/SearchPublicationView.vue'
 import adminService from "@/services/admin/adminService";
 import AdminUserView from '@/views/admin/AdminUserView.vue'
+import AdminCommentsView from '@/views/admin/AdminCommentsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -65,13 +66,19 @@ const router = createRouter({
       path: "/admin/users",
       name: "Tabla Usuarios",
       component: AdminUserView,
-      meta: { requiresAuth: true },
+      meta: { requiresAuth: true, requiresAdmin: true },
+    },
+    {
+      path: "/admin/comments",
+      name: "Dashboard Comentarios",
+      component: AdminCommentsView,
+      meta: { requiresAuth: true, requiresAdmin: true },
     },
     {
       path: "/:pathMatch(.*)*",
       name: "NotFound",
       component: NotFoundView,
-      meta: { requiresAuth: false, requiresAdmin: true },
+      meta: { requiresAuth: false },
     },
   ],
 });
@@ -81,23 +88,32 @@ router.beforeEach(async (to, from, next) => {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const isAuthenticated = !!token;
 
-  // Verifica si el usuario está autenticado
-  if (to.meta.requiresAuth && !isAuthenticated) {
-    next("/login");
-  } else if (to.meta.requiresAdmin) {
-    // Verifica si el usuario tiene el rol de admin
+  let isAdmin = false;
+  if (isAuthenticated && user?.email) {
     const admins = await adminService.getAllUseAdmin();
-    const isAdmin = admins.some(admin => admin.email === user?.email);
-
-    if (isAdmin) {
-      next(); // Si es admin, permitir el acceso
-    } else {
-      next("/home"); // Si no es admin, redirigir a la página principal
-    }
-  } else {
-    next(); // Si no requiere autenticación o admin, permite el acceso
+    isAdmin = admins.some(admin => admin.email === user.email);
   }
+
+  if (isAuthenticated && to.meta.forVisitors) {
+    return next(isAdmin ? "/admin/users" : "/home");
+  }
+
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    return next("/login");
+  }
+
+  if (to.meta.requiresAdmin && !isAdmin) {
+    return next("/home");
+  }
+
+  // Si es admin y viene del login, redirigir a vista admin
+  if (from.path === "/login" && isAdmin && to.path === "/home") {
+    return next("/admin/users");
+  }
+
+  next();
 });
+
 
 
 export default router
