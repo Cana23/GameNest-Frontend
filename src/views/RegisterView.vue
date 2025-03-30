@@ -1,16 +1,27 @@
 <template>
   <section class="">
     <div class="bg-info"></div>
-    <div class='container'>
-      <div class='content'>
+    <div class="container">
+      <div class="content">
         <div class="image flex flex-col justify-center items-center">
-          <img class="robot" src="../assets/images/login/image1.png" alt="">
-          <p class="text-white text-center max-w-100">Explora y comparte tus experiencias en el mundo del desarrollo de videojuegos con <span class="font-semibold">GameNest</span>.</p>
+          <img class="robot" src="../assets/images/login/image1.png" alt="Robot">
+          <p class="text-white text-center max-w-100">
+            Explora y comparte tus experiencias en el mundo del desarrollo de videojuegos con
+            <span class="font-semibold">GameNest</span>.
+          </p>
         </div>
         <div class="form-login flex flex-col justify-center items-center">
           <div class="mb-8">
-            <h1 class="font-semibold mb-4 text-center">Registrate</h1>
-            <p class="text-center text-gray-600">Bienvenido, no te pierdas esta aventura y sumérgete en la experiencia.</p>
+            <h1 class="font-semibold mb-4 text-center">Regístrate</h1>
+            <p class="text-center text-gray-600">
+              Bienvenido, no te pierdas esta aventura y sumérgete en la experiencia.
+            </p>
+
+            <div v-if="backendErrors.length > 0" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+              <ul class="list-disc pl-5">
+                <li v-for="(error, index) in backendErrors" :key="index">{{ error }}</li>
+              </ul>
+            </div>
           </div>
           <form @submit.prevent="submitForm" novalidate class="w-full">
             <div class="flex flex-col gap-8">
@@ -55,7 +66,10 @@
               />
             </div>
           </form>
-          <p class="text-center text-gray-600 mt-5">Ya tienes cuenta <RouterLink to="/login" class="text-purple-500 font-semibold">Inicia sesión</RouterLink></p>
+          <p class="text-center text-gray-600 mt-5">
+            Ya tienes cuenta
+            <RouterLink to="/login" class="text-purple-500 font-semibold">Inicia sesión</RouterLink>
+          </p>
         </div>
       </div>
     </div>
@@ -67,11 +81,19 @@ import { useForm, useField } from 'vee-validate';
 import * as yup from 'yup';
 import { useAuthStore } from '@/stores/authStore';
 import { useRouter } from 'vue-router';
+import { ref } from 'vue';
 
+// Expresión regular para validar contraseñas
+const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?¡¿/\\|`~'"]).{6,}$/;
+
+// Esquema de validación
 const schema = yup.object({
   user: yup.string().required('El Nombre es requerido'),
   email: yup.string().email('Correo incorrecto').required('El correo es requerido'),
-  password: yup.string().min(6, 'La contraseña debe tener al menos 6 caracteres').required('La contraseña es requerida'),
+  password: yup.string()
+    .min(6, 'La contraseña debe tener al menos 6 caracteres')
+    .matches(passwordRegex, "La contraseña debe contener al menos una mayúscula, un número y un símbolo (!@#$%^&*()_+{}[]:;<>,.?¡¿/\\|`~')")
+    .required('La contraseña es requerida'),
   confirmPassword: yup.string()
     .oneOf([yup.ref('password')], 'Las contraseñas no coinciden')
     .required('Debes confirmar tu contraseña')
@@ -89,11 +111,14 @@ const [confirmPassword, confirmPasswordAttrs] = defineField('confirmPassword');
 const authStore = useAuthStore();
 const router = useRouter();
 
+const backendErrors = ref<string[]>([]);
+
 const submitForm = async () => {
   const result = await validate();
 
   if (!result.valid) {
     console.log("Errores en el formulario:", errors);
+    backendErrors.value = [];
     return;
   }
 
@@ -107,66 +132,70 @@ const submitForm = async () => {
 
   try {
     console.log("Datos enviados:", registerData);
-    const success = await authStore.registerUser(registerData);
-    if (success) {
+    const registrationResult = await authStore.registerUser(registerData);
+    if (registrationResult === true) {
       console.log("Registro exitoso. Redirigiendo a /home...");
       router.push({ name: 'Home User' });
+    } else if (Array.isArray(registrationResult)) {
+      backendErrors.value = registrationResult;
+      console.log("Errores del backend:", backendErrors.value);
     } else {
-      console.log("Registro fallido.");
+      backendErrors.value = ["Error al registrar el usuario. Inténtalo de nuevo."];
+      console.log("Registro fallido (error genérico del store).");
     }
   } catch (error) {
     console.error("Error en el registro:", error);
+    backendErrors.value = [error.message || "Ocurrió un error inesperado."];
   }
 };
 </script>
 
 <style scoped>
-section{
+section {
   height: 100vh;
-  @media(max-width: 991px){
+  @media (max-width: 991px) {
     height: 100%;
   }
 }
-.content{
+.content {
   height: 100%;
 }
-.container{
+.container {
   height: 100%;
 }
-
-span{
+span {
   font-weight: 600;
 }
-.content{
+.content {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 40px;
-  @media(max-width: 991px){
+  @media (max-width: 991px) {
     display: flex;
     flex-direction: column;
     gap: 100px;
     padding: 40px 0;
   }
 }
-.image{
+.image {
   z-index: 1;
 }
-.robot{
+.robot {
   width: 300px;
 
-  @media(max-width: 576px){
+  @media (max-width: 576px) {
     width: 240px;
   }
 }
-.bg-info{
+.bg-info {
   background-color: black;
-        border-radius: 0% 59% 57% 52% / 95% 138% 57% 0%;
-        overflow: hidden;
-        width: 47%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-  @media(max-width: 991px){
+  border-radius: 0% 59% 57% 52% / 95% 138% 57% 0%;
+  overflow: hidden;
+  width: 47%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  @media (max-width: 991px) {
     background-color: black;
     border-radius: 0% 0% 50% 50% / 85% 88% 12% 15%;
     overflow: hidden;
@@ -175,9 +204,8 @@ span{
     position: absolute;
     top: 0;
   }
-  @media(max-width: 576px){
+  @media (max-width: 576px) {
     height: 400px;
   }
-
 }
 </style>

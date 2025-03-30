@@ -1,6 +1,5 @@
 
 import './assets/main.css'
-import 'jwt-decode';
 
 //PRIMEVUE
 import PrimeVue from 'primevue/config'

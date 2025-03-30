@@ -1,47 +1,59 @@
 <template>
-  <section>
-    <div class='container'>
-      <div class="porfile mr-8 mt-8 fixed right-0 top-0 z-10 border-2 border-black rounded-4xl" v-if="isAuthenticated">
-        <!-- <div class="logo-container">
-          <img src="../assets/images/login/image1.png" alt="GameNest Logo" class="logo">
-          <router-link to="/home" class="title-link">
-            <span class="title text-gray-600">GameNest</span>
-          </router-link>
-        </div> -->
-        <p class="text-gray-600 font-semibold">{{ username }}</p>
+  <div>
+    <nav
+      class="fixed top-0 left-0 w-full flex items-center justify-between p-4 transition-all duration-300"
+      :class="isExpanded ? 'h-20' : 'h-16'"
+      ref="navbar"
+    >
+      <div class="flex items-center">
+        <img src="../assets/images/login/image1.png" alt="GameNest Logo" class="logo">
+        <router-link to="/home" class="title-link">
+          <span class="title">GameNest</span>
+        </router-link>
+      </div>
+
+      <div class="flex items-center gap-6">
+        <p class="text-white font-semibold text-lg">{{ username }}</p>
         <button @click="toggle">
           <Avatar icon="pi pi-user" class="mr-2" size="large" style="background-color: #ece9fc; color: #2a1261" shape="circle" />
         </button>
-        <Popover ref="op">
-          <div class="flex flex-col gap-4">
-            <div>
-              <ul class="list-none p-0 m-0 flex flex-col">
-                <router-link to="/user-profile" class="flex items-center gap-2 px-4 py-3 hover:bg-gray-200 cursor-pointer rounded-border">
-                  <span class="font-medium">Editar perfil</span>
-                </router-link>
-                <li class="flex items-center gap-2 px-4 py-3 hover:bg-gray-200 cursor-pointer rounded-border" @click="visible = true">
-                  <div>
-                    <span class="font-medium">Cerrar sesión</span>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </Popover>
       </div>
-    </div>
-  </section>
-  <Dialog :draggable="false" v-model:visible="visible" modal header="Cerrar sesión" :style="{ width: '25rem', backgroundColor:'white', color: 'gray', padding: '10px 20px' }">
-    <p class="text-gray-600">¿Estás seguro de que deseas cerrar la sesión?</p>
-    <div class="flex justify-end gap-4">
-      <button type="button" @click="handleLogout" class="py-2 px-4 bg-red-500 text-white rounded-xl hover:bg-red-700 cursor-pointer">Sí</button>
-      <button type="button" @click="visible = false" class="py-2 px-4 text-purple-600 rounded-xl hover:bg-purple-200 cursor-pointer">No</button>
-    </div>
-  </Dialog>
+
+      <Popover ref="op">
+        <div class="flex flex-col gap-4 bg-white rounded-lg p-4 shadow-lg">
+          <router-link to="/user-profile" class="menu-item">
+            <i class="pi pi-user-edit"></i>
+            <span>Editar perfil</span>
+          </router-link>
+          <button @click="visible = true" class="menu-item">
+            <i class="pi pi-sign-out"></i>
+            <span>Cerrar sesión</span>
+          </button>
+        </div>
+      </Popover>
+    </nav>
+
+    <div :style="{ marginTop: navbarHeight + 'px' }"></div>
+
+    <Dialog
+      v-model:visible="visible"
+      modal header="Cerrar sesión"
+      :style="{ width: '400px' }"
+      :breakpoints="{ '960px': '75vw', '641px': '90vw' }"
+    >
+      <div class="p-4">
+        <p class="text-gray-300 mb-4">¿Estás seguro de que deseas cerrar la sesión?</p>
+        <div class="flex justify-end gap-4">
+          <button @click="handleLogout" class="btn-danger">Sí</button>
+          <button @click="visible = false" class="btn-cancel">No</button>
+        </div>
+      </div>
+    </Dialog>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted, nextTick } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/authStore";
 
@@ -49,10 +61,11 @@ const router = useRouter();
 const authStore = useAuthStore();
 const visible = ref(false);
 const op = ref();
+const navbar = ref<HTMLElement | null>(null);
+const navbarHeight = ref(0);
 
 const isAuthenticated = computed(() => !!authStore.token);
 const username = computed(() => authStore.user?.userName || "Usuario");
-console.log(username)
 
 const toggle = (event: any) => {
   op.value.toggle(event);
@@ -63,47 +76,78 @@ const handleLogout = () => {
   visible.value = false;
   router.push({ name: "login" });
 };
+
+const updateNavbarHeight = () => {
+  nextTick(() => {
+    if (navbar.value) {
+      navbarHeight.value = navbar.value.offsetHeight;
+    }
+  });
+};
+
+onMounted(() => {
+  updateNavbarHeight();
+  window.addEventListener("resize", updateNavbarHeight);
+});
 </script>
 
 <style scoped>
-.porfile {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  top: 0;
-  z-index: 10;
-  background-color: white;
+nav {
+  background: linear-gradient(to right, #1e293b, #2563eb);
+  z-index: 50;
   padding: 10px 20px;
-}
-
-.porfile img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.logo-container {
   display: flex;
   align-items: center;
-  gap: 10px;
 }
 
 .logo {
-  height: 40px;
+  height: 50px;
 }
 
 .title {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
+  color: white;
 }
 
 .title-link {
   text-decoration: none;
-  color: inherit;
 }
 
-.container {
-  padding-top: 80px; /* Ajusta este valor según el tamaño de tu nav */
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 6px;
+  transition: all 0.3s;
+}
+
+.menu-item:hover {
+  background-color: #f3f4f6;
+}
+
+.btn-danger {
+  background-color: #dc2626;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-danger:hover {
+  background-color: #b91c1c;
+}
+
+.btn-cancel {
+  background-color: #3b82f6;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-cancel:hover {
+  background-color: #2563eb;
 }
 </style>
