@@ -7,10 +7,8 @@ import ViewHomeUsuario from '@/views/ViewHomeUsuario.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import ProfileView from '@/views/ProfileView.vue'
 import SearchPublicationView from '@/views/SearchPublicationView.vue'
-import Tab from 'primevue/tab'
-import TableUserView from '@/views/admin/TableUserView.vue'
-import TableAdminView from '@/views/admin/TableAdminView.vue'
-import adminService from "@/services/adminService";
+import adminService from "@/services/admin/adminService";
+import AdminUserView from '@/views/admin/AdminUserView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -55,32 +53,26 @@ const router = createRouter({
       name: "Perfil",
       component: ProfileView,
       meta: { requiresAuth: true },
-      props: true
+      props: true,
     },
     {
       path: "/search-publication",
       name: "Search publication",
       component: SearchPublicationView,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true },
     },
     {
-      path: "/user-table",
-      name: "Table User",
-      component: TableUserView,
-      meta: { requiresAuth: true }
-    },
-    {
-      path: "/admin-table",
-      name: "Table Admin",
-      component: TableAdminView,
-      meta: { requiresAuth: true, requiresAdmin: true  }
+      path: "/admin/users",
+      name: "Tabla Usuarios",
+      component: AdminUserView,
+      meta: { requiresAuth: true },
     },
     {
       path: "/:pathMatch(.*)*",
       name: "NotFound",
       component: NotFoundView,
-      meta: { requiresAuth: false, requiresAdmin: true  },
-    }
+      meta: { requiresAuth: false, requiresAdmin: true },
+    },
   ],
 });
 
