@@ -12,6 +12,7 @@
                         <RouterLink to="/home" class="hover:bg-gray-700 p-2 rounded">Inicio</RouterLink>
                         <RouterLink to="/admin/users" class="hover:bg-gray-700 p-2 rounded">Usuarios</RouterLink>
                         <RouterLink to="/admin/comments" class="hover:bg-gray-700 p-2 rounded">Comentarios</RouterLink>
+                        <RouterLink to="/admin/logs" class="hover:bg-gray-700 p-2 rounded">Logs</RouterLink>
                     </nav>
                 </div>
             </div>
@@ -33,7 +34,7 @@
         <!-- Modal de confirmación -->
         <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-                <h2 class="text-lg font-semibold mb-4">¿Deseas cerrar sesión?</h2>
+                <h2 class="text-black text-lg font-semibold mb-4">¿Deseas cerrar sesión?</h2>
                 <div class="flex justify-end gap-4">
                     <button @click="showModal = false" class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
                     <button @click="handleLogout" class="px-4 py-2 bg-red-600 text-white rounded">Cerrar sesión</button>

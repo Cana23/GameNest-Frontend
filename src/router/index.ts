@@ -10,6 +10,7 @@ import SearchPublicationView from '@/views/SearchPublicationView.vue'
 import adminService from "@/services/admin/adminService";
 import AdminUserView from '@/views/admin/AdminUserView.vue'
 import AdminCommentsView from '@/views/admin/AdminCommentsView.vue'
+import AdminLogsView from '@/views/admin/AdminLogsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -66,19 +67,20 @@ const router = createRouter({
       path: "/admin/users",
       name: "Tabla Usuarios",
       component: AdminUserView,
-      meta: { requiresAuth: true, requiresAdmin: true },
+      meta: { requiresAuth: true },
     },
     {
-      path: "/admin/comments",
-      name: "Dashboard Comentarios",
-      component: AdminCommentsView,
-      meta: { requiresAuth: true, requiresAdmin: true },
+      path: "/admin/logs",
+      name: "Tabla logs",
+      component: AdminLogsView,
+      meta: {requiresAuth: true},
     },
     {
       path: "/:pathMatch(.*)*",
       name: "NotFound",
       component: NotFoundView,
       meta: { requiresAuth: false },
+      meta: { requiresAuth: false, requiresAdmin: false },
     },
   ],
 });
