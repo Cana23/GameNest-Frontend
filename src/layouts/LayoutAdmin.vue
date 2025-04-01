@@ -12,6 +12,7 @@
                         <RouterLink to="/home" class="hover:bg-gray-700 p-2 rounded">Inicio</RouterLink>
                         <RouterLink to="/admin/users" class="hover:bg-gray-700 p-2 rounded">Usuarios</RouterLink>
                         <RouterLink to="/admin/comments" class="hover:bg-gray-700 p-2 rounded">Comentarios</RouterLink>
+                        <RouterLink to="/admin/posts" class="hover:bg-gray-700 p-2 rounded">Publicaciones</RouterLink>
                         <RouterLink to="/admin/logs" class="hover:bg-gray-700 p-2 rounded">Logs</RouterLink>
                     </nav>
                 </div>

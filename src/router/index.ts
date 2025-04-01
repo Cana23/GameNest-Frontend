@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import RegisterView from '../views/RegisterView.vue'
-import LoginView from '../views/LoginView.vue'
+import RegisterView from '@/views/RegisterView.vue'
+import LoginView from '@/views/LoginView.vue'
 import UserProfile from '@/views/UserProfile.vue'
-import HomeVisitor from '../views/Visitor/HomeVisitor.vue'
+import HomeVisitor from '@/views/Visitor/HomeVisitor.vue'
 import ViewHomeUsuario from '@/views/ViewHomeUsuario.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import ProfileView from '@/views/ProfileView.vue'
@@ -11,6 +11,7 @@ import adminService from "@/services/admin/adminService";
 import AdminUserView from '@/views/admin/AdminUserView.vue'
 import AdminCommentsView from '@/views/admin/AdminCommentsView.vue'
 import AdminLogsView from '@/views/admin/AdminLogsView.vue'
+import AdminPostsView from '@/views/admin/AdminPostsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,7 +25,7 @@ const router = createRouter({
     {
       path: "/about",
       name: "about",
-      component: () => import("../views/AboutView.vue"),
+      component: () => import("@/views/AboutView.vue"),
     },
     {
       path: "/register",
@@ -67,20 +68,31 @@ const router = createRouter({
       path: "/admin/users",
       name: "Tabla Usuarios",
       component: AdminUserView,
-      meta: { requiresAuth: true },
+      meta: { requiresAuth: true, requiresAdmin: true },
     },
     {
       path: "/admin/logs",
       name: "Tabla logs",
       component: AdminLogsView,
-      meta: {requiresAuth: true},
+      meta: {requiresAuth: true, requiresAdmin: true},
+    },
+    {
+      path: "/admin/comments",
+      name: "Tabla comentarios",
+      component: AdminCommentsView,
+      meta: {requiresAuth: true, requiresAdmin: true},
+    },
+    {
+      path: "/admin/posts",
+      name: "Tabla publicaciones",
+      component: AdminPostsView,
+      meta: {requiresAuth: true, requiresAdmin: true},
     },
     {
       path: "/:pathMatch(.*)*",
       name: "NotFound",
       component: NotFoundView,
       meta: { requiresAuth: false },
-      meta: { requiresAuth: false, requiresAdmin: false },
     },
   ],
 });
