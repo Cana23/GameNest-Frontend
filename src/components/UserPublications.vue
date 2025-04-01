@@ -255,7 +255,7 @@ const addComment = async (publication: any) => {
     const userJson = JSON.parse(localStorage.getItem("user"));
     newComment.nombreUsuario = userJson.userName;
 
-    publication.comments.push(newComment); 
+    publication.comments.push(newComment);
     publication.totalComments += 1;
     publication.newComment = '';
   } catch (error) {

@@ -3,146 +3,118 @@
   <section class="user-profile">
     <div class="container">
       <div class="content">
-        <div class="image flex flex-col justify-center items-center">
-          <img class="robot" src="../assets/images/login/image1.png" alt="" />
-          <h1 class="text-white text-center max-w-100 font-semibold">
-            Perfil de Usuario
-          </h1>
-        </div>
-        <div class="profile-details flex flex-col justify-center items-center">
-          <div class="mb-8">
-            <p class="text-center text-gray-600">
-              Aquí puedes ver y editar la información de tu perfil.
+        <div class="profile-header">
+          <div class="image flex flex-col justify-center items-center">
+            <img class="robot" src="../assets/images/login/image1.png" alt="Avatar" />
+            <h1 class="text-neon-light text-center font-semibold text-2xl">
+              Perfil de {{ userName }}
+            </h1>
+            <p class="text-neon-gray mt-2">
+              Administra tu información personal y seguridad
             </p>
           </div>
-          <div class="w-full max-w-md">
-            <!-- Formulario para editar perfil -->
-            <form @submit.prevent="submitForm">
-              <div class="flex flex-col gap-8">
-                <div class="relative">
-                  <FloatLabel variant="on" class="bg-white">
-                    <InputText
-                      id="userName"
-                      v-model="userName"
-                      required
-                      :class="{
-                        'w-full py-3 px-10 border-1 border-gray-300 rounded-full': true,
-                        'border-red-500': errors.userName,
-                      }"
-                    />
-                    <label for="userName" class="bg-white">Nombre de usuario</label>
-                  </FloatLabel>
-                  <span
-                    v-if="errors.userName"
-                    class="text-red-500 absolute"
-                    style="font-size: 12px; padding-left: 20px;"
-                  >
-                    * {{ errors.userName }}
-                  </span>
-                </div>
-                <div class="relative">
-                  <FloatLabel variant="on" class="bg-white">
-                    <InputText
-                      id="email"
-                      v-model="email"
-                      required
-                      :class="{
-                        'w-full py-3 px-10 border-1 border-gray-300 rounded-full': true,
-                        'border-red-500': errors.email,
-                      }"
-                    />
-                    <label for="email" class="bg-white">Correo electrónico</label>
-                  </FloatLabel>
-                  <span
-                    v-if="errors.email"
-                    class="text-red-500 absolute"
-                    style="font-size: 12px; padding-left: 20px;"
-                  >
-                    * {{ errors.email }}
-                  </span>
-                </div>
-                <Button
-                  type="submit"
-                  label="Guardar Cambios"
-                  severity="help"
-                  class="bg-purple-500 py-3 px-8 rounded-3xl text-white font-bold hover:bg-purple-800"
-                  :disabled="isSubmitting"
-                />
-                <div v-if="showSuccess" class="text-green-500 text-center py-2">
-                  ¡Perfil actualizado correctamente!
-                </div>
-                <div v-if="showError" class="text-red-500 text-center py-2">
-                  Error al actualizar el perfil
-                </div>
+        </div>
+
+        <div class="profile-grid">
+          <!-- Columna izquierda - Información del usuario -->
+          <div class="profile-card">
+            <h2 class="section-title">
+              <i class="pi pi-user mr-2"></i> Información Personal
+            </h2>
+
+            <form @submit.prevent="submitForm" class="mt-6">
+              <div class="form-group">
+                <FloatLabel variant="on" class="bg-neon-dark">
+                  <InputText
+                    id="userName"
+                    v-model="userName"
+                    required
+                    class="w-full py-3 px-4 border-1 border-neon-border rounded-lg bg-neon-dark text-neon-light"
+                  />
+                  <label for="userName" class="text-neon-gray">Nombre de usuario</label>
+                </FloatLabel>
+                <span v-if="errors.userName" class="text-neon-red text-sm mt-1">
+                  * {{ errors.userName }}
+                </span>
+              </div>
+
+              <div class="form-group mt-4">
+                <FloatLabel variant="on" class="bg-neon-dark">
+                  <InputText
+                    id="email"
+                    v-model="email"
+                    required
+                    class="w-full py-3 px-4 border-1 border-neon-border rounded-lg bg-neon-dark text-neon-light"
+                  />
+                  <label for="email" class="text-neon-gray">Correo electrónico</label>
+                </FloatLabel>
+                <span v-if="errors.email" class="text-neon-red text-sm mt-1">
+                  * {{ errors.email }}
+                </span>
+              </div>
+
+              <Button
+                type="submit"
+                label="Guardar Cambios"
+                class="mt-6 bg-gradient-to-r from-neon-purple to-neon-blue text-white py-3 px-6 rounded-lg hover:opacity-90 transition-opacity w-full"
+                :disabled="isSubmitting"
+              />
+
+              <div v-if="showSuccess" class="text-neon-green text-center py-3 mt-4">
+                <i class="pi pi-check-circle mr-2"></i> ¡Perfil actualizado correctamente!
+              </div>
+              <div v-if="showError" class="text-neon-red text-center py-3 mt-4">
+                <i class="pi pi-exclamation-triangle mr-2"></i> Error al actualizar el perfil
               </div>
             </form>
+          </div>
 
-            <!-- Formulario para cambiar contraseña -->
-            <div class="mt-8">
-              <h2 class="text-xl font-semibold text-gray-800 mb-4">
-                Cambiar contraseña
-              </h2>
-              <form @submit.prevent="changeUserPassword">
-                <div class="mb-4 relative">
-                  <label
-                    for="currentPassword"
-                    class="block text-gray-700 font-medium mb-2"
-                  >
-                    Contraseña actual
-                  </label>
-                  <input
-                    :type="showCurrentPassword ? 'text' : 'password'"
-                    v-model="currentPassword"
+          <!-- Columna derecha - Cambio de contraseña -->
+          <div class="profile-card">
+            <h2 class="section-title">
+              <i class="pi pi-lock mr-2"></i> Seguridad y Contraseña
+            </h2>
+
+            <form @submit.prevent="changeUserPassword" class="mt-6">
+              <div class="form-group relative">
+                <FloatLabel variant="on" class="bg-neon-dark">
+                  <Password
                     id="currentPassword"
-                    class="w-full border border-gray-300 rounded p-2"
-                    placeholder="Ingresa tu contraseña actual"
-                    required
+                    v-model="currentPassword"
+                    :feedback="false"
+                    toggleMask
+                    inputClass="w-full py-3 px-4 border-1 border-neon-border rounded-lg bg-neon-dark text-neon-light"
                   />
-                  <button
-                    type="button"
-                    class="absolute right-3 top-9 text-gray-500 hover:text-gray-700"
-                    @click="toggleShowCurrentPassword"
-                  >
-                    <i :class="showCurrentPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
-                  </button>
-                </div>
-                <div class="mb-4 relative">
-                  <label
-                    for="newPassword"
-                    class="block text-gray-700 font-medium mb-2"
-                  >
-                    Nueva contraseña
-                  </label>
-                  <input
-                    :type="showNewPassword ? 'text' : 'password'"
-                    v-model="newPassword"
+                  <label for="currentPassword" class="text-neon-gray">Contraseña actual</label>
+                </FloatLabel>
+              </div>
+
+              <div class="form-group relative mt-4">
+                <FloatLabel variant="on" class="bg-neon-dark">
+                  <Password
                     id="newPassword"
-                    class="w-full border border-gray-300 rounded p-2"
-                    placeholder="Ingresa tu nueva contraseña"
-                    required
+                    v-model="newPassword"
+                    :feedback="false"
+                    toggleMask
+                    inputClass="w-full py-3 px-4 border-1 border-neon-border rounded-lg bg-neon-dark text-neon-light"
                   />
-                  <button
-                    type="button"
-                    class="absolute right-3 top-9 text-gray-500 hover:text-gray-700"
-                    @click="toggleShowNewPassword"
-                  >
-                    <i :class="showNewPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
-                  </button>
-                </div>
-                <button
-                  type="submit"
-                  class="bg-purple-500 py-3 px-8 rounded-3xl text-white font-bold hover:bg-purple-800"
-                >
-                  Cambiar contraseña
-                </button>
-              </form>
-              <div v-if="passwordSuccess" class="text-green-500 text-center py-2">
-                ¡Contraseña cambiada exitosamente!
+                  <label for="newPassword" class="text-neon-gray">Nueva contraseña</label>
+                </FloatLabel>
               </div>
-              <div v-if="passwordError" class="text-red-500 text-center py-2">
-                Error al cambiar la contraseña
+
+              <Button
+                type="submit"
+                label="Cambiar Contraseña"
+                class="mt-6 bg-gradient-to-r from-neon-purple to-neon-blue text-white py-3 px-6 rounded-lg hover:opacity-90 transition-opacity w-full"
+              />
+
+              <div v-if="passwordSuccess" class="text-neon-green text-center py-3 mt-4">
+                <i class="pi pi-check-circle mr-2"></i> ¡Contraseña cambiada exitosamente!
               </div>
-            </div>
+              <div v-if="passwordError" class="text-neon-red text-center py-3 mt-4">
+                <i class="pi pi-exclamation-triangle mr-2"></i> Error al cambiar la contraseña
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -298,56 +270,115 @@ onMounted(() => {
 </script>
 
 <style scoped>
-section{
-  padding-left: 335px;
-}
 .user-profile {
-  /* height: 100vh; */
-
-  @media(max-width: 991px) {
-    height: 100%;
-  }
-}
-
-.content {
-  height: 100%;
+  padding-left: 335px;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #0f0c29, #1a1a2e);
 }
 
 .container {
-  height: 100%;
-}
-
-span {
-  font-weight: 600;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
 .content {
   display: flex;
   flex-direction: column;
-  gap: 40px;
-
-  @media(max-width: 991px) {
-    gap: 100px;
-    padding: 40px 0;
-  }
+  gap: 2rem;
 }
 
-.image {
-  z-index: 1;
+.profile-header {
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 .robot {
-  width: 170px;
-
-  @media(max-width: 576px) {
-    width: 240px;
-  }
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #6b46c1;
+  box-shadow: 0 0 15px rgba(107, 70, 193, 0.5);
 }
 
-.profile-details {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+.profile-card {
+  background: linear-gradient(145deg, #1a1a2e, #2d1065);
+  border: 1px solid #6b46c1;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(107, 70, 193, 0.3);
+}
+
+.section-title {
+  color: #a78bfa;
+  font-size: 1.25rem;
+  font-weight: 600;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #6b46c1;
+  display: flex;
+  align-items: center;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+/* Colores neón */
+.text-neon-light {
+  color: #f8fafc;
+}
+
+.text-neon-gray {
+  color: #94a3b8;
+}
+
+.text-neon-red {
+  color: #ef4444;
+}
+
+.text-neon-green {
+  color: #10b981;
+}
+
+.bg-neon-dark {
+  background-color: #1a1a2e;
+}
+
+.border-neon-border {
+  border-color: #6b46c1;
+}
+
+.from-neon-purple {
+  --tw-gradient-from: #4903c1;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(124, 58, 237, 0));
+}
+
+.to-neon-blue {
+  --tw-gradient-to: #6455c2;
+}
+
+.hover\:opacity-90:hover {
+  opacity: 0.9;
+}
+
+.transition-opacity {
+  transition: opacity 0.2s ease;
+}
+
+@media (max-width: 768px) {
+  .user-profile {
+    padding-left: 0;
+  }
+
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

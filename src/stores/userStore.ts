@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import UserEditService from "@/services/UserEditService";
 import type { User } from "@/interfaces/UserEditInterface";
-import UserService from '@/services/UserEditService';
 
 export const useUserStore = defineStore("users", {
   state: () => ({
