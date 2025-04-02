@@ -1,16 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import RegisterView from '../views/RegisterView.vue'
-import LoginView from '../views/LoginView.vue'
+import RegisterView from '@/views/RegisterView.vue'
+import LoginView from '@/views/LoginView.vue'
 import UserProfile from '@/views/UserProfile.vue'
-import HomeVisitor from '../views/Visitor/HomeVisitor.vue'
+import HomeVisitor from '@/views/Visitor/HomeVisitor.vue'
 import ViewHomeUsuario from '@/views/ViewHomeUsuario.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import ProfileView from '@/views/ProfileView.vue'
 import SearchPublicationView from '@/views/SearchPublicationView.vue'
-import Tab from 'primevue/tab'
-import TableUserView from '@/views/admin/TableUserView.vue'
-import TableAdminView from '@/views/admin/TableAdminView.vue'
-import adminService from "@/services/adminService";
+import adminService from "@/services/admin/adminService";
+import AdminUserView from '@/views/admin/AdminUserView.vue'
+import AdminCommentsView from '@/views/admin/AdminCommentsView.vue'
+import AdminLogsView from '@/views/admin/AdminLogsView.vue'
+import AdminPostsView from '@/views/admin/AdminPostsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,7 +25,7 @@ const router = createRouter({
     {
       path: "/about",
       name: "about",
-      component: () => import("../views/AboutView.vue"),
+      component: () => import("@/views/AboutView.vue"),
     },
     {
       path: "/register",
@@ -55,32 +56,44 @@ const router = createRouter({
       name: "Perfil",
       component: ProfileView,
       meta: { requiresAuth: true },
-      props: true
+      props: true,
     },
     {
       path: "/search-publication",
       name: "Search publication",
       component: SearchPublicationView,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true },
     },
     {
-      path: "/user-table",
-      name: "Table User",
-      component: TableUserView,
-      meta: { requiresAuth: true, requiresAdmin: true  }
+      path: "/admin/users",
+      name: "Tabla Usuarios",
+      component: AdminUserView,
+      meta: { requiresAuth: true, requiresAdmin: true },
     },
     {
-      path: "/admin-table",
-      name: "Table Admin",
-      component: TableAdminView,
-      meta: { requiresAuth: true, requiresAdmin: true  }
+      path: "/admin/logs",
+      name: "Tabla logs",
+      component: AdminLogsView,
+      meta: {requiresAuth: true, requiresAdmin: true},
+    },
+    {
+      path: "/admin/comments",
+      name: "Tabla comentarios",
+      component: AdminCommentsView,
+      meta: {requiresAuth: true, requiresAdmin: true},
+    },
+    {
+      path: "/admin/posts",
+      name: "Tabla publicaciones",
+      component: AdminPostsView,
+      meta: {requiresAuth: true, requiresAdmin: true},
     },
     {
       path: "/:pathMatch(.*)*",
       name: "NotFound",
       component: NotFoundView,
       meta: { requiresAuth: false },
-    }
+    },
   ],
 });
 
@@ -89,20 +102,32 @@ router.beforeEach(async (to, from, next) => {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const isAuthenticated = !!token;
 
-  if (to.meta.requiresAuth && !isAuthenticated) {
-    next("/login"); // Si no está autenticado, lo mandamos a login
-  } else if (to.meta.requiresAuth && isAuthenticated) {
+  let isAdmin = false;
+  if (isAuthenticated && user?.email) {
     const admins = await adminService.getAllUseAdmin();
-    const isAdmin = admins.some(admin => admin.email === user?.email);
-
-    if (to.meta.requiresAdmin && !isAdmin) {
-      next("/not-found"); // Si no es admin y la ruta requiere admin, mandamos a NotFound
-    } else {
-      next(); // Si es admin o no requiere admin, seguimos con la navegación
-    }
-  } else {
-    next(); // Si no requiere autenticación, dejamos que continúe
+    isAdmin = admins.some(admin => admin.email === user.email);
   }
+
+  if (isAuthenticated && to.meta.forVisitors) {
+    return next(isAdmin ? "/admin/users" : "/home");
+  }
+
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    return next("/login");
+  }
+
+  if (to.meta.requiresAdmin && !isAdmin) {
+    return next("/home");
+  }
+
+  // Si es admin y viene del login, redirigir a vista admin
+  if (from.path === "/login" && isAdmin && to.path === "/home") {
+    return next("/admin/users");
+  }
+
+  next();
 });
+
+
 
 export default router
