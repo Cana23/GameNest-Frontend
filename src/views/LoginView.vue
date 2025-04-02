@@ -96,9 +96,7 @@ const submitForm = async () => {
       // Verifica si el usuario tiene el rol de admin
       const admins = await adminService.getAllUseAdmin();
       const isAdmin = admins.some(admin => admin.email === user?.email);
-      if (isAdmin) {
-        router.push({ name: 'Table Admin' }); // Redirige a la tabla de administradores
-      } else {
+      if (!isAdmin) {
         router.push({ name: 'Home User' }); // Redirige al home del usuario
       }
     } else if (typeof loginResult === 'string') {
