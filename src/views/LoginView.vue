@@ -91,14 +91,7 @@ const submitForm = async () => {
   try {
     const loginResult = await authStore.loginUser(loginData);
     if (loginResult === true) {
-      const user = JSON.parse(localStorage.getItem("user") || "{}");
-
-      // Verifica si el usuario tiene el rol de admin
-      const admins = await adminService.getAllUseAdmin();
-      const isAdmin = admins.some(admin => admin.email === user?.email);
-      if (!isAdmin) {
-        router.push({ name: 'Home User' }); // Redirige al home del usuario
-      }
+      router.push({ name: 'Home User' });
     } else if (typeof loginResult === 'string') {
       loginError.value = loginResult;
     } else {
