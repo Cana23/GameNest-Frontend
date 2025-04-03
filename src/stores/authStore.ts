@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { login, register } from "@/services/authService";
 import type { UserLogin } from "@/interfaces/UserLogin";
 import { useRouter } from "vue-router";
-import adminService from "@/services/adminService";
+import adminService from "@/services/admin/adminService";
 import axios from "axios";
 import type { RegisterUser } from "@/interfaces/RegisterUser";
 
