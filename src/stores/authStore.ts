@@ -44,16 +44,6 @@ export const useAuthStore = defineStore("auth", {
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(this.user));
 
-        // Verificar si el usuario es un admin solo para la sesión actual
-        const admins = await adminService.getAllUseAdmin();
-        const isAdmin = admins.some(admin => admin.email === this.user?.email);
-
-        if (isAdmin) {
-          // Si es admin, puede acceder a las rutas de admin, pero no guardamos el rol
-          // Aquí no modificamos el estado del rol ni lo almacenamos en localStorage
-          console.log('Usuario es admin');
-        }
-
         return true;
       } catch (error: any) {
         console.error("Error en login:", error);
@@ -67,7 +57,7 @@ export const useAuthStore = defineStore("auth", {
       }
     },
 
-    
+
     async registerUser(user: RegisterUser): Promise<boolean | string[]> {
       try {
         const response = await register(user);

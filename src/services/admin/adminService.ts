@@ -18,7 +18,23 @@ class adminService {
       throw error;
     }
   }
+  async IsAdmin(): Promise<boolean> {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${API_URL}/Users/verifyadmin`, {
+        headers: { Authorization: `Bearer + ${token}` },
+      });
 
+      //si la response es 401 tomarlo como false
+      if(response.status == 401){
+        return false;
+      }
+      return response.data;
+    } catch (error) {
+      console.error('Error al obtener publicaciones:', error);
+      throw error;
+    }
+  }
   async getAllComments(): Promise<Comment[]>{
     try {
       const token = localStorage.getItem('token');

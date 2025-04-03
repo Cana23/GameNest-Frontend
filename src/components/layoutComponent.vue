@@ -69,13 +69,9 @@ onMounted(async () => {
                         <i class="pi pi-user-edit" :class="{ 'mx-auto': isSidebarCollapsed, 'mr-3': !isSidebarCollapsed }"></i>
                         <span v-if="!isSidebarCollapsed">Editar Información</span>
                     </RouterLink>
-                    <RouterLink v-if="isAdmin" :to="{ name: 'Table User' }" class="nav-item flex items-center">
-                        <i class="pi pi pi-user" :class="{ 'mx-auto': isSidebarCollapsed, 'mr-3': !isSidebarCollapsed }"></i>
-                        <span v-if="!isSidebarCollapsed">Usarios</span>
-                    </RouterLink>
-                    <RouterLink v-if="isAdmin" :to="{ name: 'Table Admin' }" class="nav-item flex items-center">
-                        <i class="pi pi-prime" :class="{ 'mx-auto': isSidebarCollapsed, 'mr-3': !isSidebarCollapsed }"></i>
-                        <span v-if="!isSidebarCollapsed">Administradores</span>
+                    <RouterLink v-if="isAdmin" :to="{ name: 'Tabla Usuarios' }" class="nav-item flex items-center">
+                        <i class="pi pi-user-edit" :class="{ 'mx-auto': isSidebarCollapsed, 'mr-3': !isSidebarCollapsed }"></i>
+                        <span v-if="!isSidebarCollapsed">Dashboard</span>
                     </RouterLink>
                 </ul>
             </nav>

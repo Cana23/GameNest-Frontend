@@ -12,6 +12,7 @@ import AdminUserView from '@/views/admin/AdminUserView.vue'
 import AdminCommentsView from '@/views/admin/AdminCommentsView.vue'
 import AdminLogsView from '@/views/admin/AdminLogsView.vue'
 import AdminPostsView from '@/views/admin/AdminPostsView.vue'
+import {jwtDecode} from "jwt-decode";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -99,14 +100,18 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const token = localStorage.getItem("token");
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
-  const isAuthenticated = !!token;
+
+  const TokenExpired = IsTokenExpired(token);
+
+  const isAuthenticated = token && !TokenExpired;
+
+  if(token && TokenExpired){
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+  }
 
   let isAdmin = false;
-  if (isAuthenticated && user?.email) {
-    const admins = await adminService.getAllUseAdmin();
-    isAdmin = admins.some(admin => admin.email === user.email);
-  }
+
 
   if (isAuthenticated && to.meta.forVisitors) {
     return next(isAdmin ? "/admin/users" : "/home");
@@ -116,18 +121,33 @@ router.beforeEach(async (to, from, next) => {
     return next("/login");
   }
 
-  if (to.meta.requiresAdmin && !isAdmin) {
-    return next("/home");
-  }
+  if (to.meta.requiresAdmin) {
+    if (isAuthenticated) {
+       isAdmin = await adminService.IsAdmin();
+    }
 
-  // Si es admin y viene del login, redirigir a vista admin
-  if (from.path === "/login" && isAdmin && to.path === "/home") {
-    return next("/admin/users");
+    if(!isAdmin){
+      return next("/home");
+    }
+
+    return next();
   }
 
   next();
 });
 
 
+function IsTokenExpired(token: string | null) {
+  if (!token) return true; // si no hay token, se considera expirado
 
+  try {
+      const { exp } = jwtDecode(token);
+      if (!exp) return true; // si no tiene expiracion, se considera inválido
+
+      const Now = Math.floor(Date.now() / 1000);
+      return exp < Now; // Retorna true si el token está expirado
+  } catch (error) {
+      return true; // si falla la decodificación, consideramos el token inválido
+  }
+}
 export default router
