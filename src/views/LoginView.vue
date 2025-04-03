@@ -54,7 +54,7 @@ import * as yup from 'yup';
 import { useAuthStore } from '@/stores/authStore';
 import { useRouter, RouterLink } from 'vue-router';
 import { ref } from 'vue';
-import adminService from "@/services/adminService";
+import adminService from "@/services/admin/adminService";
 
 const schema = yup.object({
   email: yup.string().email('Correo incorrecto').required('El correo es requerido'),

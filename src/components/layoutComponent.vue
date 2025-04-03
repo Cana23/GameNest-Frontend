@@ -2,17 +2,26 @@
 import NavPorfileComponent from './NavPorfileComponent.vue';
 import { ref, onMounted } from 'vue';
 import 'primeicons/primeicons.css';
-import adminService from "@/services/adminService"; // Asegúrate de importar el servicio
+import adminService from "@/services/admin/adminService"; // Asegúrate de importar el servicio
 import { useAuthStore } from '@/stores/authStore'; // Para obtener los datos del usuario desde el store
 
 const isSidebarCollapsed = ref(false);
 const isAdmin = ref(false);
 
 onMounted(async () => {
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
-  const admins = await adminService.getAllUseAdmin();
-  isAdmin.value = admins.some(admin => admin.email === user?.email);
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const token = localStorage.getItem("token");
+
+    if (!token) return; // Evita el error 401 si no hay autenticación
+
+    try {
+        const admins = await adminService.getAllUseAdmin();
+        isAdmin.value = admins.some(admin => admin.email === user?.email);
+    } catch (error) {
+        console.error("Error al obtener lista de admins:", error);
+    }
 });
+
 </script>
 
 <template>

@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import type { User } from "@/interfaces/UserEditInterface";
-import adminService from "@/services/adminService";
+import adminService from "@/services/admin/adminService";
 
 export const useAdminStore = defineStore("admin", {
   state: () => ({
