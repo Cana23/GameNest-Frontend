@@ -124,6 +124,7 @@ const submitForm = async () => {
 
   try {
     await store.createPublication(publicData);
+    await store.fetchPublications();
     await showSuccess();
     visible.value = false;
   } catch (error) {

@@ -9,14 +9,12 @@ const isSidebarCollapsed = ref(false);
 const isAdmin = ref(false);
 
 onMounted(async () => {
-    const user = JSON.parse(localStorage.getItem("user") || "{}");
     const token = localStorage.getItem("token");
 
     if (!token) return; // Evita el error 401 si no hay autenticación
 
     try {
-        const admins = await adminService.getAllUseAdmin();
-        isAdmin.value = admins.some(admin => admin.email === user?.email);
+      isAdmin.value = await adminService.IsAdmin();
     } catch (error) {
         console.error("Error al obtener lista de admins:", error);
     }

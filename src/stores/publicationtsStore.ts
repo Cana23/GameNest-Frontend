@@ -32,6 +32,7 @@ export const usePublicationsStore = defineStore("publications", {
       try {
         const newPublication = await PublicationsService.createPublication(publication);
         this.publications.unshift(newPublication);
+        this.fetchPublications();
       } catch (error: any) {
         this.error = "Error al crear publicación";
       } finally {
